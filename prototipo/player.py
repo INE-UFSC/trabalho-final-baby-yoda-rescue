@@ -20,6 +20,12 @@ class Player(pygame.sprite.Sprite):
               if pressed_keys[K_RIGHT]:
                   self.rect.move_ip(5, 0)
 '''
+
+
+'''
+import pygame
+import glob
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, nome: str, itens: list(object)):
         super().__init__(self, surf) 
@@ -64,5 +70,7 @@ class Player(pygame.sprite.Sprite):
         if P1.vel.y > 0:        
             if hits:
                 self.vel.y = 0
-                self.pos.y = hits[0].rect.top + 1
- 
+                #self.pos.y = hits[0].rect.top + 1
+
+'''
+

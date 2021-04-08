@@ -1,4 +1,7 @@
-class platform(pygame.sprite.Sprite):
+'''
+import pygame
+
+class Platform(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((WIDTH, 20))
@@ -57,3 +60,4 @@ class Level():
     def check_key(self.Player.itens):
         pass
 
+'''

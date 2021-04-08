@@ -1,3 +1,8 @@
+'''
+import pygame
+import random
+'''
+'''
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):
         super().__init__() 
@@ -13,3 +18,5 @@ class Enemy(pygame.sprite.Sprite):
             SCORE += 1
             self.rect.top = 0
             self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), 0)
+
+'''
