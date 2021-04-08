@@ -20,7 +20,7 @@ pygame.display.set_caption("Game") #Define o nome do jogo na janela
 #metodo de iniciar o jogo a partir da classe fase e dos inputs do número da fase
 
 #Criando objetos
-player_mando = Player("Mando", "mando")
+player_mando = Player("Mando", "mando-idle")
 #E1 = Enemy()
 
 #Criando Grupos de Sprites
