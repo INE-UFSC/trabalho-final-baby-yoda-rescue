@@ -15,7 +15,7 @@ FramePerSec = pygame.time.Clock() #Cada frame corresponde a um clock do jogo, as
 
 #Inicia a janela do pygame:
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game") #Define o nome do jogo na janela
+pygame.display.set_caption("Protótipo do Jogo - Grupo 5") #Define o nome do jogo na janela
 
 #metodo de iniciar o jogo a partir da classe fase e dos inputs do número da fase
 
@@ -35,13 +35,6 @@ background = pygame.Surface((WIDTH, HEIGHT))
 background.fill((207,236,207))
 #background.rect = background.get_rect()
 
-'''
-Não entendi o funcionamento dessa
-
-#Adding a new User event 
-INC_SPEED = pygame.USEREVENT + 1
-pygame.time.set_timer(INC_SPEED, 1000)
-'''
 
 if __name__ == "__main__":
     #Game Loop
@@ -52,15 +45,9 @@ if __name__ == "__main__":
                 pygame.quit()
                 sys.exit()
                 break
-            '''   
-            if event.type == INC_SPEED:
-                  SPEED += 0.5
-            '''
 
         SCREEN.blit(background, (0,0))
-        #scores = font_small.render(str(SCORE), True, BLACK)
-        #SCREEN.blit(scores, (10,10))
-
+        
         #Moves and Re-draws all Sprites
         for entity in all_sprites:
             SCREEN.blit(entity.image, entity.rect)
@@ -78,22 +65,6 @@ if __name__ == "__main__":
         player.draw(SCREEN)
         enemies.update()
         enemies.draw(SCREEN)
-
-        #To be run if collision occurs between Player and Enemy
-        '''if pygame.sprite.spritecollideany(P1, enemies):
-              pygame.mixer.Sound('crash.wav').play()
-              time.sleep(1)
-
-              display.fill(RED) #trocar por rgb do vermelho
-              display.blit(game_over, (30,250))
-
-              pygame.display.update()
-              for entity in all_sprites:
-                    entity.kill()
-              time.sleep(2)
-              pygame.quit()
-              sys.exit()
-        '''
 
         FramePerSec.tick(FPS)
         pygame.display.update()
