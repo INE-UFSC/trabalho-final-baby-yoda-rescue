@@ -2,6 +2,7 @@ import pygame as pg
 import random
 from jogador import Jogador
 from configs import *
+from level import Level
 
 
 class Jogo:
@@ -9,8 +10,9 @@ class Jogo:
         # configs
         self.__FPS = FPS
         self.__caption = TITULO
-        self.__sprites = pg.sprite.Group()
+        self.__sprites = pg.sprite.Group()  # Caz vai verificar
         self.__jogador = Jogador()
+        self.__level = Level()
 
         # inicializa a janela do pygame
         pg.init()
@@ -46,6 +48,43 @@ class Jogo:
                 self.__running = False
 
     def update(self):
+
+        # Logica de colisão
+        # plataformas
+        # Codigo de controlado_jogo
+        hits_plataforms = pg.sprite.groupcollide(
+            self.level.platforms,
+            self.__jogador, False, False)
+
+        if self.vel.y > 0:
+            if hits_plataforms:
+                if self.pos.y < hits_plataforms[0].rect.bottom:
+                    self.pos.y = hits_plataforms[0].rect.top + 1
+                    self.vel.y = 0
+                    self.jumping = False
+                # print(hits_plataforms[0].rect.bottom)
+
+        hits_walls = pg.sprite.spritecollide(self, walls, False)
+        if self.vel.y > 0:
+            if hits_walls:
+                if self.pos.y > hits_walls[0].rect.bottom:
+                    self.pos.y = hits_walls[0].rect.top + 1
+                    self.vel.y = 0
+                    self.jumping = False
+                # print(hits_walls[0].rect.bottom)
+        if self.vel.x > 0:
+            if hits_walls:
+                print(f'self.pos.x RIGHT = {hits_walls[0].rect.right}')
+                if self.pos.x < (hits_walls[0].rect.right):
+                    self.pos.x = hits_walls[0].rect.right - (self.size[0])
+                    self.vel.x = 0
+        if self.vel.x < 0:
+            if hits_walls:
+                print(f'self.pos.x LEFT = {hits_walls[0].rect.left}')
+                if self.pos.x > (hits_walls[0].rect.left):
+                    self.pos.x = (hits_walls[0].rect.left) + (self.size[0])
+                    self.vel.x = 0
+
         self.__sprites.update()
 
     def draw(self):
@@ -66,3 +105,7 @@ class Jogo:
     @property
     def clock(self):
         return self.__clock
+
+    @property
+    def level(self):
+        return self.__level

@@ -1,4 +1,4 @@
-import pygame as pg
+import pg as pg
 from configs import *
 
 vec = pg.math.Vector2
@@ -48,6 +48,18 @@ class Jogador(pg.sprite.Sprite):
         self.pos += self.vel + self.padraoacc * self.acc
 
         self.rect.center = self.pos
+
+    def jump(self):
+        # último padrão é o kill, habilitar em plataformas armadilhas
+    hits = pg.sprite.spritecollide(self, platforms, False)
+    if hits and not self.jumping:
+        self.jumping = True
+        self.vel.y = -13
+    # Essas plataformas possuem um bug, fico preso e não consigo me reposicionar sobre elas
+    hits = pg.sprite.spritecollide(self, walls, False)
+    if hits and not self.jumping:
+        self.jumping = True
+        self.vel.y = -13
 
     @property
     def image(self):

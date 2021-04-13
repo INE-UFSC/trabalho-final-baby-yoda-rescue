@@ -16,8 +16,14 @@ wall1 = Platform('wall1', (20, HEIGHT*0.75 + 10), (BLUE),
 
 class Level:
     def __init__(self):
-        self.__platforms: list[floor, plat1, plat2, plat3, wall1]
+        self.__platforms: pg.sprite.Group()
+        self.__walls: pg.sprite.Groupe()
         self.__bg: Tuple(255, 255, 255)
+        self.__spawn: 
+
+    def load(self):
+        self.__platforms.add(floor, plat1, plat2, plat3)
+        self.__walls.add(wall1)
 
     @property
     def platforms(self):
@@ -26,3 +32,7 @@ class Level:
     @property
     def bg(self):
         return self.__bg
+
+
+all_sprites = pygame.sprite.Group()
+all_sprites.add(P1, level_plataforms, level_walls)
