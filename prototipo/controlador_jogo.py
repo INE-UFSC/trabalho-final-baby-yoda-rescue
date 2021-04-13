@@ -165,7 +165,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 P1.jump()
          
-    displaysurface.fill((0,0,0))
+    displaysurface.fill((255,0,255))
     P1.update()
  
     for entity in all_sprites:
