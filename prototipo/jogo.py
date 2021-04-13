@@ -11,6 +11,7 @@ class Jogo:
         self.__caption = TITULO
         self.__sprites = pg.sprite.Group()
         self.__jogador = Jogador()
+
         # inicializa a janela do pygame
         pg.init()
         # inicializa o audio

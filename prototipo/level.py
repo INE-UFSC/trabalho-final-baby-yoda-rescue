@@ -1,5 +1,7 @@
 from typing import Tuple
 import pygame as pg
+from platform import Platform
+from configs import *
 
 floor = Platform('floor', (WIDTH, 20), (RED), (WIDTH/2, HEIGHT - 10))
 plat1 = Platform('platform1', (WIDTH/5, 20), (RED),
