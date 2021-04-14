@@ -4,7 +4,7 @@ from platform import Platform
 from configs import *
 
 
-# deve ser o atributo arch para arquitetura de level
+# deve ser o atributo arch para arquitetura de level, pensar em solucoes para baixo acoplamento
 floor = Platform(0, HEIGHT - 20, WIDTH, 20, BLUE)
 wall1 = Platform(0, 0, 10, HEIGHT, RED)
 
