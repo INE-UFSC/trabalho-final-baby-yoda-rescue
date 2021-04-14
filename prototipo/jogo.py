@@ -22,8 +22,9 @@ class Jogo:
         pg.display.set_caption(self.__caption)
         # define o clock
         self.__clock = pg.time.Clock()
-        # adiciona sprites ao grupo sprites
-        self.__sprites.add(self.__jogador)
+        # adiciona sprites ao grupo sprites - pode ir para fase LOAD
+        self.__sprites.add(
+            self.__jogador, self.__level.platforms, self.__level.walls)
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.__running = True
 
@@ -52,10 +53,28 @@ class Jogo:
         # Logica de colisão
         # plataformas
         # Codigo de controlado_jogo
-        hits_plataforms = pg.sprite.groupcollide(
-            self.level.platforms,
-            self.__jogador, False, False)
+        hits_plataform = pg.sprite.spritecollide(
+            self.jogador, self.level.platforms, False)
 
+        hits_wall = pg.sprite.spritecollide(
+            self.jogador, self.level.walls, False)
+
+        if hits_plataform:
+            self.__jogador.pos.y = hits_plataform[0].rect.top
+            self.__jogador.vel.y = 0
+            self.__jogador.plat_collide = True
+        else:
+            self.__jogador.plat_collide = False
+
+        if hits_wall and self.__jogador.vel < 0:
+            self.__jogador.pos.x = hits_wall[0].rect.right
+            self.__jogador.vel.x = 0
+
+        if hits_wall and self.__jogador.vel < 0:
+            self.__jogador.pos.x = hits_wall[0].rect.right
+            self.__jogador.vel.x = 0
+
+        """
         if self.vel.y > 0:
             if hits_plataforms:
                 if self.pos.y < hits_plataforms[0].rect.bottom:
@@ -84,13 +103,12 @@ class Jogo:
                 if self.pos.x > (hits_walls[0].rect.left):
                     self.pos.x = (hits_walls[0].rect.left) + (self.size[0])
                     self.vel.x = 0
-
+        """
         self.__sprites.update()
 
     def draw(self):
         self.__screen.fill((255, 255, 255))
         self.__sprites.draw(self.__screen)
-
         # realiza o flip apos desenhar tudo
         pg.display.flip()
 
@@ -105,6 +123,10 @@ class Jogo:
     @property
     def clock(self):
         return self.__clock
+
+    @property
+    def jogador(self):
+        return self.__jogador
 
     @property
     def level(self):

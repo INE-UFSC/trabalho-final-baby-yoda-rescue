@@ -3,26 +3,20 @@ import pygame as pg
 from platform import Platform
 from configs import *
 
-floor = Platform('floor', (WIDTH, 20), (RED), (WIDTH/2, HEIGHT - 10))
-plat1 = Platform('platform1', (WIDTH/5, 20), (RED),
-                 (WIDTH/4, HEIGHT * 0.75 - 20))
-plat2 = Platform('platform1', (WIDTH/5, 20), (RED),
-                 (WIDTH/4, HEIGHT * 0.50 - 20))
-plat3 = Platform('platform1', (WIDTH/5, 20), (RED),
-                 (WIDTH/4, HEIGHT * 0.25 - 20))
-wall1 = Platform('wall1', (20, HEIGHT*0.75 + 10), (BLUE),
-                 (WIDTH/4 + (WIDTH/5)/2, HEIGHT/2 + 50))
+
+# deve ser o atributo arch para arquitetura de level
+floor = Platform(0, HEIGHT - 20, WIDTH, 20, BLUE)
+wall1 = Platform(0, 0, 10, HEIGHT, RED)
 
 
 class Level:
     def __init__(self):
-        self.__platforms: pg.sprite.Group()
-        self.__walls: pg.sprite.Groupe()
-        self.__bg: Tuple(255, 255, 255)
-        self.__spawn: 
-
-    def load(self):
-        self.__platforms.add(floor, plat1, plat2, plat3)
+        self.__platforms = pg.sprite.Group()
+        self.__walls = pg.sprite.Group()
+        self.__bg = (WHITE)
+        self.__spawn_point = ((35, 52))
+    # load function ?
+        self.__platforms.add(floor)
         self.__walls.add(wall1)
 
     @property
@@ -30,9 +24,9 @@ class Level:
         return self.__platforms
 
     @property
+    def walls(self):
+        return self.__walls
+
+    @property
     def bg(self):
         return self.__bg
-
-
-all_sprites = pygame.sprite.Group()
-all_sprites.add(P1, level_plataforms, level_walls)
