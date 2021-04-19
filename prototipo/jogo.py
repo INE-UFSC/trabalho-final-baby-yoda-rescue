@@ -107,7 +107,7 @@ class Jogo:
         self.__sprites.update()
 
     def draw(self):
-        self.__screen.fill((255, 255, 255))
+        self.__screen.fill(BLACK)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()

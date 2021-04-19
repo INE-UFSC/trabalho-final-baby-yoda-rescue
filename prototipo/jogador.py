@@ -9,8 +9,8 @@ class Jogador(pg.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self.__image = pg.Surface((50, 50))
-        self.__image.fill((0, 0, 255))
+        self.__image = pg.Surface((32, 48))
+        self.__image.fill(WHITE)
         self.__rect = self.__image.get_rect()
         self.__rect.center = (WIDTH / 2, HEIGHT / 2)
         self.__pos = vec(WIDTH / 2, HEIGHT / 2)
@@ -18,9 +18,8 @@ class Jogador(pg.sprite.Sprite):
         self.__acc = vec(0, 0)
         self.__padraoacc = 0.5
         # criar classe FisicaObj
-        self.__fric = - 0.05
-        self.__res = - 0.001
-        self.__gravidade = 1
+        self.__fric = -0.12 # -0.05
+        self.__gravidade = 0.5 # 1
         self.__plat_collide = False
 
     # modificar parâmetros para
@@ -30,24 +29,17 @@ class Jogador(pg.sprite.Sprite):
 
         if keys[pg.K_LEFT]:
             self.acc.x = -1 * self.padraoacc
-
         if keys[pg.K_RIGHT]:
             self.acc.x = self.padraoacc
-
-        if keys[pg.K_UP]:
-            self.acc.y = -1 * self.padraoacc
-
-        if keys[pg.K_DOWN]:
-            self.acc.y = self.padraoacc
-
+        
+        # Remove o Bug visual da gravidade ao colidir com plataformas
+        if self.__plat_collide == True:
+            self.vel.y = 0
         if keys[pg.K_SPACE] and self.__plat_collide == True:
-            self.vel.y += -14
-
+            self.vel.y = -14
+        
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
-
-        # aplica resistencia do ar ao eixo y
-        self.acc.y += self.vel.y * self.__res
 
         # equacoes de movimento
         self.vel += self.acc
@@ -55,8 +47,6 @@ class Jogador(pg.sprite.Sprite):
 
         # mudado conforme parte 3 do tutorial por motivos de simplificacao
         self.rect.midbottom = self.pos
-
-        self.rect.left = self.
 
     @property
     def image(self):

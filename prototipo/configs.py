@@ -1,7 +1,7 @@
 WIDTH = 800
 HEIGHT = 600
-FPS = 30
-TITULO = "MVP - Murillo Guindani"
+FPS = 60
+TITULO = "MVP - Grupo 5"
 
 # Cores
 BLACK = (0, 0, 0)
