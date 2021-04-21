@@ -3,7 +3,7 @@ from configs import *
 
 
 class Platform(pg.sprite.Sprite):
-    def __init__(self, x, y, w, h, color: tuple):
+    def __init__(self, x: int, y: int, w: int, h: int, color: tuple):
         super().__init__()
         self.__image = pg.Surface((w, h))
         self.__image.fill(color)

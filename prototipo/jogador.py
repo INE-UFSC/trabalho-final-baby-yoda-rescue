@@ -9,22 +9,26 @@ class Jogador(pg.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self.__image = pg.Surface((32, 48))
+        self.size = (32, 48)
+        self.__image = pg.Surface(self.size)
         self.__image.fill(WHITE)
         self.__rect = self.__image.get_rect()
-        self.__rect.center = (WIDTH / 2, HEIGHT / 2)
         self.__pos = vec(WIDTH / 2, HEIGHT / 2)
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
-        self.__padraoacc = 0.5
+        self.padraoacc = 0.5
         # criar classe FisicaObj
-        self.__fric = -0.12 # -0.05
-        self.__gravidade = 0.5 # 1
+        self.__fric = -0.12
+        self.gravidade = 0.5
         self.__plat_collide = False
 
     # modificar parâmetros para
     def update(self):
-        self.acc = vec(0, self.__gravidade)
+        
+        self.rect.midbottom = self.__pos
+        #print(self.rect.midbottom)
+        
+        self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
         if keys[pg.K_LEFT]:
@@ -32,21 +36,18 @@ class Jogador(pg.sprite.Sprite):
         if keys[pg.K_RIGHT]:
             self.acc.x = self.padraoacc
         
-        # Remove o Bug visual da gravidade ao colidir com plataformas
-        if self.__plat_collide == True:
-            self.vel.y = 0
         if keys[pg.K_SPACE] and self.__plat_collide == True:
             self.vel.y = -14
         
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
-
+        
         # equacoes de movimento
+        if self.vel[1] > 10: #Limitar a aceleração da gravidade
+            self.vel[1] = 10
         self.vel += self.acc
         self.pos += self.vel + self.padraoacc * self.acc
 
-        # mudado conforme parte 3 do tutorial por motivos de simplificacao
-        self.rect.midbottom = self.pos
 
     @property
     def image(self):

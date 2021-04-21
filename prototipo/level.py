@@ -5,27 +5,24 @@ from configs import *
 
 
 # deve ser o atributo arch para arquitetura de level, pensar em solucoes para baixo acoplamento
-floor = Platform(0, HEIGHT - 20, WIDTH, 20, BLUE)
-wall1 = Platform(0, 0, 10, HEIGHT, RED)
+floor = Platform(0, HEIGHT - HEIGHT/30, WIDTH, HEIGHT/30, RED)
+wall1 = Platform(WIDTH/3, 400, WIDTH/10, HEIGHT/30, BLUE)
+wall2 = Platform(WIDTH/2, HEIGHT/2, WIDTH/10, HEIGHT/30, BLUE)
+wall3 = Platform(WIDTH/2, HEIGHT/1.5, WIDTH/10, HEIGHT/30, BLUE)
+wall4 = Platform(WIDTH/6, (HEIGHT - HEIGHT/4) - HEIGHT/30, WIDTH/40, HEIGHT/4, BLUE)
 
 
 class Level:
     def __init__(self):
-        self.__platforms = pg.sprite.Group()
-        self.__walls = pg.sprite.Group()
-        self.__bg = (WHITE)
-        self.__spawn_point = ((35, 52))
-    # load function ?
-        self.__platforms.add(floor)
-        self.__walls.add(wall1)
+        self.__platforms = pg.sprite.Group() 
+        self.__bg = (BLUE)
+        self.__spawn_point = ((WIDTH, HEIGHT))
+        self.__platforms.add(floor, wall1, wall2, wall3, wall4)
+        
 
     @property
     def platforms(self):
         return self.__platforms
-
-    @property
-    def walls(self):
-        return self.__walls
 
     @property
     def bg(self):
