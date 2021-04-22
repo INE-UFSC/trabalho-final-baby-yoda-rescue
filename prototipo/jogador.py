@@ -24,9 +24,8 @@ class Jogador(pg.sprite.Sprite):
 
     # modificar parâmetros para
     def update(self):
-        
+
         self.rect.midbottom = self.__pos
-        #print(self.rect.midbottom)
         
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
