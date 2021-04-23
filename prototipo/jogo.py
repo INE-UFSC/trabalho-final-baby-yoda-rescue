@@ -63,7 +63,9 @@ class Jogo:
                 #print('hits_platform[0].rect.top: ', hits_platform[0].rect.top)
                 #print('self.__jogador.rect.top: ', self.__jogador.rect.top)
                 #print('hits_platform[0].rect.bottom: ', hits_platform[0].rect.bottom)
+
                 # Colisão No eixo Y:
+                
                 if abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) < \
                 abs(hits_platform[n].rect.bottom - self.__jogador.rect.top) and self.__jogador.vel.y > 0:
                         print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
@@ -81,6 +83,7 @@ class Jogo:
                 #print('hits_platform[0].rect.right: ', hits_platform[0].rect.right)
                 #print('self.__jogador.rect.right: ', self.__jogador.rect.right)
                 #print('hits_platform[0].rect.left: ', hits_platform[0].rect.left)
+                
                 # Colisão No eixo X:
                 
                 elif abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
