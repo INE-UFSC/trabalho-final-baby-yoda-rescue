@@ -55,14 +55,13 @@ class Jogador(pg.sprite.Sprite):
 
         if keys[pg.K_RIGHT]:
             self.acc.x = self.padraoacc
-            
+
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
         
         if keys[pg.K_SPACE] and self.__plat_collide == True:
             self.vel.y = -14
-            self.__current_sprite = 0
         
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
