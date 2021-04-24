@@ -86,13 +86,13 @@ class Jogo:
                 
                 # Colisão No eixo X:
                 
-                elif abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
+                elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
                      abs(self.__jogador.rect.right - hits_platform[n].rect.left) and self.__jogador.vel.x < 0:
                         print(f'{n} - DIREITA - {abs(self.__jogador.rect.left - hits_platform[n].rect.right)}')
                         self.__jogador.vel.x = 0
                         self.__jogador.pos.x = hits_platform[n].rect.right + (self.__jogador.size[0]//2) -1
                         
-                elif abs(self.__jogador.rect.right - hits_platform[n].rect.left) < \
+                elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.right - hits_platform[n].rect.left) < \
                      abs(self.__jogador.rect.left - hits_platform[n].rect.right) and self.__jogador.vel.x > 0:
                         print(f'{n} - ESQUERDA - {abs(self.__jogador.rect.right - hits_platform[n].rect.left)}')
                         self.__jogador.vel.x = 0
