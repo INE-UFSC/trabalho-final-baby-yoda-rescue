@@ -53,6 +53,8 @@ class Jogo:
         # Logica de colisão
         # platformas
         # Codigo de controlado_jogo
+        if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
+            self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2) # impede o crossmap para a esquerda
 
         hits_platform = pg.sprite.spritecollide(self.jogador, self.level.platforms, False)
         if hits_platform:
@@ -68,13 +70,13 @@ class Jogo:
                 
                 if abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) < \
                 abs(hits_platform[n].rect.bottom - self.__jogador.rect.top) and self.__jogador.vel.y > 0:
-                        print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
+                        #print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
                         self.__jogador.vel.y = 0
                         self.__jogador.pos.y = hits_platform[n].rect.top +1
                         
                 elif abs(self.__jogador.rect.top - hits_platform[n].rect.bottom) < \
                 abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) and self.__jogador.vel.y < 0:
-                        print(f'{n} - INFERIOR - {abs(self.__jogador.rect.top - hits_platform[n].rect.bottom)}')
+                        #print(f'{n} - INFERIOR - {abs(self.__jogador.rect.top - hits_platform[n].rect.bottom)}')
                         self.__jogador.vel.y = 0
                         self.__jogador.pos.y = hits_platform[n].rect.bottom + self.__jogador.size[1] -1
                         
@@ -88,13 +90,13 @@ class Jogo:
                 
                 elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
                      abs(self.__jogador.rect.right - hits_platform[n].rect.left) and self.__jogador.vel.x < 0:
-                        print(f'{n} - DIREITA - {abs(self.__jogador.rect.left - hits_platform[n].rect.right)}')
+                        #print(f'{n} - DIREITA - {abs(self.__jogador.rect.left - hits_platform[n].rect.right)}')
                         self.__jogador.vel.x = 0
                         self.__jogador.pos.x = hits_platform[n].rect.right + (self.__jogador.size[0]//2) -1
                         
                 elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.right - hits_platform[n].rect.left) < \
                      abs(self.__jogador.rect.left - hits_platform[n].rect.right) and self.__jogador.vel.x > 0:
-                        print(f'{n} - ESQUERDA - {abs(self.__jogador.rect.right - hits_platform[n].rect.left)}')
+                        #print(f'{n} - ESQUERDA - {abs(self.__jogador.rect.right - hits_platform[n].rect.left)}')
                         self.__jogador.vel.x = 0
                         self.__jogador.pos.x = hits_platform[n].rect.left - (self.__jogador.size[0]//2) +1
                 
