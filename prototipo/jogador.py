@@ -10,10 +10,26 @@ class Jogador(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.size = (32, 48)
-        self.__image = pg.Surface(self.size)
-        self.__image.fill(WHITE)
+
+        self.__sprites = []
+        #teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
+        self.__sprites.append(pg.image.load("data/mando-esquerda (4).png"))
+        self.__sprites.append(pg.image.load("data/mando-esquerda (3).png"))
+        self.__sprites.append(pg.image.load("data/mando-esquerda (2).png"))
+        self.__sprites.append(pg.image.load("data/mando-esquerda (1).png"))
+        self.__sprites.append(pg.image.load("data/mando-idle.png")) #mando virado para frente
+        self.__sprites.append(pg.image.load("data/mando-direita (1).png"))
+        self.__sprites.append(pg.image.load("data/mando-direita (2).png"))
+        self.__sprites.append(pg.image.load("data/mando-direita (3).png"))
+        self.__sprites.append(pg.image.load("data/mando-direita (4).png"))
+
+
+        self.__current_sprite = 4 #idle
+        self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
         self.__pos = vec(WIDTH / 2, HEIGHT / 2)
+
+
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
         self.padraoacc = 0.5
@@ -26,14 +42,23 @@ class Jogador(pg.sprite.Sprite):
     def update(self):
 
         self.rect.midbottom = self.__pos
-        
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
+
         if keys[pg.K_LEFT]:
             self.acc.x = -1 * self.padraoacc
+
+            self.__current_sprite -= 0.3
+            if self.__current_sprite <= 0:
+                self.__current_sprite = 3
+
         if keys[pg.K_RIGHT]:
             self.acc.x = self.padraoacc
+
+            self.__current_sprite += 0.3
+            if self.__current_sprite >= len(self.__sprites):
+                self.__current_sprite = 5
         
         if keys[pg.K_SPACE] and self.__plat_collide == True:
             self.vel.y = -14
@@ -47,6 +72,7 @@ class Jogador(pg.sprite.Sprite):
         self.vel += self.acc
         self.pos += self.vel + self.padraoacc * self.acc
 
+        self.__image = self.__sprites[int(self.__current_sprite)]
 
     @property
     def image(self):
