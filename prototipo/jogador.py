@@ -1,6 +1,6 @@
 from configs import *
 import pygame as pg
-
+import os
 
 vec = pg.math.Vector2
 
@@ -10,25 +10,37 @@ class Jogador(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.size = (32, 48)
-
+        cwd = os.getcwd()
+        print("%s/asd" % cwd)
         self.__sprites = []
-        #teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
-        self.__sprites.append(pg.image.load("data/mando-esquerda (4).png"))
-        self.__sprites.append(pg.image.load("data/mando-esquerda (3).png"))
-        self.__sprites.append(pg.image.load("data/mando-esquerda (2).png"))
-        self.__sprites.append(pg.image.load("data/mando-esquerda (1).png"))
-        self.__sprites.append(pg.image.load("data/mando-idle.png")) #mando virado para frente
-        self.__sprites.append(pg.image.load("data/mando-direita (1).png"))
-        self.__sprites.append(pg.image.load("data/mando-direita (2).png"))
-        self.__sprites.append(pg.image.load("data/mando-direita (3).png"))
-        self.__sprites.append(pg.image.load("data/mando-direita (4).png"))
 
+        # importacao de imagens
+        print(("trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
+        # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-3.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-2.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-1.png"))
+        # mando virado para frente
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-idle.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-1.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-2.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-3.png"))
+        self.__sprites.append(pg.image.load(
+            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-4.png"))
 
-        self.__current_sprite = 4 #idle
+        self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
         self.__pos = vec(WIDTH / 2, HEIGHT / 2)
-
 
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
@@ -45,7 +57,6 @@ class Jogador(pg.sprite.Sprite):
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
-
         if keys[pg.K_LEFT]:
             self.acc.x = -1 * self.padraoacc
 
@@ -59,69 +70,69 @@ class Jogador(pg.sprite.Sprite):
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
-        
+
         if keys[pg.K_SPACE] and self.__plat_collide == True:
             self.vel.y = -14
-        
+
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
-        
+
         # equacoes de movimento
-        if self.vel[1] > 10: #Limitar a aceleração da gravidade
+        if self.vel[1] > 10:  # Limitar a aceleração da gravidade
             self.vel[1] = 10
         self.vel += self.acc
         self.pos += self.vel + self.padraoacc * self.acc
 
         self.__image = self.__sprites[int(self.__current_sprite)]
 
-    @property
+    @ property
     def image(self):
         return self.__image
 
-    @property
+    @ property
     def rect(self):
         return self.__rect
 
-    @rect.setter
+    @ rect.setter
     def rect(self, n):
         self.__rect = n
 
-    @property
+    @ property
     def vel(self):
         return self.__vel
 
-    @property
+    @ property
     def acc(self):
         return self.__acc
 
-    @property
+    @ property
     def padraoacc(self):
         return self.__padraoacc
 
-    @property
+    @ property
     def pos(self):
         return self.__pos
 
-    @property
+    @ property
     def plat_collide(self):
         return self.__plat_collide
 
-    @pos.setter
+    @ pos.setter
     def pos(self, n):
         self.__pos = n
 
-    @vel.setter
+    @ vel.setter
     def vel(self, n):
         self.__vel = n
 
-    @acc.setter
+    @ acc.setter
     def acc(self, n):
         self.__acc = n
 
-    @padraoacc.setter
+    @ padraoacc.setter
     def padraoacc(self, n):
         self.__padraoacc = n
 
-    @plat_collide.setter
+    @ plat_collide.setter
     def plat_collide(self, n):
         self.__plat_collide = n
