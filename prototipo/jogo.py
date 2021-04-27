@@ -64,11 +64,27 @@ class Jogo:
         if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
 
-        #CAMERA
-        if self.__jogador.rect.right <= WIDTH / 4:
+        #---CAMERA
+        if self.__jogador.rect.right > WIDTH / 2:
             self.__jogador.pos.x -= abs(self.__jogador.vel.x)
             for platf in self.__level.platforms:
                 platf.rect.x -= abs(self.__jogador.vel.x)
+        elif self.__jogador.rect.left < WIDTH / 2:
+            self.__jogador.pos.x += abs(self.__jogador.vel.x)
+            for platf in self.__level.platforms:
+                platf.rect.x += abs(self.__jogador.vel.x)
+        
+        if self.__jogador.rect.top <= HEIGHT / 4:
+            self.__jogador.pos.y += abs(self.__jogador.vel.y)
+            for platf in self.__level.platforms:
+                platf.rect.y += abs(self.__jogador.vel.y)
+        elif self.__jogador.rect.bottom > HEIGHT:
+            self.__jogador.pos.y -= abs(self.__jogador.vel.y)
+            for platf in self.__level.platforms:
+                platf.rect.y -= abs(self.__jogador.vel.y)
+
+
+        #---CAMERA
 
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
