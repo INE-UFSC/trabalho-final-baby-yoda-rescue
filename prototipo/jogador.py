@@ -1,7 +1,8 @@
 from configs import *
 import pygame as pg
 import os
-
+cwd = os.getcwd()
+data = os.path.join(cwd, "data", "")
 vec = pg.math.Vector2
 
 
@@ -10,30 +11,28 @@ class Jogador(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.size = (32, 48)
-        cwd = os.getcwd()
-        print(cwd)
         self.__sprites = []
 
         # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
+            data + "mando-esquerda-4.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-3.png"))
+            data + "mando-esquerda-3.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-2.png"))
+            data + "mando-esquerda-2.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-1.png"))
+            data + "mando-esquerda-1.png"))
         # mando virado para frente
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-idle.png"))
+            data + "mando-idle.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-1.png"))
+            data + "mando-direita-1.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-2.png"))
+            data + "mando-direita-2.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-3.png"))
+            data + "mando-direita-3.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca\prototipo\data\mando-direita-4.png"))
+            data + "mando-direita-4.png"))
 
         self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
