@@ -59,8 +59,9 @@ class Jogo:
         # Logica de colisão
         # platformas
         # Codigo de controlado_jogo
+
+        # impede o crossmap para a esquerda
         if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
-            # impede o crossmap para a esquerda
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
 
         #CAMERA
@@ -71,29 +72,35 @@ class Jogo:
 
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
+        
         if hits_platform:
+            # Percorre a lista de objetos que colidiram com o Player:
             for n in range(0, len(hits_platform)):
 
                 # Prints de teste para colisão em Y:
                 #print('self.__jogador.rect.bottom: ', self.__jogador.rect.bottom)
-                #print('hits_platform[0].rect.top: ', hits_platform[0].rect.top)
+                #print('hits_platform[0].rect.top: ', hits_platform[n].rect.top)
                 #print('self.__jogador.rect.top: ', self.__jogador.rect.top)
-                #print('hits_platform[0].rect.bottom: ', hits_platform[0].rect.bottom)
+                #print('hits_platform[0].rect.bottom: ', hits_platform[n].rect.bottom)
 
                 # Colisão No eixo Y:
-
-                if abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) < \
-                        abs(hits_platform[n].rect.bottom - self.__jogador.rect.top) and self.__jogador.vel.y > 0:
-                    #print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
+                #if abs((self.__jogador.rect.bottom -1) - hits_platform[n].rect.top) < \
+                #abs(hits_platform[n].rect.bottom - self.__jogador.rect.top) and self.__jogador.vel.y > 0:
+                if abs((self.__jogador.rect.bottom -1) - hits_platform[n].rect.top) < 10.5 and self.__jogador.vel.y > 0:
+                    print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
+                    print('self.__jogador.vel.y: ',self.__jogador.vel.y)
                     self.__jogador.vel.y = 0
                     self.__jogador.pos.y = hits_platform[n].rect.top + 1
+                    self.__jogador.colisions['bottom'] = True
 
-                elif abs(self.__jogador.rect.top - hits_platform[n].rect.bottom) < \
-                        abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) and self.__jogador.vel.y < 0:
-                    #print(f'{n} - INFERIOR - {abs(self.__jogador.rect.top - hits_platform[n].rect.bottom)}')
+                #elif self.__jogador.rect.bottom > hits_platform[n].rect.bottom and abs(self.__jogador.rect.top - hits_platform[n].rect.bottom) < \
+                #abs(self.__jogador.rect.bottom - hits_platform[n].rect.top) and self.__jogador.vel.y < 0:
+                elif abs(self.__jogador.rect.top - hits_platform[n].rect.bottom) < 10.5 and self.__jogador.vel.y < 0:
+                    print(f'{n} - INFERIOR - {abs(self.__jogador.rect.top - hits_platform[n].rect.bottom)}')
                     self.__jogador.vel.y = 0
                     self.__jogador.pos.y = hits_platform[n].rect.bottom + \
-                        self.__jogador.size[1] - 1
+                    self.__jogador.size[1] - 1
+                    self.__jogador.colisions['top'] = True
 
                 # Prints de teste para colisão em X:
                 #print('self.__jogador.rect.left: ', self.__jogador.rect.left)
@@ -102,25 +109,29 @@ class Jogo:
                 #print('hits_platform[0].rect.left: ', hits_platform[0].rect.left)
 
                 # Colisão No eixo X:
-
-                elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
-                        abs(self.__jogador.rect.right - hits_platform[n].rect.left) and self.__jogador.vel.x < 0:
-                    #print(f'{n} - DIREITA - {abs(self.__jogador.rect.left - hits_platform[n].rect.right)}')
+                #elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.left - hits_platform[n].rect.right) < \
+                #abs(self.__jogador.rect.right - hits_platform[n].rect.left) and self.__jogador.vel.x < 0:
+                elif self.__jogador.vel.y != self.__jogador.jump_acc + self.__jogador.gravidade and \
+                    abs(self.__jogador.rect.left - hits_platform[n].rect.right) < 5 and self.__jogador.vel.x < 0:
+                    print(f'{n} - DIREITA - {abs(self.__jogador.rect.left - hits_platform[n].rect.right)}')
                     self.__jogador.vel.x = 0
-                    self.__jogador.pos.x = hits_platform[n].rect.right + (
-                        self.__jogador.size[0]//2) - 1
+                    self.__jogador.pos.x = hits_platform[n].rect.right + (self.__jogador.size[0]//2) - 1
+                    self.__jogador.colisions['left'] = True
+                    print('self.jogador.colisions: ', self.__jogador.colisions)
 
-                elif self.__jogador.vel.y != - 13.5 and abs(self.__jogador.rect.right - hits_platform[n].rect.left) < \
-                        abs(self.__jogador.rect.left - hits_platform[n].rect.right) and self.__jogador.vel.x > 0:
-                    #print(f'{n} - ESQUERDA - {abs(self.__jogador.rect.right - hits_platform[n].rect.left)}')
+                elif self.__jogador.vel.y != self.__jogador.jump_acc + self.__jogador.gravidade and \
+                    abs(self.__jogador.rect.right - hits_platform[n].rect.left) < 5 and self.__jogador.vel.x > 0:
+                    print(f'{n} - ESQUERDA - {abs(self.__jogador.rect.right - hits_platform[n].rect.left)}')
                     self.__jogador.vel.x = 0
-                    self.__jogador.pos.x = hits_platform[n].rect.left - (
-                        self.__jogador.size[0]//2) + 1
-
+                    self.__jogador.pos.x = hits_platform[n].rect.left - (self.__jogador.size[0]//2) + 1
+                    self.__jogador.colisions['right'] = True
+                    print('self.jogador.colisions: ',self.__jogador.colisions)
+                
                 self.__jogador.plat_collide = True
 
         else:
             self.__jogador.plat_collide = False
+            self.__jogador.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
         self.__sprites.update()
 

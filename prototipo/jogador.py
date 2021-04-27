@@ -1,7 +1,8 @@
 from configs import *
 import pygame as pg
 import os
-
+cwd = os.getcwd()
+data = os.path.join(cwd, "data", "")
 vec = pg.math.Vector2
 
 
@@ -10,28 +11,28 @@ class Jogador(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.size = (32, 48)
-        cwd = os.getcwd()
         self.__sprites = []
 
         # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-4.png"))
+            data + "mando-esquerda-4.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-3.png"))
+            data + "mando-esquerda-3.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-2.png"))
+            data + "mando-esquerda-2.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-1.png"))
+            data + "mando-esquerda-1.png"))
+        # mando virado para frente
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-idle.png"))
+            data + "mando-idle.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-1.png"))
+            data + "mando-direita-1.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-2.png"))
+            data + "mando-direita-2.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-3.png"))
+            data + "mando-direita-3.png"))
         self.__sprites.append(pg.image.load(
-            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-4.png"))
+            data + "mando-direita-4.png"))
 
         self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
@@ -44,8 +45,11 @@ class Jogador(pg.sprite.Sprite):
         # criar classe FisicaObj
         self.__fric = -0.12
         self.gravidade = 0.5
+        self.jump_acc = -14
         self.__plat_collide = False
+        self.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
+       
     # modificar parâmetros para
     def update(self):
 
@@ -53,29 +57,32 @@ class Jogador(pg.sprite.Sprite):
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_LEFT]:
+        if keys[pg.K_LEFT] and not self.colisions['left']:
             self.acc.x = -1 * self.padraoacc
+            self.colisions['right'] = False
 
             self.__current_sprite -= 0.3
             if self.__current_sprite <= 0:
                 self.__current_sprite = 3
 
-        if keys[pg.K_RIGHT]:
+        if keys[pg.K_RIGHT] and not self.colisions['right']:
             self.acc.x = self.padraoacc
+            self.colisions['left'] = False
 
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
 
-        if keys[pg.K_SPACE] and self.__plat_collide == True:
-            self.vel.y = -14
+        if keys[pg.K_SPACE] and self.colisions['bottom']:
+            self.vel.y = self.jump_acc
+            self.colisions['bottom'] = False
 
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
 
         # equacoes de movimento
-        if self.vel[1] > 10:  # Limitar a aceleração da gravidade
-            self.vel[1] = 10
+        if self.vel[1] > 9.5:  # Limitar a aceleração da gravidade
+            self.vel[1] = 9.5
         self.vel += self.acc
         self.pos += self.vel + self.padraoacc * self.acc
 
