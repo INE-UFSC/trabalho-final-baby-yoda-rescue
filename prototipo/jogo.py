@@ -64,9 +64,6 @@ class Jogo:
         if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
 
-        #---CAMERA
-        self.__camera.update()
-
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
         
@@ -131,6 +128,7 @@ class Jogo:
             self.__jogador.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
         self.__sprites.update()
+        self.__camera.update()
 
     def draw(self):
         #lógica de replicação e movimento do background

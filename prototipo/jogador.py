@@ -7,13 +7,11 @@ vec = pg.math.Vector2
 
 
 class Jogador(pg.sprite.Sprite):
-
     def __init__(self):
         super().__init__()
         self.size = (32, 48)
         self.__sprites = []
 
-        # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
         self.__sprites.append(pg.image.load(
             data + "mando-esquerda-4.png"))
         self.__sprites.append(pg.image.load(
@@ -22,7 +20,6 @@ class Jogador(pg.sprite.Sprite):
             data + "mando-esquerda-2.png"))
         self.__sprites.append(pg.image.load(
             data + "mando-esquerda-1.png"))
-        # mando virado para frente
         self.__sprites.append(pg.image.load(
             data + "mando-idle.png"))
         self.__sprites.append(pg.image.load(
@@ -37,7 +34,7 @@ class Jogador(pg.sprite.Sprite):
         self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
-        self.__pos = vec(WIDTH / 2, HEIGHT / 2)
+        self.__pos = vec(WIDTH / 4, HEIGHT / 2)
 
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
