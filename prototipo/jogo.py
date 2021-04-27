@@ -3,6 +3,7 @@ import random
 from jogador import Jogador
 from configs import *
 from level import Level
+from camera import *
 
 
 class Jogo:
@@ -13,6 +14,11 @@ class Jogo:
         self.__sprites = pg.sprite.Group()
         self.__jogador = Jogador()
         self.__level = Level()
+        self.__background = pg.image.load("trabalho-final-grupo-5-forca/prototipo/data/teste.png")
+        self.__bg_x = 0
+
+        self.__camera = CameraAwareLayeredUpdates(self.__jogador)
+
 
         # inicializa a janela do pygame
         pg.init()
@@ -56,6 +62,12 @@ class Jogo:
         if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
             # impede o crossmap para a esquerda
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
+
+        #CAMERA
+        if self.__jogador.rect.right <= WIDTH / 4:
+            self.__jogador.pos.x -= abs(self.__jogador.vel.x)
+            for platf in self.__level.platforms:
+                platf.rect.x -= abs(self.__jogador.vel.x)
 
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
@@ -113,7 +125,14 @@ class Jogo:
         self.__sprites.update()
 
     def draw(self):
-        self.__screen.fill(BLACK)
+        #lógica de replicação e movimento do background
+        self.__rel_x = self.__bg_x % self.__background.get_rect().width
+        self.__screen.blit(self.__background, [self.__rel_x - self.__background.get_rect().width,0])
+        if self.__rel_x < WIDTH:
+            self.__screen.blit(self.__background, (self.__rel_x, 0))
+        self.__bg_x -= 1
+
+        self.__camera.draw(self.__screen)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()

@@ -11,30 +11,27 @@ class Jogador(pg.sprite.Sprite):
         super().__init__()
         self.size = (32, 48)
         cwd = os.getcwd()
-        print("%s/asd" % cwd)
         self.__sprites = []
 
-        # importacao de imagens
-        print(("trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
         # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-4.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-4.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-3.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-3.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-2.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-2.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-1.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-esquerda-1.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-idle.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-idle.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-direita-1.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-1.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-direita-2.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-2.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-direita-3.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-3.png"))
         self.__sprites.append(pg.image.load(
-            "./trabalho-final-grupo-5-forca/prototipo/data/mando-direita-4.png"))
+            "trabalho-final-grupo-5-forca/prototipo/data/mando-direita-4.png"))
 
         self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
@@ -135,3 +132,4 @@ class Jogador(pg.sprite.Sprite):
     @ plat_collide.setter
     def plat_collide(self, n):
         self.__plat_collide = n
+
