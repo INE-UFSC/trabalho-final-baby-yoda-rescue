@@ -3,7 +3,7 @@ import random
 from jogador import Jogador
 from configs import *
 from level import Level
-from camera import *
+from camera import Camera
 
 
 class Jogo:
@@ -14,10 +14,10 @@ class Jogo:
         self.__sprites = pg.sprite.Group()
         self.__jogador = Jogador()
         self.__level = Level()
+        self.__camera = Camera(self.__jogador, self.__level)
+
         self.__background = pg.image.load("data/teste.png")
         self.__bg_x = 0
-
-        self.__camera = CameraAwareLayeredUpdates(self.__jogador)
 
 
         # inicializa a janela do pygame
@@ -65,26 +65,7 @@ class Jogo:
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
 
         #---CAMERA
-        if self.__jogador.rect.right > WIDTH / 2:
-            self.__jogador.pos.x -= abs(self.__jogador.vel.x)
-            for platf in self.__level.platforms:
-                platf.rect.x -= abs(self.__jogador.vel.x)
-        elif self.__jogador.rect.left < WIDTH / 2:
-            self.__jogador.pos.x += abs(self.__jogador.vel.x)
-            for platf in self.__level.platforms:
-                platf.rect.x += abs(self.__jogador.vel.x)
-        
-        if self.__jogador.rect.top <= HEIGHT / 4:
-            self.__jogador.pos.y += abs(self.__jogador.vel.y)
-            for platf in self.__level.platforms:
-                platf.rect.y += abs(self.__jogador.vel.y)
-        elif self.__jogador.rect.bottom > HEIGHT:
-            self.__jogador.pos.y -= abs(self.__jogador.vel.y)
-            for platf in self.__level.platforms:
-                platf.rect.y -= abs(self.__jogador.vel.y)
-
-
-        #---CAMERA
+        self.__camera.update()
 
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
@@ -159,7 +140,6 @@ class Jogo:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
         self.__bg_x -= 1
 
-        self.__camera.draw(self.__screen)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()
