@@ -45,6 +45,7 @@ class Jogador(pg.sprite.Sprite):
         # criar classe FisicaObj
         self.__fric = -0.12
         self.gravidade = 0.5
+        self.jump_acc = -14
         self.__plat_collide = False
         self.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
@@ -73,14 +74,15 @@ class Jogador(pg.sprite.Sprite):
                 self.__current_sprite = 5
 
         if keys[pg.K_SPACE] and self.colisions['bottom']:
-            self.vel.y = -14
+            self.vel.y = self.jump_acc
+            self.colisions['bottom'] = False
 
         # aplica friccao ao eixo x
         self.acc.x += self.vel.x * self.__fric
 
         # equacoes de movimento
-        if self.vel[1] > 10:  # Limitar a aceleração da gravidade
-            self.vel[1] = 10
+        if self.vel[1] > 9.5:  # Limitar a aceleração da gravidade
+            self.vel[1] = 9.5
         self.vel += self.acc
         self.pos += self.vel + self.padraoacc * self.acc
 
