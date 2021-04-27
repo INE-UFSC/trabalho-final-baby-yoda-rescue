@@ -14,7 +14,7 @@ class Jogo:
         self.__sprites = pg.sprite.Group()
         self.__jogador = Jogador()
         self.__level = Level()
-        self.__background = pg.image.load("trabalho-final-grupo-5-forca/prototipo/data/teste.png")
+        self.__background = pg.image.load("data/teste.png")
         self.__bg_x = 0
 
         self.__camera = CameraAwareLayeredUpdates(self.__jogador)
