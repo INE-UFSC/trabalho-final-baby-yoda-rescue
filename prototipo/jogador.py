@@ -11,11 +11,9 @@ class Jogador(pg.sprite.Sprite):
         super().__init__()
         self.size = (32, 48)
         cwd = os.getcwd()
-        print("%s/asd" % cwd)
+        print(cwd)
         self.__sprites = []
 
-        # importacao de imagens
-        print(("trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
         # teria como arrumar com o glob esses appends dos sprites, mas pode ser algo futuro
         self.__sprites.append(pg.image.load(
             "trabalho-final-grupo-5-forca\prototipo\data\mando-esquerda-4.png"))
