@@ -46,7 +46,9 @@ class Jogador(pg.sprite.Sprite):
         self.__fric = -0.12
         self.gravidade = 0.5
         self.__plat_collide = False
+        self.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
+       
     # modificar parâmetros para
     def update(self):
 
@@ -54,21 +56,23 @@ class Jogador(pg.sprite.Sprite):
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_LEFT]:
+        if keys[pg.K_LEFT] and not self.colisions['left']:
             self.acc.x = -1 * self.padraoacc
+            self.colisions['right'] = False
 
             self.__current_sprite -= 0.3
             if self.__current_sprite <= 0:
                 self.__current_sprite = 3
 
-        if keys[pg.K_RIGHT]:
+        if keys[pg.K_RIGHT] and not self.colisions['right']:
             self.acc.x = self.padraoacc
+            self.colisions['left'] = False
 
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
 
-        if keys[pg.K_SPACE] and self.__plat_collide == True:
+        if keys[pg.K_SPACE] and self.colisions['bottom']:
             self.vel.y = -14
 
         # aplica friccao ao eixo x
