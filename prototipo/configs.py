@@ -12,7 +12,7 @@ TILE_SIZE_H = 20
 '''
     observações sobre o mundo:
 
-    cada posição de uma linha vale 100 px (100px * 48 linhas = 4800px = world_width)
+    cada posição de uma linha vale 50 px (50px * 96 colunas = 4800px = world_width)
     !important >> cada linha vale 20 px, a largura da plataforma (20px * 30 linhas = 600px = world_height)
     valor 0 = espaço vazio
     valor 1 = plataforma azul
