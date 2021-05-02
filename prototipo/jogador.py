@@ -8,7 +8,7 @@ vec = pg.math.Vector2
 
 class Jogador(pg.sprite.Sprite):
     def __init__(self):
-        super().__init__()
+        super().__init__() #Fazer abstract
         self.size = (32, 48)
         self.__sprites = []
 
@@ -31,7 +31,7 @@ class Jogador(pg.sprite.Sprite):
         self.__sprites.append(pg.image.load(
             data + "mando-direita-4.png"))
 
-        self.__current_sprite = 4  # idle
+        self.__current_sprite = 4  #idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
         self.__pos = vec(WIDTH / 4, HEIGHT / 2)

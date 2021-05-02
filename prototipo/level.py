@@ -13,13 +13,30 @@ wall4 = Platform(WIDTH/6, (HEIGHT - HEIGHT/2) - HEIGHT/30, WIDTH/40, HEIGHT/2, B
 
 
 class Level:
-    def __init__(self):
+    def __init__(self, world):
+        self.__world = world
         self.__platforms = pg.sprite.Group() 
         self.__bg = (BLUE)
+
+        row_count = 0
+        for row in self.__world:
+            col_count = 0
+            for tile in row:
+                if tile == 1:
+                    wall = Platform(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, BLUE)
+                    self.__platforms.add(wall)
+                    #tile = (wall.image, wall.rect)
+                col_count += 1
+            row_count += 1
+
         self.__spawn_point = ((WIDTH, HEIGHT))
-        self.__platforms.add(floor, wall1, wall2, wall3, wall4)
+        #self.__platforms.add(floor, wall1, wall2, wall3, wall4)
         
 
+    @property
+    def world(self):
+        return self.__world
+    
     @property
     def platforms(self):
         return self.__platforms
