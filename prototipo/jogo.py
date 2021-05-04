@@ -30,7 +30,7 @@ class Jogo:
         self.__clock = pg.time.Clock()
         # adiciona sprites ao grupo sprites - pode ir para fase LOAD
         self.__sprites.add(
-            self.__jogador, self.__level.platforms, self.__level.items)
+            self.__jogador, self.__level.platforms, self.__level.items, self.__level.exit)
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.__running = True
 
@@ -127,13 +127,21 @@ class Jogo:
             self.__jogador.plat_collide = False
             self.__jogador.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
+        #Colisão com ítens:
         hits_items = pg.sprite.spritecollide(
             self.jogador, self.level.items, True)
-
         if hits_items:
              self.__jogador.key = True
              print('self.__jogador.key:', self.__jogador.key)
-            
+
+        #Colisão com a saída:
+        hits_exit = pg.sprite.spritecollide(
+            self.jogador, self.level.exit, False)
+        if hits_exit and self.__jogador.key == True:
+            print('Você conseguiu!')
+            jogo.quit()
+            #pg.quit()
+
 
 
 
