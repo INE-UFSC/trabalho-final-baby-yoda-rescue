@@ -1,6 +1,7 @@
 from typing import Tuple
 import pygame as pg
 from platform import Platform
+from key import Key
 from configs import *
 
 
@@ -15,7 +16,8 @@ wall4 = Platform(WIDTH/6, (HEIGHT - HEIGHT/2) - HEIGHT/30, WIDTH/40, HEIGHT/2, B
 class Level:
     def __init__(self, world):
         self.__world = world
-        self.__platforms = pg.sprite.Group() 
+        self.__platforms = pg.sprite.Group()
+        self.__items = pg.sprite.Group()
         self.__bg = (BLUE)
 
         row_count = 0
@@ -26,6 +28,9 @@ class Level:
                     wall = Platform(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, BLUE)
                     self.__platforms.add(wall)
                     #tile = (wall.image, wall.rect)
+                elif tile == 2:
+                    grogu = Key(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, 20, 20, GREEN)
+                    self.__items.add(grogu)
                 col_count += 1
             row_count += 1
 
@@ -40,6 +45,10 @@ class Level:
     @property
     def platforms(self):
         return self.__platforms
+
+    @property
+    def items(self):
+        return self.__items
 
     @property
     def bg(self):

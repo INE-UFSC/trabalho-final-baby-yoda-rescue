@@ -30,7 +30,7 @@ class Jogo:
         self.__clock = pg.time.Clock()
         # adiciona sprites ao grupo sprites - pode ir para fase LOAD
         self.__sprites.add(
-            self.__jogador, self.__level.platforms)
+            self.__jogador, self.__level.platforms, self.__level.items)
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.__running = True
 
@@ -127,8 +127,19 @@ class Jogo:
             self.__jogador.plat_collide = False
             self.__jogador.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
 
+        hits_items = pg.sprite.spritecollide(
+            self.jogador, self.level.items, True)
+
+        if hits_items:
+             self.__jogador.key = True
+             print('self.__jogador.key:', self.__jogador.key)
+            
+
+
+
+
         self.__sprites.update()
-        self.__camera.update()
+        #self.__camera.update()
 
     def draw(self):
         #lógica de replicação e movimento do background

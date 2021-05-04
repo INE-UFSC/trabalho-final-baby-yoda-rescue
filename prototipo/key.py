@@ -11,7 +11,7 @@ class Key(pg.sprite.Sprite):
         self.__rect.x = x
         self.__rect.y = y
 
-@property
+    @property
     def rect(self):
         return self.__rect
 

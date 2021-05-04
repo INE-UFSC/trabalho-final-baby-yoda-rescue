@@ -45,6 +45,7 @@ class Jogador(pg.sprite.Sprite):
         self.jump_acc = -14
         self.__plat_collide = False
         self.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
+        self.key = False
 
        
     # modificar parâmetros para
