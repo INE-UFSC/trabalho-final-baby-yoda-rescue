@@ -8,10 +8,13 @@ vec = pg.math.Vector2
 
 class Jogador(pg.sprite.Sprite):
     def __init__(self):
-        super().__init__() #Fazer abstract
-        self.size = (32, 48)
+        super().__init__()  # Fazer abstract
+        self.size = (32, 48)  # privado?
+
+        # VIEW
         self.__sprites = []
 
+        # imagens - VIEW
         self.__sprites.append(pg.image.load(
             data + "mando-esquerda-4.png"))
         self.__sprites.append(pg.image.load(
@@ -31,7 +34,10 @@ class Jogador(pg.sprite.Sprite):
         self.__sprites.append(pg.image.load(
             data + "mando-direita-4.png"))
 
-        self.__current_sprite = 4  #idle
+        # Criar classe no model para conter o DB das imagens
+        # Criar classe no controller para carregar as imagens
+
+        self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
         self.__pos = vec(WIDTH / 4, HEIGHT / 2)
@@ -43,18 +49,22 @@ class Jogador(pg.sprite.Sprite):
         self.__fric = -0.12
         self.gravidade = 0.5
         self.jump_acc = -14
+
+        # controller
         self.__plat_collide = False
-        self.colisions = {'top': False, 'bottom': False, 'left': False, 'right': False}
+        self.colisions = {'top': False, 'bottom': False,
+                          'left': False, 'right': False}
         self.key = False
 
-       
     # modificar parâmetros para
+
     def update(self):
 
         self.rect.midbottom = self.__pos
         self.acc = vec(0, self.gravidade)
         keys = pg.key.get_pressed()
 
+        # Controller
         if keys[pg.K_LEFT] and not self.colisions['left']:
             self.acc.x = -1 * self.padraoacc
             self.colisions['right'] = False
@@ -137,4 +147,3 @@ class Jogador(pg.sprite.Sprite):
     @ plat_collide.setter
     def plat_collide(self, n):
         self.__plat_collide = n
-
