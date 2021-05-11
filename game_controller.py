@@ -19,7 +19,6 @@ class GameController:
         self.__running = True
 
     def run(self):
-        self.__running = True
         while self.__running:
             # sincroniza o loop de eventos com o clock
             self.__clock.tick(self.__model.FPS)

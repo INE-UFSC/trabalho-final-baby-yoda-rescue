@@ -8,13 +8,14 @@ class Player(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.__size = (32, 48)
-        self.__pos = vec(WIDTH / 4, HEIGHT / 2)  # deve ser definido pelo level
+        self.__pos = vec(WIDTH / 2, HEIGHT / 2)  # deve ser definido pelo level
         self.__vel = vec(0, 0)  # velocidade
         self.__acc = vec(0, 0)  # aceleracao
         self.__std_acc = 0.5  # aceleracao padrao
         self.__jump_acc = -14  # aceleracao pulo
         self.__key = False
         self.__image = pg.Surface(self.__size)
+        self.__image.fill(RED)
         self.__rect = self.__image.get_rect()
 
     @ property

@@ -16,7 +16,7 @@ class GameView:
         self.__background = pg.image.load(
             "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO
         self.__bg_x = 0
-        self.__rel_x = self.__bg_x % self.__background.get_rect().width
+        self.__rel_x = None
 
         # Adiciona sprites ao grupo principal de sprites
         self.__sprites.add(
@@ -24,12 +24,16 @@ class GameView:
 
     def draw(self):
 
-        # lógica de replicação e movimento do background
+        # lógica do movimento do background
+        self.__rel_x = self.__bg_x % self.__background.get_rect().width
         self.__screen.blit(self.__background, [
             self.__rel_x - self.__background.get_rect().width, 0])
+        # replicacao do bg
         if self.__rel_x < WIDTH:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
+        # movimento do bg
         self.__bg_x -= 1
+        print(self.__bg_x, self.__rel_x, self.__background.get_rect().width)
 
         # desenha todos os sprites OTIMIZAR
         self.__sprites.draw(self.__screen)
