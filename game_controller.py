@@ -19,6 +19,7 @@ class GameController:
         self.__running = True
 
     def run(self):
+        self.load_level()
         while self.__running:
             # sincroniza o loop de eventos com o clock
             self.__clock.tick(self.__model.FPS)
@@ -39,20 +40,26 @@ class GameController:
 
     def update(self):
 
-        # posicao do jogador, deve ser carregada de level
         self.__player.rect.midbottom = self.__player.pos
-
         # logica de comandos
         keys = pg.key.get_pressed()
 
+        # seta esquerda
         if keys[pg.K_LEFT]:
             self.__player.acc.x = -1 * self.__player.std_acc
 
+        # seta direita
         if keys[pg.K_RIGHT]:
             self.__player.acc.x = self.__player.std_acc
 
+        # espaco
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
+
+        # equacoes de movimento
+        self.__player.vel += self.__player.acc
+        self.__player.pos += (self.__player.vel +
+                              self.__player.std_acc * self.__player.acc)
 
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
@@ -66,6 +73,10 @@ class GameController:
             self.__player, self.__level.exit, False)
         if hits_exit and self.__player.key == True:
             self.quit()  # avaliar se de fato faz sentido
+
+    def load_level(self):
+        # posicao do jogador, deve ser carregada de level
+        self.__player.pos = self.__level.spawn_point
 
     @property
     def running(self):

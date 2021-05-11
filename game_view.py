@@ -6,7 +6,6 @@ from prototipo.configs import *
 
 class GameView:
     def __init__(self, player, level, sprites):
-
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.__player = player
         self.__level = level
@@ -23,9 +22,18 @@ class GameView:
             self.__player, self.__level.platforms, self.__level.items, self.__level.exit)
 
     def draw(self):
+        self.bg_movement()
+        # desenha todos os sprites OTIMIZAR para sprites individuais
+        print(self.__sprites.sprites()[
+              0].rect.midbottom, self.__sprites.sprites()[0].pos)
+        self.__sprites.draw(self.__screen)
+        # realiza o flip apos desenhar tudo
+        pg.display.flip()
+
+    def bg_movement(self):
 
         # lógica do movimento do background
-        self.__rel_x = self.__bg_x % self.__background.get_rect().width
+        self.__rel_x = self.__bg_x % self.__background.get_rect().width  # avaliar repeticoes
         self.__screen.blit(self.__background, [
             self.__rel_x - self.__background.get_rect().width, 0])
         # replicacao do bg
@@ -33,8 +41,3 @@ class GameView:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
         # movimento do bg
         self.__bg_x -= 1
-
-        # desenha todos os sprites OTIMIZAR para sprites individuais
-        self.__sprites.draw(self.__screen)
-        # realiza o flip apos desenhar tudo
-        pg.display.flip()
