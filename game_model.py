@@ -1,7 +1,7 @@
 import pygame as pg
 import random
 from player import Player
-from protipo.level import Level
+from level import Level
 from prototipo.configs import *
 
 
@@ -9,6 +9,7 @@ class GameModel:
     def __init__(self):
         self.__FPS = FPS
         self.__player = Player()
+        # implementando apenas um nivel
         self.__level = Level(world)
 
     @property

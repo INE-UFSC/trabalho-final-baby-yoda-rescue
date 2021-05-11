@@ -72,6 +72,8 @@ class Jogo:
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
 
+        print(hits_platform)
+
         if hits_platform:
             # Percorre a lista de objetos que colidiram com o Player:
             for n in range(0, len(hits_platform)):
@@ -85,7 +87,7 @@ class Jogo:
                 # Colisão No eixo Y:
                 # if abs((self.__jogador.rect.bottom -1) - hits_platform[n].rect.top) < \
                 # abs(hits_platform[n].rect.bottom - self.__jogador.rect.top) and self.__jogador.vel.y > 0:
-                if abs((self.__jogador.rect.bottom - 1) - hits_platform[n].rect.top) < 10.5 and self.__jogador.vel.y > 0:
+                if abs((self.__jogador.rect.bottom) - hits_platform[n].rect.top) < 10.5 and self.__jogador.vel.y > 0:
                     #print(f'{n} - SUPERIOR - {abs(self.__jogador.rect.bottom - hits_platform[n].rect.top)}')
                     #print('self.__jogador.vel.y: ',self.__jogador.vel.y)
                     self.__jogador.vel.y = 0
