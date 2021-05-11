@@ -39,7 +39,15 @@ class GameController:
                 self.quit()
 
     def update(self):
+        self.physics()
+        self.collisions()
+        self.commands()
 
+    def physics(self):
+        # aplica friccao ao eixo x
+        self.__player.acc.x += self.__player.vel.x * -0.12
+
+    def commands(self):
         self.__player.rect.midbottom = self.__player.pos
         # logica de comandos
         keys = pg.key.get_pressed()
@@ -61,6 +69,8 @@ class GameController:
         self.__player.pos += (self.__player.vel +
                               self.__player.std_acc * self.__player.acc)
 
+    def collisions(self):
+
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
@@ -72,7 +82,7 @@ class GameController:
         hits_exit = pg.sprite.spritecollide(
             self.__player, self.__level.exit, False)
         if hits_exit and self.__player.key == True:
-            self.quit()  # avaliar se de fato faz sentido
+            self.quit()  # sai do jogo apos conseguir a chave
 
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
