@@ -39,6 +39,21 @@ class GameController:
 
     def update(self):
 
+        # posicao do jogador, deve ser carregada de level
+        self.__player.rect.midbottom = self.__player.pos
+
+        # logica de comandos
+        keys = pg.key.get_pressed()
+
+        if keys[pg.K_LEFT]:
+            self.__player.acc.x = -1 * self.__player.std_acc
+
+        if keys[pg.K_RIGHT]:
+            self.__player.acc.x = self.__player.std_acc
+
+        if keys[pg.K_SPACE]:
+            self.__player.vel.y = self.__player.jump_acc
+
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)

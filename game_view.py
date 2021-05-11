@@ -33,9 +33,8 @@ class GameView:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
         # movimento do bg
         self.__bg_x -= 1
-        print(self.__bg_x, self.__rel_x, self.__background.get_rect().width)
 
-        # desenha todos os sprites OTIMIZAR
+        # desenha todos os sprites OTIMIZAR para sprites individuais
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()
