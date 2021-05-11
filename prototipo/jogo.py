@@ -3,7 +3,6 @@ import random
 from jogador import Jogador
 from configs import *
 from level import Level
-from camera import Camera
 
 
 class Jogo:
@@ -14,7 +13,6 @@ class Jogo:
         self.__sprites = pg.sprite.Group()
         self.__jogador = Jogador()
         self.__level = Level(world)
-        self.__camera = Camera(self.__jogador, self.__level)
 
         self.__background = pg.image.load("data/teste.png")
         self.__bg_x = 0
@@ -69,6 +67,18 @@ class Jogo:
         if self.__jogador.pos.x - (self.__jogador.size[0]/2) < 0:
             self.__jogador.pos.x = 0 + (self.__jogador.size[0]/2)
 
+
+        counter = 1
+        while True:
+            if (self.__jogador.pos.x - (self.__jogador.size[0]/2) > WIDTH):
+                world = current_screen[counter]
+                self.__jogador.pos.x = WIDTH / 6 #varia, cuidar com os pixeis de cada fase
+                self.__jogador.pos.y = HEIGHT / 2.5
+            counter += 1
+            if counter > len(current_screen):
+                break
+        
+        
         hits_platform = pg.sprite.spritecollide(
             self.jogador, self.level.platforms, False)
 
@@ -150,14 +160,13 @@ class Jogo:
         if hits_exit and self.__jogador.key == True:
             print('Você conseguiu!')
             jogo.quit()
-            # pg.quit()
 
         self.__sprites.update()
-        # self.__camera.update()
 
     # VIEW
     def draw(self):
         # view.rodar
+
         # lógica de replicação e movimento do background
         self.__rel_x = self.__bg_x % self.__background.get_rect().width
         self.__screen.blit(self.__background, [
@@ -166,8 +175,8 @@ class Jogo:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
         self.__bg_x -= 1
 
+
         self.__sprites.draw(self.__screen)
-        # realiza o flip apos desenhar tudo
         pg.display.flip()
 
     @property

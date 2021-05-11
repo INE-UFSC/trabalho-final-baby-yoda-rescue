@@ -40,7 +40,7 @@ class Jogador(pg.sprite.Sprite):
         self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
-        self.__pos = vec(WIDTH / 2, HEIGHT / 2)
+        self.__pos = vec(WIDTH / 6, HEIGHT / 2.5)
 
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
