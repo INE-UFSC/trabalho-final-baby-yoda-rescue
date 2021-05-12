@@ -19,7 +19,7 @@ class GameView:
 
         # Adiciona sprites ao grupo principal de sprites
         self.__sprites.add(
-            self.__player, self.__level.platforms, self.__level.items, self.__level.exit)
+            self.__player, self.__level.platforms, self.__level.items, self.__level.exit, self.__level.enemies)
 
     def draw(self):
         self.bg_movement()

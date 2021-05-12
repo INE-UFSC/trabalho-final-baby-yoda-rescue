@@ -2,7 +2,7 @@ import pygame as pg
 import random
 from player import Player
 from level import Level
-from prototipo.configs import *
+from configs import *
 
 
 class GameModel:

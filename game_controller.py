@@ -18,6 +18,11 @@ class GameController:
         self.__modules = pg.init()
         self.__running = True
 
+    def load_level(self):
+        # posicao do jogador, deve ser carregada de level
+        self.__player.pos = self.__level.spawn_point
+        print(self.__player.pos, self.__level.spawn_point)
+
     def run(self):
         self.load_level()
         while self.__running:
@@ -97,10 +102,6 @@ class GameController:
         # espaco
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
-
-    def load_level(self):
-        # posicao do jogador, deve ser carregada de level
-        self.__player.pos = self.__level.spawn_point
 
     @property
     def running(self):

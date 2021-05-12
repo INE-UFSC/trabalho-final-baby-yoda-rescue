@@ -19,25 +19,27 @@ class Level:
             col_count = 0
             for tile in row:
                 if tile == 1:
-                    wall = Platform(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, BLUE)
+                    wall = Platform(col_count * TILE_SIZE_W, row_count *
+                                    TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, BLUE)
                     self.__platforms.add(wall)
                     #tile = (wall.image, wall.rect)
                 elif tile == 2:
-                    grogu = Key(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, 20, 20, GREEN)
+                    grogu = Key(col_count * TILE_SIZE_W,
+                                row_count * TILE_SIZE_H, 20, 20, GREEN)
                     self.__items.add(grogu)
                 elif tile == 3:
-                    ship = Extraction_point(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, PURPLE)
+                    ship = Extraction_point(
+                        col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, PURPLE)
                     self.__exit.add(ship)
                 col_count += 1
             row_count += 1
 
         self.__spawn_point = ((WIDTH, HEIGHT))
-        
 
     @property
     def world(self):
         return self.__world
-    
+
     @property
     def platforms(self):
         return self.__platforms
@@ -53,3 +55,7 @@ class Level:
     @property
     def bg(self):
         return self.__bg
+
+    @property
+    def enemies(self):
+        return self.__enemies
