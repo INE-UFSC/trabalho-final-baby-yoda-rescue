@@ -24,7 +24,6 @@ class GameController:
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
-        print(self.__player.pos, self.__level.spawn_point)
 
     def run(self):
         self.load_level()
@@ -120,8 +119,6 @@ class GameController:
                 self.__player.rect.center, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
-            print(lazer.angle, math.sin(lazer.angle),
-                  math.cos(lazer.angle), pg.mouse.get_pos())
 
     @property
     def running(self):
