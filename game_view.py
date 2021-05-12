@@ -46,3 +46,9 @@ class GameView:
             self.__screen.blit(self.__background, (self.__rel_x, 0))
         # movimento do bg
         self.__bg_x -= 1
+
+    def update_scene(self):
+        if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
+                self.__level.next()
+                self.__player.pos.x = WIDTH / 6 #varia, cuidar com os pixeis de cada fase
+                self.__player.pos.y = HEIGHT / 2.5

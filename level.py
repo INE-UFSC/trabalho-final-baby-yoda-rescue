@@ -10,6 +10,7 @@ from enemy import Enemy
 class Level:
     def __init__(self, world):
         self.__world = world
+        self.__current = self.__world[0]
         self.__platforms = pg.sprite.Group()
         self.__items = pg.sprite.Group()
         self.__exit = pg.sprite.Group()
@@ -19,7 +20,7 @@ class Level:
 
         # escaneia tile map
         row_count = 0
-        for row in self.__world:
+        for row in self.__current:
             col_count = 0
             for tile in row:
                 # adiciona plataformas
@@ -54,6 +55,17 @@ class Level:
 
                 col_count += 1
             row_count += 1
+
+    
+    def next(self):
+        index = self.__world.index(self.__current)
+        print(index)
+        if index < len(self.__world):
+            self.__current = world[index+1]
+
+    @ property
+    def current(self):
+        return self.__current
 
     @ property
     def world(self):

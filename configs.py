@@ -188,8 +188,7 @@ fase1_6 = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ]
 
-current_screen = [fase1_1,fase1_2,fase1_3,fase1_4,fase1_5,fase1_6]
-world = current_screen[0]
+world = [fase1_1,fase1_2,fase1_3,fase1_4,fase1_5,fase1_6, -1]
 
 # Cores
 BLACK = (0, 0, 0)
