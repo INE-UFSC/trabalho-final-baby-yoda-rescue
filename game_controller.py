@@ -43,10 +43,11 @@ class GameController:
             if event.type == pg.QUIT:
                 self.quit()
 
+            self.commands()
+
     def update(self):
         self.physics()
         self.collisions()
-        self.commands()
 
     def physics(self):
         # aplica atrito ao eixo x
@@ -102,6 +103,9 @@ class GameController:
         # espaco
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
+
+        if pg.event.get() == "MOUSEBUTTONDOWN":
+            print(pg.mouse.get_pressed())
 
     @property
     def running(self):
