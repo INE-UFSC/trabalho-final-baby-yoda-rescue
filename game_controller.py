@@ -51,6 +51,7 @@ class GameController:
         self.physics()
         self.balistics()
         self.collisions()
+        self.__view.update_scene()
 
     def physics(self):
         # aplica atrito ao eixo x
