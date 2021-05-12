@@ -43,10 +43,11 @@ class GameController:
             if event.type == pg.QUIT:
                 self.quit()
 
+            self.commands()
+
     def update(self):
         self.physics()
         self.collisions()
-        self.commands()
 
     def physics(self):
         # aplica atrito ao eixo x
