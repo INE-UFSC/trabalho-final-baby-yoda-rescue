@@ -9,8 +9,9 @@ class Player(pg.sprite.Sprite):
         super().__init__()
         self.__size = (32, 48)
         self.__pos = None  # deve ser definido pelo level
-        self.__vel = vec(0, 0)  # velocidade
-        self.__acc = vec(0, 0)  # aceleracao
+        self.__vec = pg.math.Vector2
+        self.__vel = self.__vec(0, 0)  # velocidade
+        self.__acc = self.__vec(0, 0)  # aceleracao
         self.__std_acc = 0.5  # aceleracao padrao
         self.__jump_acc = -14  # aceleracao pulo
         self.__fric = -0.12 # atrito
@@ -82,3 +83,7 @@ class Player(pg.sprite.Sprite):
     @ fric.setter
     def fric(self, n):
         self.__fric = n
+    
+    @ property
+    def vec(self):
+        return self.__vec
