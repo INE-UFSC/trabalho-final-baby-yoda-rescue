@@ -11,6 +11,7 @@ class Level:
     def __init__(self, world):
         self.__world = world
         self.__current = begin
+        self.__index = 0
         self.__platforms = pg.sprite.Group()
         self.__items = pg.sprite.Group()
         self.__exit = pg.sprite.Group()
@@ -20,14 +21,10 @@ class Level:
         self.update()
 
     def next(self):
-        index = self.__world.index(self.__current)
-        self.__current = world[index+1]
-        print(index)
-        if index < len(self.__world):
-            self.__current = world[index+1]
-            return self.__current
-        else:
-            return self.__current
+        print(self.__index)
+        if self.__index < len(self.__world) - 1:
+            self.__index += 1
+            self.__current = world[self.__index]
 
     def update(self):
         # deleta plataformas anteriores
@@ -72,7 +69,6 @@ class Level:
                 col_count += 1
             row_count += 1
         print(self.__platforms)
-        self.__current = self.next()
 
     @ property
     def current(self):

@@ -50,6 +50,8 @@ class GameView:
             self.__level.enemies, self.__attacks)
 
         if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
+
+            self.__level.next()
             self.__level.update()
             self.__player.pos.x = WIDTH / 6  # varia, cuidar com os pixeis de cada fase
             self.__player.pos.y = HEIGHT / 2.5
