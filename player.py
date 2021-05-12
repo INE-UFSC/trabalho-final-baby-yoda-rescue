@@ -13,6 +13,7 @@ class Player(pg.sprite.Sprite):
         self.__acc = vec(0, 0)  # aceleracao
         self.__std_acc = 0.5  # aceleracao padrao
         self.__jump_acc = -14  # aceleracao pulo
+        self.__fric = -0.12 # atrito
         self.__key = False
         self.__image = pg.Surface(self.__size)
         self.__image.fill(RED)
@@ -73,3 +74,11 @@ class Player(pg.sprite.Sprite):
     @ key.setter
     def key(self, n):
         self.__key = n
+
+    @ property
+    def fric(self):
+        return self.__fric
+
+    @ fric.setter
+    def fric(self, n):
+        self.__fric = n

@@ -24,8 +24,7 @@ class GameView:
     def draw(self):
         self.bg_movement()
         # desenha todos os sprites OTIMIZAR para sprites individuais
-        print(self.__sprites.sprites()[
-              0].rect.midbottom, self.__sprites.sprites()[0].pos)
+        #print(self.__sprites.sprites()[0].rect.midbottom, self.__sprites.sprites()[0].pos)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()
