@@ -6,8 +6,10 @@ vec = pg.math.Vector2
 
 
 class Lazer(pg.sprite.Sprite):
-    def __init__(self, pos, mouse):
+    def __init__(self, shooter, pos, mouse):
         super().__init__()
+        self.__shooter = shooter
+        self.__damage = 30
         self.__size = (10, 10)
         self.__pos = vec(pos)  # posicao inicial do lazer
         self.__mouse = vec(mouse)
@@ -18,6 +20,14 @@ class Lazer(pg.sprite.Sprite):
         self.__image.fill(RED)
         self.__rect = self.__image.get_rect()
         self.__rect.center = pos
+
+    @ property
+    def damage(self):
+        return self.__damage
+
+    @ property
+    def shooter(self):
+        return self.__shooter
 
     @ property
     def image(self):
