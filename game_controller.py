@@ -4,7 +4,9 @@ from game_model import GameModel
 from game_view import GameView
 import math
 
-#função para testar as colisões
+# função para testar as colisões
+
+
 def colision_test(rect, tiles):
     hits_list = []
     for tile in tiles:
@@ -12,15 +14,18 @@ def colision_test(rect, tiles):
             hits_list.append(tile)
     return hits_list
 
-#função para movimentos
-def move(rect, movement, tiles): # quem se move, movimento, com quem pode se colidir
-    #dicionário pra saber com que lado se colidiu
-    collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
+# função para movimentos
+
+
+def move(rect, movement, tiles):  # quem se move, movimento, com quem pode se colidir
+    # dicionário pra saber com que lado se colidiu
+    collision_types = {'top': False, 'bottom': False,
+                       'right': False, 'left': False}
     # Movimento em X:
-    rect.x += movement[0] 
-    hit_list = colision_test(rect, tiles) #tile vai ser a classe dos blocos
+    rect.x += movement[0]
+    hit_list = colision_test(rect, tiles)  # tile vai ser a classe dos blocos
     for tile in hit_list:
-        if movement[0] > 0: #ou seja se movendo para a direita
+        if movement[0] > 0:  # ou seja se movendo para a direita
             rect.right = tile.rect.left
             collision_types['right'] = True
         elif movement[0] < 0:
@@ -30,13 +35,14 @@ def move(rect, movement, tiles): # quem se move, movimento, com quem pode se col
     rect.y += movement[1]
     hit_list = colision_test(rect, tiles)
     for tile in hit_list:
-        if movement[1] > 0: #ou seja se movendo para a direita
+        if movement[1] > 0:  # ou seja se movendo para a direita
             rect.bottom = tile.rect.top
             collision_types['bottom'] = True
         elif movement[1] < 0:
             rect.top = tile.rect.bottom
             collision_types['top'] = True
     return rect, collision_types
+
 
 class GameController:
     def __init__(self):
@@ -86,12 +92,14 @@ class GameController:
         self.collisions()
 
     def physics(self):
-        
-        #Updates do player:
-        self.__player.acc = self.__player.vec(0, 0.5) # Segundo parâmetro para gravidade        
+
+        # Updates do player:
+        self.__player.acc = self.__player.vec(
+            0, 0.5)  # Segundo parâmetro para gravidade
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
-        self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
+        self.__player.pos += self.__player.vel + \
+            self.__player.std_acc * self.__player.acc
 
     def balistics(self):
         for lazer in self.__attacks.sprites():
@@ -101,9 +109,11 @@ class GameController:
 
     def collisions(self):
 
-        #Colisão de Player com plataformas
-        collision_types = move(self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
+        # Colisão de Player com plataformas
+        collision_types = move(
+            self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
 
+        print(self.__player.pos)
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
@@ -120,20 +130,20 @@ class GameController:
     def commands(self, event):
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
-        
+
         # logica de comandos
         keys = pg.key.get_pressed()
 
         # seta esquerda
-        if keys[pg.K_LEFT]:
+        if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
-        if keys[pg.K_RIGHT]:
+        if keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.__player.acc.x = self.__player.std_acc
 
         # espaco
-        if keys[pg.K_SPACE]:
+        if keys[pg.K_SPACE] or keys[pg.K_w]:
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
