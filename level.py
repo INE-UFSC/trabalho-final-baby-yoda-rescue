@@ -30,9 +30,14 @@ class Level:
             return self.__current
 
     def update(self):
-        self.__current = self.next()
+        # deleta plataformas anteriores
+        for sprite in self.__platforms.sprites():
+            sprite.kill()
 
-        # escaneia tile map
+        # remove inimigo
+        for sprite in self.__enemies.sprites():
+            sprite.kill()
+            # escaneia tile map
         row_count = 0
         for row in self.__current:
             col_count = 0
@@ -66,6 +71,8 @@ class Level:
                         (col_count * TILE_SIZE_W, row_count * TILE_SIZE_H))
                 col_count += 1
             row_count += 1
+        print(self.__platforms)
+        self.__current = self.next()
 
     @ property
     def current(self):

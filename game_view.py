@@ -18,12 +18,6 @@ class GameView:
         self.__bg_x = 0
         self.__rel_x = None
 
-        # Adiciona sprites ao grupo principal de sprites
-        self.__sprites.add(
-            self.__player, self.__level.platforms,
-            self.__level.items, self.__level.exit,
-            self.__level.enemies, self.__attacks)
-
     def draw(self):
         self.bg_movement()
         # desenha todos os sprites OTIMIZAR para sprites individuais
@@ -48,7 +42,14 @@ class GameView:
         self.__bg_x -= 1
 
     def update_scene(self):
+
+        # Adiciona sprites ao grupo principal de sprites
+        self.__sprites.add(
+            self.__player, self.__level.platforms,
+            self.__level.items, self.__level.exit,
+            self.__level.enemies, self.__attacks)
+
         if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
             self.__level.update()
-            self.__player.pos.x = WIDTH / 6 #varia, cuidar com os pixeis de cada fase
+            self.__player.pos.x = WIDTH / 6  # varia, cuidar com os pixeis de cada fase
             self.__player.pos.y = HEIGHT / 2.5
