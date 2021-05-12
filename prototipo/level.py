@@ -6,14 +6,6 @@ from extraction_point import Extraction_point
 from configs import *
 
 
-# deve ser o atributo arch para arquitetura de level, pensar em solucoes para baixo acoplamento
-floor = Platform(0, HEIGHT - HEIGHT/30, WIDTH, HEIGHT/30, RED)
-wall1 = Platform(WIDTH/3, 400, WIDTH/10, HEIGHT/30, BLUE)
-wall2 = Platform(WIDTH/2, HEIGHT/2, WIDTH/10, HEIGHT/30, BLUE)
-wall3 = Platform(WIDTH/2, HEIGHT/1.5, WIDTH/10, HEIGHT/30, BLUE)
-wall4 = Platform(WIDTH/6, (HEIGHT - HEIGHT/2) - HEIGHT/30, WIDTH/40, HEIGHT/2, BLUE)
-
-
 class Level:
     def __init__(self, world):
         self.__world = world
@@ -40,7 +32,6 @@ class Level:
             row_count += 1
 
         self.__spawn_point = ((WIDTH, HEIGHT))
-        #self.__platforms.add(floor, wall1, wall2, wall3, wall4)
         
 
     @property
