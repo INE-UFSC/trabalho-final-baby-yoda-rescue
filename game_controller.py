@@ -104,9 +104,6 @@ class GameController:
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
 
-        if pg.event.get() == "MOUSEBUTTONDOWN":
-            print(pg.mouse.get_pressed())
-
     @property
     def running(self):
         return self.__running
