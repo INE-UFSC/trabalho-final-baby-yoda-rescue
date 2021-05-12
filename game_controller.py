@@ -44,15 +44,26 @@ class GameController:
         self.commands()
 
     def physics(self):
-        # aplica friccao ao eixo x
+        # aplica friccao ao eixo x ARRUMAR
         self.__player.acc.x += self.__player.vel.x * -0.12
+        print(self.__player.vel)
 
         # equacoes de movimento
         self.__player.vel += self.__player.acc
-        self.__player.pos += (self.__player.vel +
-                              self.__player.std_acc * self.__player.acc)
+        self.__player.pos += (self.__player.vel
+                              + self.__player.std_acc * self.__player.acc)
 
     def collisions(self):
+
+        # recebe lista de colisoes
+        hits_platform = pg.sprite.spritecollide(
+            self.__player, self.__level.platforms, False)
+
+        # itera sobre lista de colisoes
+        for platform in hits_platform:
+            print(platform.rect.right, self.__player.rect.left)
+            if platform.rect.right == self.__player.rect.left:
+                self.__player.vel.x = 0
 
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
