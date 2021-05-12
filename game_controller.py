@@ -3,6 +3,39 @@ import random
 from game_model import GameModel
 from game_view import GameView
 
+#função para testar as colisões
+def colision_test(rect, tiles):
+    hits_list = []
+    for tile in tiles:
+        if rect.colliderect(tile):
+            hits_list.append(tile)
+    return hits_list
+
+#função para movimentos
+def move(rect, movement, tiles): # quem se move, movimento, com quem pode se colidir
+    #dicionário pra saber com que lado se colidiu
+    collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
+    # Movimento em X:
+    rect.x += movement[0] 
+    hit_list = colision_test(rect, tiles) #tile vai ser a classe dos blocos
+    for tile in hit_list:
+        if movement[0] > 0: #ou seja se movendo para a direita
+            rect.right = tile.rect.left
+            collision_types['right'] = True
+        elif movement[0] < 0:
+            rect.left = tile.rect.right
+            collision_types['left'] = True
+    # Movimento em Y:
+    rect.y += movement[1]
+    hit_list = colision_test(rect, tiles)
+    for tile in hit_list:
+        if movement[1] > 0: #ou seja se movendo para a direita
+            rect.bottom = tile.rect.top
+            collision_types['bottom'] = True
+        elif movement[1] < 0:
+            rect.top = tile.rect.bottom
+            collision_types['top'] = True
+    return rect, collision_types
 
 class GameController:
     def __init__(self):
@@ -21,7 +54,6 @@ class GameController:
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
-        print(self.__player.pos, self.__level.spawn_point)
 
     def run(self):
         self.load_level()
@@ -42,79 +74,22 @@ class GameController:
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
                 self.quit()
-
             self.commands()
 
-    def update(self):
-        self.physics()
-        self.collisions()
-
     def physics(self):
-        # aplica atrito ao eixo x
-        # bug de movimento, sprite fica oscilando 
+        
+        #Updates do player:
+        self.__player.acc = self.__player.vec(0, 0.5) # Segundo parâmetro para gravidade        
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        # print(self.__player.vel)
-
-        # equacoes de movimento
-        self.__player.acc += self.__player.vec(0, 0) #0.5 GRAVIDADE
-        #self.__player.vel += 
         self.__player.vel += self.__player.acc
-        self.__player.pos += (self.__player.vel
-                              + self.__player.std_acc * self.__player.acc)
+        self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
+
+
 
     def collisions(self):
 
-        #função para testar as colisões
-        def colision_test(rect, tiles):
-            hits_list = []
-            for tile in tiles:
-                if rect.colliderect(tile):
-                    hits_list.append(tile)
-            return hits_list
-        
-        #função para movimentos
-        def move(rect, movement, tiles): # quem se move, movimento, com quem pode se colidir
-            #dicionário pra saber com que lado se colidiu
-            collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
-            # Movimento em X:
-            rect.x += movement[0] 
-            hit_list = colision_test(rect, tiles) #tile vai ser a classe dos blocos
-            for tile in hit_list:
-                if movement[0] > 0: #ou seja se movendo para a direita
-                    rect.right = tile.rect.left
-                    collision_types['right'] = True
-                elif movement[0] < 0:
-                    rect.left = tile.rect.right
-                    collision_types['left'] = True
-            # Movimento em Y:
-            rect.y += movement[1]
-            hit_list = colision_test(rect, tiles)
-            for tile in hit_list:
-                if movement[1] > 0: #ou seja se movendo para a direita
-                    rect.bottom = tile.rect.top
-                    collision_types['bottom'] = True
-                elif movement[1] < 0:
-                    rect.top = tile.rect.bottom
-                    collision_types['top'] = True
-            return rect, collision_types
-        
-        # Parecido como spritecolide mas para tiles
-        #tiles_colided = colision_test(self.__player.rect, self.__level.platforms.sprites())
-        # 
+        #Colisão de Player com plataformas
         collision_types = move(self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
-        print(collision_types)
-        
-
-        '''# recebe lista de colisoes
-        hits_platform = pg.sprite.spritecollide(
-            self.__player, self.__level.platforms, False)
-
-        # itera sobre lista de colisoes
-        for platform in hits_platform:
-            print(
-                f'platform.rect.right: {platform.rect.right}\n, self.__player.rect.left{self.__player.rect.left}')
-            if platform.rect.right == self.__player.rect.left:
-                self.__player.vel.x = 0'''
 
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
@@ -130,8 +105,10 @@ class GameController:
             self.quit()  # sai do jogo apos conseguir a chave
 
     def commands(self):
+         
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
+        
         # logica de comandos
         keys = pg.key.get_pressed()
 
@@ -146,6 +123,10 @@ class GameController:
         # espaco
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
+
+    def update(self):
+        self.physics()
+        self.collisions()
 
     @property
     def running(self):
