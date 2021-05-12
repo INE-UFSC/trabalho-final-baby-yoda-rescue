@@ -88,21 +88,22 @@ class GameController:
 
     def update(self):
         self.physics()
-        self.balistics()
         self.collisions()
         self.__view.update_scene()
 
     def physics(self):
-
+        # movimenta os lazers a partir do tempo
+        self.lazer_movement()
+        self.attack_collision()
         # Updates do player:
         self.__player.acc = self.__player.vec(
-            0, 0.5)  # Segundo parâmetro para gravidade
+            0.5, 0.5)  # Segundo parâmetro para gravidade
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
         self.__player.pos += self.__player.vel + \
             self.__player.std_acc * self.__player.acc
 
-    def balistics(self):
+    def lazer_movement(self):
         for lazer in self.__attacks.sprites():
             lazer.pos.x += math.cos(lazer.angle) * lazer.vel
             lazer.pos.y += math.sin(lazer.angle) * lazer.vel
@@ -114,7 +115,7 @@ class GameController:
         collision_types = move(
             self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
 
-        print(self.__player.pos)
+        # print(self.__player.pos)
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
@@ -127,6 +128,19 @@ class GameController:
             self.__player, self.__level.exit, False)
         if hits_exit and self.__player.key == True:
             self.quit()  # sai do jogo apos conseguir a chave
+
+    # define a colisao de ataques
+    def attack_collision(self):
+        # retorna dict de colisoes
+        hits = pg.sprite.groupcollide(self.__attacks,
+                                      self.__level.enemies, True, False)
+
+        # itera sobre dict
+        for attack, sprite in hits.items():
+            # se o ataque nao e do atacante
+            if attack.shooter != sprite:
+                # diminui vida do sprite atingido
+                sprite[0].health -= attack.damage
 
     def commands(self, event):
         # Posição do player marcada como ponto do meio inferior
@@ -149,8 +163,8 @@ class GameController:
 
         # clique de mouse mais posicao
         if event.type == pg.MOUSEBUTTONDOWN:
-            lazer = self.__model.gen_lazer(
-                self.__player.rect.center, pg.mouse.get_pos())
+            lazer = self.__model.gen_lazer(self.__player,
+                                           self.__player.rect.center, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
 

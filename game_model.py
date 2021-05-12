@@ -25,5 +25,5 @@ class GameModel:
     def level(self):
         return self.__level
 
-    def gen_lazer(self, pos, mouse):
-        return Lazer(pos, mouse)
+    def gen_lazer(self, shooter, pos, mouse):
+        return Lazer(shooter, pos, mouse)

@@ -73,3 +73,11 @@ class Enemy(pg.sprite.Sprite):
     @ key.setter
     def key(self, n):
         self.__key = n
+
+    @ property
+    def health(self):
+        return self.__health
+
+    @ health.setter
+    def health(self, n):
+        self.__health = n
