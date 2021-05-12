@@ -10,13 +10,27 @@ from enemy import Enemy
 class Level:
     def __init__(self, world):
         self.__world = world
-        self.__current = self.__world[0]
+        self.__current = begin
         self.__platforms = pg.sprite.Group()
         self.__items = pg.sprite.Group()
         self.__exit = pg.sprite.Group()
         self.__enemies = pg.sprite.Group()
         self.__bg = (BLUE)
         self.__spawn_point = ((WIDTH/2, HEIGHT/2))  # apenas para evitar bugs
+        self.update()
+
+    def next(self):
+        index = self.__world.index(self.__current)
+        self.__current = world[index+1]
+        print(index)
+        if index < len(self.__world):
+            self.__current = world[index+1]
+            return self.__current
+        else:
+            return self.__current
+
+    def update(self):
+        self.__current = self.next()
 
         # escaneia tile map
         row_count = 0
@@ -25,12 +39,10 @@ class Level:
             for tile in row:
                 # adiciona plataformas
                 if tile == 1:
-
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
                                     TILE_SIZE_H, TILE_SIZE_W, TILE_SIZE_H, BLUE)
                     self.__platforms.add(wall)
                     # tile = (wall.image, wall.rect)
-
                 # adiciona grogu/key
                 elif tile == 2:
                     grogu = Key(col_count * TILE_SIZE_W,
@@ -52,16 +64,8 @@ class Level:
                 elif tile == 5:
                     self.__spawn_point = (
                         (col_count * TILE_SIZE_W, row_count * TILE_SIZE_H))
-
                 col_count += 1
             row_count += 1
-
-    
-    def next(self):
-        index = self.__world.index(self.__current)
-        print(index)
-        if index < len(self.__world):
-            self.__current = world[index+1]
 
     @ property
     def current(self):

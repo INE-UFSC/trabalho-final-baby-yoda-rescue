@@ -188,7 +188,8 @@ fase1_6 = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ]
 
-world = [fase1_1,fase1_2,fase1_3,fase1_4,fase1_5,fase1_6, -1]
+world = [fase1_1,fase1_2,fase1_3,fase1_4,fase1_5,fase1_6]
+begin = world[0]
 
 # Cores
 BLACK = (0, 0, 0)

@@ -89,7 +89,7 @@ class GameController:
     def physics(self):
         
         #Updates do player:
-        self.__player.acc = self.__player.vec(0, 0.5) # Segundo parâmetro para gravidade        
+        self.__player.acc = self.__player.vec(0.5, 0) # Segundo parâmetro para gravidade        
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
         self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
