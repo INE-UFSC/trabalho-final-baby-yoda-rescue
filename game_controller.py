@@ -45,8 +45,9 @@ class GameController:
 
     def physics(self):
         # aplica atrito ao eixo x
+        # bug de movimento, sprite fica oscilando VVVVV
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        #print(self.__player.vel)
+        # print(self.__player.vel)
 
         # equacoes de movimento
         self.__player.vel += self.__player.acc
@@ -61,7 +62,8 @@ class GameController:
 
         # itera sobre lista de colisoes
         for platform in hits_platform:
-            print(f'platform.rect.right: {platform.rect.right}\n, self.__player.rect.left{self.__player.rect.left}')
+            print(
+                f'platform.rect.right: {platform.rect.right}\n, self.__player.rect.left{self.__player.rect.left}')
             if platform.rect.right == self.__player.rect.left:
                 self.__player.vel.x = 0
 
@@ -79,7 +81,8 @@ class GameController:
             self.quit()  # sai do jogo apos conseguir a chave
 
     def commands(self):
-        self.__player.rect.midbottom = self.__player.pos # Posição do player marcada como ponto do meio inferior
+        # Posição do player marcada como ponto do meio inferior
+        self.__player.rect.midbottom = self.__player.pos
         # logica de comandos
         keys = pg.key.get_pressed()
 
