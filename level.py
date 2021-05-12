@@ -45,7 +45,6 @@ class Level:
                 elif tile == 4:
                     storm_trooper = Enemy(
                         (col_count * TILE_SIZE_W, row_count * TILE_SIZE_H))
-                    print("enemy", storm_trooper.pos)
                     self.__enemies.add(storm_trooper)
 
                 # adiciona spawn point

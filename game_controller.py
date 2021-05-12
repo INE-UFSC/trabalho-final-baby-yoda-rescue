@@ -2,6 +2,7 @@ import pygame as pg
 import random
 from game_model import GameModel
 from game_view import GameView
+import math
 
 #função para testar as colisões
 def colision_test(rect, tiles):
@@ -41,9 +42,11 @@ class GameController:
     def __init__(self):
         self.__model = GameModel()
         self.__sprites = pg.sprite.Group()
+        self.__attacks = pg.sprite.Group()
         self.__view = GameView(self.__model.player,
-                               self.__model.level, self.__sprites)
-
+                               self.__model.level,
+                               self.__sprites,
+                               self.__attacks)
         self.__player = self.__model.player
         self.__level = self.__model.level
         self.__clock = pg.time.Clock()
@@ -74,7 +77,13 @@ class GameController:
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
                 self.quit()
-            self.commands()
+
+            self.commands(event)
+
+    def update(self):
+        self.physics()
+        self.balistics()
+        self.collisions()
 
     def physics(self):
         
@@ -84,7 +93,11 @@ class GameController:
         self.__player.vel += self.__player.acc
         self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
 
-
+    def balistics(self):
+        for lazer in self.__attacks.sprites():
+            lazer.pos.x += math.cos(lazer.angle) * lazer.vel
+            lazer.pos.y += math.sin(lazer.angle) * lazer.vel
+            lazer.rect.center = lazer.pos
 
     def collisions(self):
 
@@ -104,8 +117,7 @@ class GameController:
         if hits_exit and self.__player.key == True:
             self.quit()  # sai do jogo apos conseguir a chave
 
-    def commands(self):
-         
+    def commands(self, event):
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
         
@@ -124,9 +136,12 @@ class GameController:
         if keys[pg.K_SPACE]:
             self.__player.vel.y = self.__player.jump_acc
 
-    def update(self):
-        self.physics()
-        self.collisions()
+        # clique de mouse mais posicao
+        if event.type == pg.MOUSEBUTTONDOWN:
+            lazer = self.__model.gen_lazer(
+                self.__player.rect.center, pg.mouse.get_pos())
+            self.__attacks.add(lazer)
+            self.__view.update_attacks()
 
     @property
     def running(self):

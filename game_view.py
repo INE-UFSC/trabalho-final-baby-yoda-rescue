@@ -5,13 +5,14 @@ from prototipo.configs import *
 
 
 class GameView:
-    def __init__(self, player, level, sprites):
+    def __init__(self, player, level, sprites, attacks):
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.__player = player
         self.__level = level
         self.__sprites = sprites
         self.__caption = pg.display.set_caption(TITULO)
         self.__camera = Camera(self.__player, self.__level)
+        self.__attacks = attacks
         self.__background = pg.image.load(
             "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO
         self.__bg_x = 0
@@ -19,7 +20,9 @@ class GameView:
 
         # Adiciona sprites ao grupo principal de sprites
         self.__sprites.add(
-            self.__player, self.__level.platforms, self.__level.items, self.__level.exit, self.__level.enemies)
+            self.__player, self.__level.platforms,
+            self.__level.items, self.__level.exit,
+            self.__level.enemies, self.__attacks)
 
     def draw(self):
         self.bg_movement()
@@ -28,6 +31,9 @@ class GameView:
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()
+
+    def update_attacks(self):
+        self.__sprites.add(self.__attacks)
 
     def bg_movement(self):
 
