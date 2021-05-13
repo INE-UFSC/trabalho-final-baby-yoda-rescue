@@ -44,12 +44,15 @@ class GameView:
             self.__level.items, self.__level.exit,
             self.__level.enemies, self.__attacks)
 
-        if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
+        if (self.__player.pos.x - (self.__player.size[0]/2)) < 0:
+            self.__level.back()
+            self.__level.update()
+            self.__player.pos.x = self.__player.pos.x + WIDTH
 
+        if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
             self.__level.next()
             self.__level.update()
-            self.__player.pos.x = WIDTH / 6  # varia, cuidar com os pixeis de cada fase
-            self.__player.pos.y = HEIGHT / 2.5
+            self.__player.pos.x = self.__player.pos.x - WIDTH   # varia, cuidar com os pixeis de cada fase
 
     @property
     def screen(self):

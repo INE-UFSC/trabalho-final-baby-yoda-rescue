@@ -24,6 +24,11 @@ class Level:
             self.__index += 1
             self.__current = world[self.__index]
 
+    def back(self):
+        if self.__index >= 0:
+            self.__index -= 1
+            self.__current = world[self.__index]
+
     def update(self):
         # deleta plataformas anteriores
         for sprite in self.__platforms.sprites():
