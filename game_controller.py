@@ -59,6 +59,8 @@ def collision_movement(rect, tiles): # Causa a colisão
         print('colided --- TOP ---')
         rect.vel.y = 0
         rect.top = colided[1].rect.bottom
+
+
 class GameController:
     def __init__(self):
         self.__model = GameModel()
@@ -74,14 +76,38 @@ class GameController:
         # inicializa os modulos do pygame e retorna uma tupla com resultados
         self.__modules = pg.init()
         self.__running = True
+        self.__menu = True
 
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
+    def text_objects(self, text, font):
+        self.__message = font.render(text, True, BLUE)
+        return self.__message, self.__message.get_rect()
+
+    def menu(self):
+        self.__font1 = pg.font.Font(None, 100)
+        self.__font2 = pg.font.Font(None, 50)
+        self.__text, self.__text_rect = self.text_objects("Baby Yoda's Rescue", self.__font1)
+        self.__warning, self.__war_rect = self.text_objects("Press anywere on the screen to start", self.__font2)
+        self.__text_rect.center = ((WIDTH/2), (HEIGHT/2))
+        self.__war_rect.center = ((WIDTH/2), (HEIGHT/2)+100)
+
+        self.__clock.tick(self.__model.FPS)
+        self.events()
+        self.__bg = pg.image.load(data + "background-1.png")
+        self.__view.screen.blit(self.__bg, self.__bg.get_rect())
+        self.__view.screen.blit(self.__text, self.__text_rect)
+        self.__view.screen.blit(self.__warning, self.__war_rect)
+
+        pg.display.flip()
+
     def run(self):
         self.load_level()
         while self.__running:
+            while self.__menu:
+                self.menu()
             # sincroniza o loop de eventos com o clock
             self.__clock.tick(self.__model.FPS)
             self.events()  # Vou passar para dentro de update *
@@ -98,6 +124,8 @@ class GameController:
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
                 self.quit()
+            if event.type == pg.MOUSEBUTTONDOWN:
+                self.__menu = False
 
             self.commands(event)
 

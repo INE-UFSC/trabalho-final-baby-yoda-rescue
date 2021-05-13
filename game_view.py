@@ -50,3 +50,11 @@ class GameView:
             self.__level.update()
             self.__player.pos.x = WIDTH / 6  # varia, cuidar com os pixeis de cada fase
             self.__player.pos.y = HEIGHT / 2.5
+
+    @property
+    def screen(self):
+        return self.__screen
+
+    @screen.setter
+    def screen(self, scr):
+        self.__screen = scr
