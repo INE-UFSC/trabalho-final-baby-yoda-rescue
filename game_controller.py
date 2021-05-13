@@ -3,6 +3,8 @@ from game_view import GameView
 from configs import *
 
 # função para testar as colisões
+
+
 def colision_test(rect, tiles):
     hits_list = []
     for tile in tiles:
@@ -11,6 +13,8 @@ def colision_test(rect, tiles):
     return hits_list
 
 # função que mostra as colisões
+
+
 def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
     collision_types = {'top': False, 'bottom': False,
@@ -20,12 +24,12 @@ def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se c
     hit_list = colision_test(rect, tiles)  # tile vai ser a classe dos blocos
     for tile in hit_list:
         if movement[0] > 0:  # ou seja se movendo para a direita
-            #rect.right = tile.rect.left  # deve ir para dentro de fisica
+            # rect.right = tile.rect.left  # deve ir para dentro de fisica
             collision_types['right'] = True
         elif movement[0] < 0:
             #rect.left = tile.rect.right
             collision_types['left'] = True
-        
+
     # Movimento em Y:
     hit_list = colision_test(rect, tiles)
     tile = ''
@@ -36,11 +40,13 @@ def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se c
         elif movement[1] < 0:
             #rect.top = tile.rect.bottom
             collision_types['top'] = True
-    
+
     return collision_types, tile
 
 # Move o personagem a partir das colisões que ele teve
-def collision_movement(rect, tiles): # Causa a colisão
+
+
+def collision_movement(rect, tiles):  # Causa a colisão
     colided = collision_types(rect, tiles)
     print(colided)
     if colided[0]['right']:
@@ -59,6 +65,8 @@ def collision_movement(rect, tiles): # Causa a colisão
         print('colided --- TOP ---')
         rect.vel.y = 0
         rect.top = colided[1].rect.bottom
+
+
 class GameController:
     def __init__(self):
         self.__model = GameModel()
@@ -120,7 +128,6 @@ class GameController:
         self.__player.acc += self.__player.vec(
             0, 0.001)  # Segundo parâmetro para gravidade
 
-        
         # decrementar a aceleração em x
         #self.__player.acc.x += self.__player.vel.x * self.__player.fric
 
@@ -138,14 +145,18 @@ class GameController:
             lazer.pos.y += math.sin(lazer.angle) * lazer.vel
             lazer.rect.center = lazer.pos
         # criar funcao pra destruir lazers
+        out_of_border = (lazer.rect.right >= WIDTH or lazer.rect.left <= 0
+                         or lazer.rect.bottom >= HEIGHT or lazer.rect.top <= 0)
+        if out_of_border:
+            lazer.kill()
 
     def kill_the_dead(self):
         for sprite in self.__level.enemies:
             if sprite.health <= 0:
                 sprite.kill()
 
-    def collisions(self): # Causa a colisão
-        
+    def collisions(self):  # Causa a colisão
+
         # Colisão de Player com plataformas
         collision_movement(self.__player, self.__level.platforms)
 
