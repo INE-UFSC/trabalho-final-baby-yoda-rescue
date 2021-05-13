@@ -3,42 +3,62 @@ from game_view import GameView
 from configs import *
 
 # função para testar as colisões
-
 def colision_test(rect, tiles):
     hits_list = []
     for tile in tiles:
-        if rect.colliderect(tile):
+        if rect.rect.colliderect(tile):
             hits_list.append(tile)
     return hits_list
 
-
-def move(rect, movement, tiles):  # quem se move, movimento, com quem pode se colidir
+# função que mostra as colisões
+def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
     collision_types = {'top': False, 'bottom': False,
                        'right': False, 'left': False}
+    movement = rect.vel
     # Movimento em X:
     hit_list = colision_test(rect, tiles)  # tile vai ser a classe dos blocos
     for tile in hit_list:
         if movement[0] > 0:  # ou seja se movendo para a direita
-            rect.right = tile.rect.left  # deve ir para dentro de fisica
+            #rect.right = tile.rect.left  # deve ir para dentro de fisica
             collision_types['right'] = True
         elif movement[0] < 0:
-            rect.left = tile.rect.right
+            #rect.left = tile.rect.right
             collision_types['left'] = True
+        
     # Movimento em Y:
     hit_list = colision_test(rect, tiles)
+    tile = ''
     for tile in hit_list:
         if movement[1] > 0:  # ou seja se movendo para a direita
-            rect.bottom = tile.rect.top
+            #rect.bottom = tile.rect.top
             collision_types['bottom'] = True
         elif movement[1] < 0:
-            rect.top = tile.rect.bottom
+            #rect.top = tile.rect.bottom
             collision_types['top'] = True
+    
+    return collision_types, tile
 
-    print(collision_types)
-    return collision_types
-
-
+# Move o personagem a partir das colisões que ele teve
+def collision_movement(rect, tiles): # Causa a colisão
+    colided = collision_types(rect, tiles)
+    print(colided)
+    if colided[0]['right']:
+        print('colided --- RIGHT ---')
+        rect.vel.x = 0
+        rect.right = colided[1].rect.left
+    if colided[0]['left']:
+        print('colided --- LEFT ---')
+        rect.vel.x = 0
+        rect.left = colided[1].rect.right
+    if colided[0]['bottom']:
+        print('colided --- BOTTOM ---')
+        rect.vel.y = -5
+        rect.bottom = colided[1].rect.top
+    if colided[0]['top']:
+        print('colided --- TOP ---')
+        rect.vel.y = 0
+        rect.top = colided[1].rect.bottom
 class GameController:
     def __init__(self):
         self.__model = GameModel()
@@ -96,18 +116,11 @@ class GameController:
         # Updates do player:
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
-        # Seta gravidade:
-        # if self.__player.collisions["bottom"]:
+
         self.__player.acc += self.__player.vec(
             0, 0.001)  # Segundo parâmetro para gravidade
 
-        # Aqui devem ocorrer os inputs do teclado *
-        # self.events()
-
-        # Função para colisões: * saiu de colisions
-        move(self.__player.rect, self.__player.vel,
-             self.__level.platforms.sprites())
-
+        
         # decrementar a aceleração em x
         #self.__player.acc.x += self.__player.vel.x * self.__player.fric
 
@@ -131,11 +144,11 @@ class GameController:
             if sprite.health <= 0:
                 sprite.kill()
 
-    def collisions(self):
-
+    def collisions(self): # Causa a colisão
+        
         # Colisão de Player com plataformas
+        collision_movement(self.__player, self.__level.platforms)
 
-        # print(self.__player.pos)
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
@@ -151,7 +164,6 @@ class GameController:
 
     # define a colisao de ataques
     def attack_collision(self):
-        # retorna dict de colisoes
         hits = pg.sprite.groupcollide(self.__attacks,
                                       self.__level.enemies, True, False)
 
