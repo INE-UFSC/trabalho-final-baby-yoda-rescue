@@ -133,7 +133,7 @@ class GameController:
         self.__view.update_scene()
 
     def physics(self):
-
+        print(self.__player.pos)
         # movimenta os lazers a partir do tempo
         self.lazer_movement()
         self.attack_collision()
@@ -159,11 +159,18 @@ class GameController:
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
         # print(
         #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
 
-        self.__player.pos += (self.__player.vel +
-                              self.__player.std_acc * self.__player.acc)
+        self.__player.pos += self.__player.vel + 0.5 * self.__player.acc
+        print(self.__player.vel.x, self.__player.fric,
+              self.__player.vel.x * self.__player.fric)
+
+        if self.__player.vel.x > 2:
+            self.__player.vel.x = 2
+        if self.__player.vel.x < -2:
+            self.__player.vel.x = -2
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -189,7 +196,6 @@ class GameController:
             self.__player, self.__level.platforms, False, False)
 
         for platform in hits_platforms:
-            print(abs(self.__player.rect.bottom - platform.rect.top))
             if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
                 self.__player.collisions["bottom"] = True
                 self.__player.collisions["top"] = False
@@ -210,7 +216,6 @@ class GameController:
             self.__player.collisions["right"] = False
             self.__player.collisions["left"] = False
 
-        print(self.__player.collisions)
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
