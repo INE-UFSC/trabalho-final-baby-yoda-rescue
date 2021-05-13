@@ -13,9 +13,9 @@ class Player(pg.sprite.Sprite):
         self.__vec = pg.math.Vector2
         self.__vel = self.__vec(0, 0)  # velocidade
         self.__acc = self.__vec(0, 0)  # aceleracao
-        self.__std_acc = 0.5  # aceleracao padrao
+        self.__std_acc = 1  # aceleracao padrao
         self.__jump_acc = -14  # aceleracao pulo
-        self.__fric = -0.12  # atrito
+        self.__fric = -0.10  # atrito
         self.__key = False
         self.__image = pg.Surface(self.__size)
         self.__image.fill(RED)

@@ -14,7 +14,7 @@ class GameView:
         self.__camera = Camera(self.__player, self.__level)
         self.__attacks = attacks
         self.__background = pg.image.load(
-            "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO
+            "teste.png") # provisorio MUDAR ENDERECO
         self.__bg_x = 0
         self.__rel_x = None
 

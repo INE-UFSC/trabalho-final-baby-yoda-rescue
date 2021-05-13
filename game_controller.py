@@ -69,8 +69,8 @@ class GameController:
         while self.__running:
             # sincroniza o loop de eventos com o clock
             self.__clock.tick(self.__model.FPS)
-            self.events()
-            self.update()
+            #self.events() # Vou passar para dentro de update *
+            self.update()   
             self.__view.draw()
 
     # funcao de saida do pygame chamada em caso de fechamento de janela
@@ -87,22 +87,39 @@ class GameController:
             self.commands(event)
 
     def update(self):
-        self.physics()
+        self.physics() #events vão para dentro de physics *
         self.collisions()
         self.kill_the_dead()
         self.__view.update_scene()
 
     def physics(self):
+
         # movimenta os lazers a partir do tempo
         self.lazer_movement()
         self.attack_collision()
+
         # Updates do player:
-        self.__player.acc = self.__player.vec(
-            0.3, 0.5)  # Segundo parâmetro para gravidade
-        self.__player.acc.x += self.__player.vel.x * self.__player.fric
+        # Posição do player marcada como ponto do meio inferior
+        self.__player.rect.midbottom = self.__player.pos
+        # Seta gravidade:
+        self.__player.acc = self.__player.vec(0, 0.5)  # Segundo parâmetro para gravidade
+        
+        # Aqui devem ocorrer os inputs do teclado *
+        self.events()
+
+        # Função para colisões: * saiu de colisions
+        move(self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
+
+        # decrementar a aceleração em x
+        #self.__player.acc.x += self.__player.vel.x * self.__player.fric
+        
+        print(f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+
         self.__player.vel += self.__player.acc
-        self.__player.pos += self.__player.vel + \
-            self.__player.std_acc * self.__player.acc
+        
+        self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
+
+        
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -119,8 +136,7 @@ class GameController:
     def collisions(self):
 
         # Colisão de Player com plataformas
-        collision_types = move(
-            self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
+        
 
         # print(self.__player.pos)
         # Colisao com itens:
@@ -154,8 +170,7 @@ class GameController:
                 sprite[0].health -= attack.damage * (random.randint(1, 10)/10)
 
     def commands(self, event):
-        # Posição do player marcada como ponto do meio inferior
-        self.__player.rect.midbottom = self.__player.pos
+       
 
         # logica de comandos
         keys = pg.key.get_pressed()
@@ -178,6 +193,8 @@ class GameController:
                                            self.__player.rect.center, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
+        print(f'-------- EVENTS --------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+
 
     @property
     def running(self):
