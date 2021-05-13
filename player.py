@@ -1,11 +1,10 @@
-from prototipo.configs import *
 import pygame as pg
-import os
+from configs import *
 vec = pg.math.Vector2
 
 
 class Player(pg.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, lista):
         super().__init__()
         self.__health = 1000
         self.__size = (32, 48)
@@ -17,9 +16,38 @@ class Player(pg.sprite.Sprite):
         self.__jump_acc = -14  # aceleracao pulo
         self.__fric = -0.10  # atrito
         self.__key = False
-        self.__image = pg.Surface(self.__size)
-        self.__image.fill(RED)
+
+        '''self.__image = pg.Surface(self.__size)
+        self.__image.fill(RED)'''
+
+        self.__list = lista
+        self.__sprites = []
+
+        self.load_sprite()
+
+        self.__current_sprite = 4  #idle
+        self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
+
+        self.animation("idle")
+
+    def load_sprite(self):
+        for image in range(len(self.__list)):
+            self.__sprites.append(pg.image.load(data + self.__list[image]))
+
+    def animation(self, command):
+        if command == "left": #and not self.colisions['left']:
+            self.__current_sprite -= 0.3
+            if self.__current_sprite <= 0:
+                self.__current_sprite = 3
+        elif command == "right": #and not self.colisions['right']:
+            self.__current_sprite += 0.3
+            if self.__current_sprite >= len(self.__sprites):
+                self.__current_sprite = 5
+        else:
+            self__current_sprite = 4
+
+        self.__image = self.__sprites[int(self.__current_sprite)]
 
     @ property
     def image(self):

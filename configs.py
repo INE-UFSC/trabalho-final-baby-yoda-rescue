@@ -1,3 +1,5 @@
+import os
+
 FPS = 60
 TITULO = "MVP - Grupo 5"
 
@@ -205,3 +207,22 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 PURPLE = (148, 0, 211)
+
+# Dicionário de Sprites
+
+dicionario = {  "player" : ["/mando/mando-esquerda-4.png", 
+                        "/mando/mando-esquerda-3.png", 
+                        "/mando/mando-esquerda-2.png",
+                        "/mando/mando-esquerda-1.png",
+                        "/mando/mando-idle.png",
+                        "/mando/mando-direita-1.png",
+                        "/mando/mando-direita-2.png",
+                        "/mando/mando-direita-3.png",
+                        "/mando/mando-direita-4.png"],
+                "enemy"  : [None]
+            }
+
+cwd = os.getcwd()
+data = os.path.join(cwd, "data", "")
+
+

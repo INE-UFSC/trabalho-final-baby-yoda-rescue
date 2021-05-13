@@ -6,7 +6,6 @@ import math
 
 # função para testar as colisões
 
-
 def colision_test(rect, tiles):
     hits_list = []
     for tile in tiles:
@@ -179,11 +178,13 @@ class GameController:
         # seta esquerda
         if keys[pg.K_LEFT] or keys[pg.K_a]:
             print("left")
+            self.__player.animation("left")
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
             print("right", self.__player.acc.x, self.__player.std_acc)
+            self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
         # espaco

@@ -80,7 +80,7 @@ class Jogador(pg.sprite.Sprite):
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
--
+
         if keys[pg.K_SPACE] and self.colisions['bottom']:
             self.vel.y = self.jump_acc
             self.colisions['bottom'] = False

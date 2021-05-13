@@ -5,11 +5,10 @@ from level import Level
 from lazer import Lazer
 from configs import *
 
-
 class GameModel:
     def __init__(self):
         self.__FPS = FPS
-        self.__player = Player()
+        self.__player = Player(dicionario["player"])
         # implementando apenas um nivel
         self.__level = Level(world)
 
