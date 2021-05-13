@@ -21,7 +21,6 @@ class Level:
         self.update()
 
     def next(self):
-        print(self.__index)
         if self.__index < len(self.__world) - 1:
             self.__index += 1
             self.__current = world[self.__index]
