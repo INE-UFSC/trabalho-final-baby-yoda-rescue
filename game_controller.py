@@ -149,13 +149,18 @@ class GameController:
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
+            self.__player.pos.y -= 1
+
+        """        if self.__player.collisions["left"]:
+            self.__player.acc.x = 0
+            self.__player.vel.x = 0"""
 
         # decrementar a aceleração em x
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
 
         # print(
         #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
-
+        self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
 
         self.__player.pos += self.__player.vel + \
@@ -185,11 +190,26 @@ class GameController:
             self.__player, self.__level.platforms, False, False)
 
         for platform in hits_platforms:
+            print(abs(self.__player.rect.bottom - platform.rect.top))
             if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
                 self.__player.collisions["bottom"] = True
+                self.__player.collisions["top"] = False
+
+            if abs(self.__player.rect.top - platform.rect.bottom) < collision_tolerance:
+                self.__player.collisions["top"] = True
+                self.__player.collisions["bottom"] = False
+            if abs(self.__player.rect.left - platform.rect.right) < collision_tolerance:
+                self.__player.collisions["left"] = True
+                self.__player.collisions["right"] = False
+            if abs(self.__player.rect.right - platform.rect.left) < collision_tolerance:
+                self.__player.collisions["right"] = True
+                self.__player.collisions["left"] = False
 
         if not hits_platforms:
             self.__player.collisions["bottom"] = False
+            self.__player.collisions["top"] = False
+            self.__player.collisions["right"] = False
+            self.__player.collisions["left"] = False
 
         print(self.__player.collisions)
         # Colisao com itens:
@@ -227,19 +247,19 @@ class GameController:
         keys = pg.key.get_pressed()
 
         # seta esquerda
-        if keys[pg.K_LEFT] or keys[pg.K_a]:
+        if keys[pg.K_LEFT] or keys[pg.K_a] and not self.__player.collisions["left"]:
             print("left")
             self.__player.animation("left")
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
-        if keys[pg.K_RIGHT] or keys[pg.K_d]:
+        if keys[pg.K_RIGHT] or keys[pg.K_d] and not self.__player.collisions["right"]:
             print("right", self.__player.acc.x, self.__player.std_acc)
             self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
         # espaco
-        if keys[pg.K_SPACE] or keys[pg.K_w]:
+        if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.collisions["bottom"]:
 
             self.__player.vel.y = self.__player.jump_acc
 

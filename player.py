@@ -11,7 +11,7 @@ class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstr
         self.__vel = self.__vec(0, 0)  # velocidade
         self.__acc = self.__vec(0, 0)  # aceleracao
         self.__std_acc = 0.1  # aceleracao padrao
-        self.__jump_acc = -14  # aceleracao pulo
+        self.__jump_acc = -4  # aceleracao pulo
         self.__fric = -0.10  # atrito
         self.__key = False
         self.__collisions = {"bottom": False,
