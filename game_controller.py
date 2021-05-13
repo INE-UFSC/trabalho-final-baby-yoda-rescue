@@ -144,7 +144,7 @@ class GameController:
 
         if not self.__player.collisions["bottom"]:
             self.__player.acc += self.__player.vec(
-                0, 0.001)  # adiciona gravidade a y
+                0, 0.01)  # adiciona gravidade a y
 
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
@@ -162,8 +162,8 @@ class GameController:
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
 
-        self.__player.pos += self.__player.vel + \
-            self.__player.std_acc * self.__player.acc
+        self.__player.pos += (self.__player.vel +
+                              self.__player.std_acc * self.__player.acc)
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -246,12 +246,12 @@ class GameController:
         keys = pg.key.get_pressed()
 
         # seta esquerda
-        if keys[pg.K_LEFT] or keys[pg.K_a] and not self.__player.collisions["left"]:
+        if keys[pg.K_a] and not self.__player.collisions["left"]:
             self.__player.animation("left")
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
-        if keys[pg.K_RIGHT] or keys[pg.K_d] and not self.__player.collisions["right"]:
+        if keys[pg.K_d] and not self.__player.collisions["right"]:
             self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
