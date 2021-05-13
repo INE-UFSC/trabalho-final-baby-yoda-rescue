@@ -157,7 +157,6 @@ class GameController:
 
         # decrementar a aceleração em x
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
-
         # print(
         #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
@@ -248,13 +247,11 @@ class GameController:
 
         # seta esquerda
         if keys[pg.K_LEFT] or keys[pg.K_a] and not self.__player.collisions["left"]:
-            print("left")
             self.__player.animation("left")
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
         if keys[pg.K_RIGHT] or keys[pg.K_d] and not self.__player.collisions["right"]:
-            print("right", self.__player.acc.x, self.__player.std_acc)
             self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
