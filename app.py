@@ -6,4 +6,4 @@ while GameController.running:
 
     jogo.run()
 
-jogo.quit()
+jogo. quit()
