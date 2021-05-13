@@ -42,7 +42,7 @@ class Level:
         top_right_img = pg.image.load("data/top_right.png")
         bottom_left_img = pg.image.load("data/bottom_left.png")
         bottom_right_img = pg.image.load("data/bottom_right.png")
-        
+
         left_ground_img = pg.image.load("data/left.png")
         right_ground_img = pg.image.load("data/right.png")
 
@@ -53,7 +53,7 @@ class Level:
                 # adiciona plataformas
                 if tile == 1:
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, ground_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, ground_img)
                     self.__platforms.add(wall)
                 elif tile == 2:
                     grogu = Key(col_count * TILE_SIZE_W,
@@ -75,37 +75,37 @@ class Level:
                         (col_count * TILE_SIZE_W, row_count * TILE_SIZE_H))
                 if tile == "B":
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_groud_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_groud_img)
                     self.__platforms.add(wall)
                 elif tile == "L":
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, left_ground_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, left_ground_img)
                     self.__platforms.add(wall)
                 elif tile == "R":
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, right_ground_img)                   
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, right_ground_img)
                     self.__platforms.add(wall)
-                elif tile == 5: #bottom-left
+                elif tile == 5:  # bottom-left
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_left_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_left_img)
                     self.__platforms.add(wall)
-                elif tile == 6: #bottom-right
+                elif tile == 6:  # bottom-right
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_right_img)  
-                elif tile == 7: #top-left
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, bottom_right_img)
+                elif tile == 7:  # top-left
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_left_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_left_img)
                     self.__platforms.add(wall)
-                elif tile == 8: #top-right
+                elif tile == 8:  # top-right
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_right_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_right_img)
                     self.__platforms.add(wall)
                 elif tile == 9:
                     wall = Platform(col_count * TILE_SIZE_W, row_count *
-                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_ground_img)                    
+                                    TILE_SIZE_H, TILE_SIZE_W+1, TILE_SIZE_H+1, top_ground_img)
                     self.__platforms.add(wall)
                 # adiciona grogu/key
-                
+
                 col_count += 1
             row_count += 1
         print(self.__platforms)

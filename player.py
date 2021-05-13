@@ -1,6 +1,7 @@
 from configs import *
 
-class Player(pg.sprite.Sprite): #LOAD_SPRITE e ANIMATION precisam vir do abstract
+
+class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstract
     def __init__(self, lista):
         super().__init__()
         self.__health = 1000
@@ -13,13 +14,15 @@ class Player(pg.sprite.Sprite): #LOAD_SPRITE e ANIMATION precisam vir do abstrac
         self.__jump_acc = -14  # aceleracao pulo
         self.__fric = -0.10  # atrito
         self.__key = False
+        self.__collisions = {"bottom": False,
+                             "top": False, "right": False, "left": False}
 
         self.__list = lista
         self.__sprites = []
 
         self.load_sprite()
 
-        self.__current_sprite = 4  #idle
+        self.__current_sprite = 4  # idle
         self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
 
@@ -30,11 +33,11 @@ class Player(pg.sprite.Sprite): #LOAD_SPRITE e ANIMATION precisam vir do abstrac
             self.__sprites.append(pg.image.load(data + self.__list[image]))
 
     def animation(self, command):
-        if command == "left": #and not self.colisions['left']:
+        if command == "left":  # and not self.colisions['left']:
             self.__current_sprite -= 0.3
             if self.__current_sprite <= 0:
                 self.__current_sprite = 3
-        elif command == "right": #and not self.colisions['right']:
+        elif command == "right":  # and not self.colisions['right']:
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
@@ -110,3 +113,11 @@ class Player(pg.sprite.Sprite): #LOAD_SPRITE e ANIMATION precisam vir do abstrac
     @ property
     def vec(self):
         return self.__vec
+
+    @ property
+    def collisions(self):
+        return self.__collisions
+
+    @ collisions.setter
+    def collisions(self, n):
+        self.__collisions = n

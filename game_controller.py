@@ -2,18 +2,6 @@ from game_model import GameModel
 from game_view import GameView
 from configs import *
 
-# função para testar as colisões
-
-
-def colision_test(rect, tiles):
-    hits_list = []
-    for tile in tiles:
-        if rect.rect.colliderect(tile):
-            hits_list.append(tile)
-    return hits_list
-
-# função que mostra as colisões
-
 
 def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
@@ -21,32 +9,32 @@ def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se c
                        'right': False, 'left': False}
     movement = rect.vel
     # Movimento em X:
-    hit_list = colision_test(rect, tiles)  # tile vai ser a classe dos blocos
+    hit_list = tiles  # tile vai ser a classe dos blocos
     for tile in hit_list:
         if movement[0] > 0:  # ou seja se movendo para a direita
             # rect.right = tile.rect.left  # deve ir para dentro de fisica
             collision_types['right'] = True
         elif movement[0] < 0:
-            #rect.left = tile.rect.right
+            # rect.left = tile.rect.right
             collision_types['left'] = True
 
     # Movimento em Y:
-    hit_list = colision_test(rect, tiles)
+    hit_list = tiles
     tile = ''
     for tile in hit_list:
         if movement[1] > 0:  # ou seja se movendo para a direita
-            #rect.bottom = tile.rect.top
+            # rect.bottom = tile.rect.top
             collision_types['bottom'] = True
         elif movement[1] < 0:
-            #rect.top = tile.rect.bottom
+            # rect.top = tile.rect.bottom
             collision_types['top'] = True
 
-    return collision_types, tile
+    return collision_types
 
 # Move o personagem a partir das colisões que ele teve
 
 
-def collision_movement(rect, tiles):  # Causa a colisão
+"""def collision_movement(rect, tiles):  # Causa a colisão
     colided = collision_types(rect, tiles)
     print(colided)
     if colided[0]['right']:
@@ -65,6 +53,7 @@ def collision_movement(rect, tiles):  # Causa a colisão
         print('colided --- TOP ---')
         rect.vel.y = 0
         rect.top = colided[1].rect.bottom
+"""
 
 
 class GameController:
@@ -153,11 +142,16 @@ class GameController:
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
 
-        self.__player.acc += self.__player.vec(
-            0, 0.001)  # Segundo parâmetro para gravidade
+        if not self.__player.collisions["bottom"]:
+            self.__player.acc += self.__player.vec(
+                0, 0.001)  # adiciona gravidade a y
+
+        if self.__player.collisions["bottom"]:
+            self.__player.acc.y = 0
+            self.__player.vel.y = 0
 
         # decrementar a aceleração em x
-        #self.__player.acc.x += self.__player.vel.x * self.__player.fric
+        # self.__player.acc.x += self.__player.vel.x * self.__player.fric
 
         # print(
         #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
@@ -185,9 +179,19 @@ class GameController:
 
     def collisions(self):  # Causa a colisão
 
-        # Colisão de Player com plataformas
-        collision_movement(self.__player, self.__level.platforms)
+        collision_tolerance = 10
 
+        hits_platforms = pg.sprite.spritecollide(
+            self.__player, self.__level.platforms, False, False)
+
+        for platform in hits_platforms:
+            if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
+                self.__player.collisions["bottom"] = True
+
+        if not hits_platforms:
+            self.__player.collisions["bottom"] = False
+
+        print(self.__player.collisions)
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
             self.__player, self.__level.items, True)
@@ -209,8 +213,6 @@ class GameController:
         # destroi lazers que batem na plataforma
         pg.sprite.groupcollide(
             self.__attacks, self.__level.platforms, True, False)
-
-        print(hits)
 
         # itera sobre dict
         for attack, sprite in hits.items():
@@ -239,7 +241,6 @@ class GameController:
         # espaco
         if keys[pg.K_SPACE] or keys[pg.K_w]:
 
-            print("pulo")
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
@@ -251,14 +252,14 @@ class GameController:
         # print(
         #    f'-------- EVENTS --------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
-    @property
+    @ property
     def running(self):
         return self.__running
 
-    @running.setter
+    @ running.setter
     def running(self, new_value):
         self.__running = new_value
 
-    @property
+    @ property
     def sprites(self):
         return self.__sprites
