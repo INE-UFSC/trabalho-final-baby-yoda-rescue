@@ -95,8 +95,10 @@ class GameController:
     def menu(self):
         self.__font1 = pg.font.Font(None, 100)
         self.__font2 = pg.font.Font(None, 50)
-        self.__text, self.__text_rect = self.text_objects("Baby Yoda's Rescue", self.__font1)
-        self.__warning, self.__war_rect = self.text_objects("Press anywere on the screen to start", self.__font2)
+        self.__text, self.__text_rect = self.text_objects(
+            "Baby Yoda's Rescue", self.__font1)
+        self.__warning, self.__war_rect = self.text_objects(
+            "Press anywere on the screen to start", self.__font2)
         self.__text_rect.center = ((WIDTH/2), (HEIGHT/2))
         self.__war_rect.center = ((WIDTH/2), (HEIGHT/2)+100)
 
@@ -171,10 +173,10 @@ class GameController:
             lazer.pos.y += math.sin(lazer.angle) * lazer.vel
             lazer.rect.center = lazer.pos
         # criar funcao pra destruir lazers
-        out_of_border = (lazer.rect.right >= WIDTH or lazer.rect.left <= 0
-                         or lazer.rect.bottom >= HEIGHT or lazer.rect.top <= 0)
-        if out_of_border:
-            lazer.kill()
+            out_of_border = (lazer.rect.right >= WIDTH or lazer.rect.left <= 0
+                             or lazer.rect.bottom >= HEIGHT or lazer.rect.top <= 0)
+            if out_of_border:
+                lazer.kill()
 
     def kill_the_dead(self):
         for sprite in self.__level.enemies:
