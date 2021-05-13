@@ -1,8 +1,6 @@
-import pygame as pg
-import random
 from game_model import GameModel
 from game_view import GameView
-import math
+from configs import *
 
 # função para testar as colisões
 

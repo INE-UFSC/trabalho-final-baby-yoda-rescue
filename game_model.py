@@ -1,5 +1,3 @@
-import pygame as pg
-import random
 from player import Player
 from level import Level
 from lazer import Lazer

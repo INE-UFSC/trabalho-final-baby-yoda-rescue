@@ -1,7 +1,4 @@
-import pygame as pg
 from configs import *
-vec = pg.math.Vector2
-
 
 class Player(pg.sprite.Sprite):
     def __init__(self, lista):

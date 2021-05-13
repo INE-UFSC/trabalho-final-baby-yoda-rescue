@@ -1,10 +1,9 @@
 from typing import Tuple
-import pygame as pg
 from platform import Platform
 from key import Key
 from extraction_point import Extraction_point
-from configs import *
 from enemy import Enemy
+from configs import *
 
 
 class Level:

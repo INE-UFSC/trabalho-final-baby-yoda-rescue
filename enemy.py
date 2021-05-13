@@ -1,8 +1,4 @@
-from prototipo.configs import *
-import pygame as pg
-import os
-vec = pg.math.Vector2
-
+from configs import *
 
 class Enemy(pg.sprite.Sprite):
     def __init__(self, pos):

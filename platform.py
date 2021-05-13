@@ -1,6 +1,4 @@
-import pygame as pg
 from configs import *
-
 
 class Platform(pg.sprite.Sprite):
     def __init__(self, x: int, y: int, w: int, h: int, img):

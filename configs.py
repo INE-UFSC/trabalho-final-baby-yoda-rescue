@@ -1,4 +1,9 @@
+import pygame as pg
 import os
+import random
+import math
+vec = pg.math.Vector2
+
 
 FPS = 60
 TITULO = "MVP - Grupo 5"

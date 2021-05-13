@@ -1,4 +1,3 @@
-import pygame as pg
 from configs import *
 
 class Extraction_point(pg.sprite.Sprite):

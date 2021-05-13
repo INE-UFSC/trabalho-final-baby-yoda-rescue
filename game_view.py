@@ -1,8 +1,4 @@
-import pygame as pg
-import random
-from camera import Camera
-from prototipo.configs import *
-
+from configs import *
 
 class GameView:
     def __init__(self, player, level, sprites, attacks):
@@ -11,7 +7,6 @@ class GameView:
         self.__level = level
         self.__sprites = sprites
         self.__caption = pg.display.set_caption(TITULO)
-        self.__camera = Camera(self.__player, self.__level)
         self.__attacks = attacks
         self.__background = pg.image.load(
             "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO

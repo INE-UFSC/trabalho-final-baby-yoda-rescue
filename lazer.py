@@ -1,10 +1,4 @@
-import random
-from prototipo.configs import *
-import pygame as pg
-import os
-import math
-vec = pg.math.Vector2
-
+from configs import *
 
 class Lazer(pg.sprite.Sprite):
     def __init__(self, shooter, pos, mouse):

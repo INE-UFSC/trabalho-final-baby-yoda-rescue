@@ -1,4 +1,3 @@
-import pygame as pg
 from configs import *
 
 # Deveria ser subclasse de item, mas generalizamos dps:
