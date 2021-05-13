@@ -14,14 +14,14 @@ class GameView:
         self.__camera = Camera(self.__player, self.__level)
         self.__attacks = attacks
         self.__background = pg.image.load(
-            "teste.png") # provisorio MUDAR ENDERECO
+            "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO
         self.__bg_x = 0
         self.__rel_x = None
 
     def draw(self):
         self.bg_movement()
         # desenha todos os sprites OTIMIZAR para sprites individuais
-        #print(self.__sprites.sprites()[0].rect.midbottom, self.__sprites.sprites()[0].pos)
+        # print(self.__sprites.sprites()[0].rect.midbottom, self.__sprites.sprites()[0].pos)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
         pg.display.flip()

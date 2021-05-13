@@ -14,25 +14,21 @@ def colision_test(rect, tiles):
             hits_list.append(tile)
     return hits_list
 
-# função para movimentos
-
 
 def move(rect, movement, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
     collision_types = {'top': False, 'bottom': False,
                        'right': False, 'left': False}
     # Movimento em X:
-    rect.x += movement[0]
     hit_list = colision_test(rect, tiles)  # tile vai ser a classe dos blocos
     for tile in hit_list:
         if movement[0] > 0:  # ou seja se movendo para a direita
-            rect.right = tile.rect.left
+            rect.right = tile.rect.left  # deve ir para dentro de fisica
             collision_types['right'] = True
         elif movement[0] < 0:
             rect.left = tile.rect.right
             collision_types['left'] = True
     # Movimento em Y:
-    rect.y += movement[1]
     hit_list = colision_test(rect, tiles)
     for tile in hit_list:
         if movement[1] > 0:  # ou seja se movendo para a direita
@@ -41,7 +37,9 @@ def move(rect, movement, tiles):  # quem se move, movimento, com quem pode se co
         elif movement[1] < 0:
             rect.top = tile.rect.bottom
             collision_types['top'] = True
-    return rect, collision_types
+
+    print(collision_types)
+    return collision_types
 
 
 class GameController:
@@ -69,8 +67,8 @@ class GameController:
         while self.__running:
             # sincroniza o loop de eventos com o clock
             self.__clock.tick(self.__model.FPS)
-            #self.events() # Vou passar para dentro de update *
-            self.update()   
+            self.events()  # Vou passar para dentro de update *
+            self.update()
             self.__view.draw()
 
     # funcao de saida do pygame chamada em caso de fechamento de janela
@@ -87,7 +85,7 @@ class GameController:
             self.commands(event)
 
     def update(self):
-        self.physics() #events vão para dentro de physics *
+        self.physics()  # events vão para dentro de physics *
         self.collisions()
         self.kill_the_dead()
         self.__view.update_scene()
@@ -102,24 +100,27 @@ class GameController:
         # Posição do player marcada como ponto do meio inferior
         self.__player.rect.midbottom = self.__player.pos
         # Seta gravidade:
-        self.__player.acc = self.__player.vec(0, 0.5)  # Segundo parâmetro para gravidade
-        
+        # if self.__player.collisions["bottom"]:
+        self.__player.acc += self.__player.vec(
+            0, 0.001)  # Segundo parâmetro para gravidade
+
         # Aqui devem ocorrer os inputs do teclado *
-        self.events()
+        # self.events()
 
         # Função para colisões: * saiu de colisions
-        move(self.__player.rect, self.__player.vel, self.__level.platforms.sprites())
+        move(self.__player.rect, self.__player.vel,
+             self.__level.platforms.sprites())
 
         # decrementar a aceleração em x
         #self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        
-        print(f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+
+        # print(
+        #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
         self.__player.vel += self.__player.acc
-        
-        self.__player.pos += self.__player.vel + self.__player.std_acc * self.__player.acc
 
-        
+        self.__player.pos += self.__player.vel + \
+            self.__player.std_acc * self.__player.acc
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -136,7 +137,6 @@ class GameController:
     def collisions(self):
 
         # Colisão de Player com plataformas
-        
 
         # print(self.__player.pos)
         # Colisao com itens:
@@ -144,7 +144,7 @@ class GameController:
             self.__player, self.__level.items, True)
         if hits_items:
             self.__player.key = True
-            print('self.__player.key:', self.__player.key)
+            # print('self.__player.key:', self.__player.key)
 
         # Colisao com a saida:
         hits_exit = pg.sprite.spritecollide(
@@ -162,6 +162,8 @@ class GameController:
         pg.sprite.groupcollide(
             self.__attacks, self.__level.platforms, True, False)
 
+        print(hits)
+
         # itera sobre dict
         for attack, sprite in hits.items():
             # se o ataque nao e do atacante
@@ -170,21 +172,24 @@ class GameController:
                 sprite[0].health -= attack.damage * (random.randint(1, 10)/10)
 
     def commands(self, event):
-       
 
         # logica de comandos
         keys = pg.key.get_pressed()
 
         # seta esquerda
         if keys[pg.K_LEFT] or keys[pg.K_a]:
+            print("left")
             self.__player.acc.x = -1 * self.__player.std_acc
 
         # seta direita
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
+            print("right", self.__player.acc.x, self.__player.std_acc)
             self.__player.acc.x = self.__player.std_acc
 
         # espaco
         if keys[pg.K_SPACE] or keys[pg.K_w]:
+
+            print("pulo")
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
@@ -193,8 +198,8 @@ class GameController:
                                            self.__player.rect.center, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
-        print(f'-------- EVENTS --------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
-
+        # print(
+        #    f'-------- EVENTS --------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
     @property
     def running(self):
