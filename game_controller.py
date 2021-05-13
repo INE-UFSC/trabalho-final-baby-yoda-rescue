@@ -98,7 +98,7 @@ class GameController:
         self.attack_collision()
         # Updates do player:
         self.__player.acc = self.__player.vec(
-            0.0, 0.5)  # Segundo parâmetro para gravidade
+            0.3, 0.5)  # Segundo parâmetro para gravidade
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
         self.__player.pos += self.__player.vel + \
@@ -109,6 +109,7 @@ class GameController:
             lazer.pos.x += math.cos(lazer.angle) * lazer.vel
             lazer.pos.y += math.sin(lazer.angle) * lazer.vel
             lazer.rect.center = lazer.pos
+        # criar funcao pra destruir lazers
 
     def kill_the_dead(self):
         for sprite in self.__level.enemies:
@@ -141,12 +142,16 @@ class GameController:
         hits = pg.sprite.groupcollide(self.__attacks,
                                       self.__level.enemies, True, False)
 
+        # destroi lazers que batem na plataforma
+        pg.sprite.groupcollide(
+            self.__attacks, self.__level.platforms, True, False)
+
         # itera sobre dict
         for attack, sprite in hits.items():
             # se o ataque nao e do atacante
             if attack.shooter != sprite:
                 # diminui vida do sprite atingido
-                sprite[0].health -= attack.damage
+                sprite[0].health -= attack.damage * (random.randint(1, 10)/10)
 
     def commands(self, event):
         # Posição do player marcada como ponto do meio inferior

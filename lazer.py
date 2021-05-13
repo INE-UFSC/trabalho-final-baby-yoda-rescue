@@ -1,3 +1,4 @@
+import random
 from prototipo.configs import *
 import pygame as pg
 import os
@@ -13,13 +14,24 @@ class Lazer(pg.sprite.Sprite):
         self.__size = (10, 10)
         self.__pos = vec(pos)  # posicao inicial do lazer
         self.__mouse = vec(mouse)
-        self.__angle = math.radians(
-            math.degrees(math.atan2(self.__mouse.y - self.__pos.y, self.__mouse.x - self.__pos.x)))
+        self.__angle = self.get_angle()
         self.__vel = 10  # velocidade
         self.__image = pg.Surface(self.__size)
         self.__image.fill(RED)
         self.__rect = self.__image.get_rect()
         self.__rect.center = pos
+
+    def get_angle(self):
+
+        # recebe coordenadas relativas entre mouse e player e adiciona erro de recuo
+        c_y = (self.__mouse.y - self.__pos.y) + random.randint(-3, 3)
+        c_x = (self.__mouse.x - self.__pos.x) + random.randint(-3, 3)
+
+        recoil = random.randint(-3, 3)
+        # calcula a hipotenusa, ou arctangente, da tragetoria do lazer
+        angle = math.atan2(c_y, c_x)
+
+        return angle
 
     @ property
     def damage(self):
