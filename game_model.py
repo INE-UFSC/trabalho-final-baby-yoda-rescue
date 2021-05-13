@@ -10,6 +10,8 @@ class GameModel:
         # implementando apenas um nivel
         self.__level = Level(world)
 
+        #self.__enemy = Enemy(dicionario["enemy"])
+
     @property
     def FPS(self):
         return self.__FPS

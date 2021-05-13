@@ -1,6 +1,6 @@
 from configs import *
 
-class Player(pg.sprite.Sprite):
+class Player(pg.sprite.Sprite): #LOAD_SPRITE e ANIMATION precisam vir do abstract
     def __init__(self, lista):
         super().__init__()
         self.__health = 1000
@@ -13,9 +13,6 @@ class Player(pg.sprite.Sprite):
         self.__jump_acc = -14  # aceleracao pulo
         self.__fric = -0.10  # atrito
         self.__key = False
-
-        '''self.__image = pg.Surface(self.__size)
-        self.__image.fill(RED)'''
 
         self.__list = lista
         self.__sprites = []

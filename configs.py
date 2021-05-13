@@ -216,15 +216,24 @@ PURPLE = (148, 0, 211)
 # Dicionário de Sprites
 
 dicionario = {  "player" : ["mando-esquerda-4.png", 
-                        "mando-esquerda-3.png", 
-                        "mando-esquerda-2.png",
-                        "mando-esquerda-1.png",
-                        "mando-idle.png",
-                        "mando-direita-1.png",
-                        "mando-direita-2.png",
-                        "mando-direita-3.png",
-                        "mando-direita-4.png"],
-                "enemy"  : [None]
+                            "mando-esquerda-3.png", 
+                            "mando-esquerda-2.png",
+                            "mando-esquerda-1.png",
+                            "mando-idle.png",
+                            "mando-direita-1.png",
+                            "mando-direita-2.png",
+                            "mando-direita-3.png",
+                            "mando-direita-4.png"]
+                ,
+                "enemy"  : ["storm_esquerda4.png",
+                            "storm_esquerda3.png",
+                            "storm_esquerda2.png",
+                            "storm_esquerda1.png",
+                            "storm_idle.png",
+                            "storm_direita1.png",
+                            "storm_direita2.png",
+                            "storm_direita3.png",
+                            "storm_direita4.png"]
             }
 
 cwd = os.getcwd()

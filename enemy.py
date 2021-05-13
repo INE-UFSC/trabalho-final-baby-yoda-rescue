@@ -1,7 +1,7 @@
 from configs import *
 
 class Enemy(pg.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, lista, pos):
         super().__init__()
         self.__size = (32, 48)
         self.__health = 100
@@ -9,10 +9,36 @@ class Enemy(pg.sprite.Sprite):
         self.__vel = vec(0, 0)  # velocidade
         self.__acc = vec(0, 0)  # aceleracao
         self.__std_acc = 0.5  # aceleracao padrao
-        self.__image = pg.Surface(self.__size)
-        self.__image.fill(WHITE)
+
+        self.__list = lista
+        self.__sprites = []
+
+        self.load_sprite()
+
+        self.__current_sprite = 4  #idle
+        self.__image = self.__sprites[self.__current_sprite]
         self.__rect = self.__image.get_rect()
         self.__rect.midbottom = self.__pos
+
+        self.animation("idle")
+
+    def load_sprite(self):
+        for image in range(len(self.__list)):
+            self.__sprites.append(pg.image.load(data + self.__list[image]))
+
+    def animation(self, command):
+        if command == "left": #and not self.colisions['left']:
+            self.__current_sprite -= 0.3
+            if self.__current_sprite <= 0:
+                self.__current_sprite = 3
+        elif command == "right": #and not self.colisions['right']:
+            self.__current_sprite += 0.3
+            if self.__current_sprite >= len(self.__sprites):
+                self.__current_sprite = 5
+        else:
+            self__current_sprite = 4
+
+        self.__image = self.__sprites[int(self.__current_sprite)]
 
     @ property
     def image(self):
