@@ -89,6 +89,7 @@ class GameController:
     def update(self):
         self.physics()
         self.collisions()
+        self.kill_the_dead()
         self.__view.update_scene()
 
     def physics(self):
@@ -97,7 +98,7 @@ class GameController:
         self.attack_collision()
         # Updates do player:
         self.__player.acc = self.__player.vec(
-            0.5, 0.5)  # Segundo parâmetro para gravidade
+            0.0, 0.5)  # Segundo parâmetro para gravidade
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
         self.__player.pos += self.__player.vel + \
@@ -108,6 +109,11 @@ class GameController:
             lazer.pos.x += math.cos(lazer.angle) * lazer.vel
             lazer.pos.y += math.sin(lazer.angle) * lazer.vel
             lazer.rect.center = lazer.pos
+
+    def kill_the_dead(self):
+        for sprite in self.__level.enemies:
+            if sprite.health <= 0:
+                sprite.kill()
 
     def collisions(self):
 
