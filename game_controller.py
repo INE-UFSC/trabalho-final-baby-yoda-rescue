@@ -3,7 +3,6 @@ from game_view import GameView
 from configs import *
 
 
-
 def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
     collision_types = {'top': False, 'bottom': False,
@@ -109,7 +108,7 @@ class GameController:
     def run(self):
         self.__modules
         self.load_level()
-        self.music("The_Mandalorian_OST_Main_Theme.wav", -1)
+        self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             while self.__menu:
                 self.menu()
@@ -139,7 +138,6 @@ class GameController:
         self.collisions()
         self.kill_the_dead()
         self.__view.update_scene()
-        
 
     def physics(self):
         # movimenta os lazers a partir do tempo
