@@ -4,6 +4,7 @@ from level import Level
 from lazer import Lazer
 from configs import *
 
+
 class GameModel:
     def __init__(self):
         self.__FPS = FPS
@@ -23,5 +24,5 @@ class GameModel:
     def level(self):
         return self.__level
 
-    def gen_lazer(self, shooter, pos, mouse):
-        return Lazer(shooter, pos, mouse)
+    def gen_lazer(self, shooter, mouse):
+        return Lazer(shooter, mouse)

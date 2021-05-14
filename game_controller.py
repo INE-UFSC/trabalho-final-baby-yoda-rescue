@@ -128,14 +128,14 @@ class GameController:
         self.collisions()
         self.lazer_movement()
         self.attack_collision()
-
         if not self.__player.collisions["bottom"]:
             self.__player.acc += pg.math.Vector2(
-                0, 0.5)  # adiciona gravidade a y
-
+                0, 0.01)  # adiciona gravidade a y
+        print(self.__player.collisions)
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
+            # definie a posição acima da plataforma
             self.__player.pos.y = self.__player.collisions["bottom"]
 
 #        for enemy in self.__level.enemies:
@@ -146,21 +146,21 @@ class GameController:
 
         # decrementar a aceleração em x
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        # print(
-        #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+        print(
+            f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
         # equacoes de movimento
-        self.__player.acc.x += self.__player.vel.x * self.__player.fric
+        self.__player.vel.x += self.__player.vel.x * self.__player.fric
+
         self.__player.vel += self.__player.acc
 
-        self.__player.pos += self.__player.vel + 0.5 * self.__player.acc
-        # print(self.__player.vel.x, self.__player.fric,
-        #     self.__player.vel.x * self.__player.fric)
+        self.__player.pos += self.__player.vel
 
-        if self.__player.vel.x > 2:
-            self.__player.vel.x = 2
-        if self.__player.vel.x < -2:
-            self.__player.vel.x = -2
+        # velocidade max
+        if self.__player.vel.x > 1:
+            self.__player.vel.x = 1
+        if self.__player.vel.x < -1:
+            self.__player.vel.x = -1
 
         # Updates do player:
         # Posição do player marcada como ponto do meio inferior
@@ -193,7 +193,6 @@ class GameController:
             if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
                 self.__player.collisions["bottom"] = platform.rect.top
                 self.__player.collisions["top"] = False
-                print(platform.rect.top)
 
             if abs(self.__player.rect.top - platform.rect.bottom) < collision_tolerance:
                 self.__player.collisions["top"] = platform.rect.bottom
@@ -257,6 +256,9 @@ class GameController:
             self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
+        if not keys[pg.K_d] and not keys[pg.K_a]:
+            self.__player.acc.x = 0
+
         # espaco
         if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.collisions["bottom"]:
 
@@ -264,8 +266,7 @@ class GameController:
 
         # clique de mouse mais posicao
         if event.type == pg.MOUSEBUTTONDOWN:
-            lazer = self.__model.gen_lazer(self.__player,
-                                           self.__player.rect.center, pg.mouse.get_pos())
+            lazer = self.__model.gen_lazer(self.__player, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
         # print(
