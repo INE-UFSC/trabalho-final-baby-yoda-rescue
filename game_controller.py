@@ -166,33 +166,39 @@ class GameController:
 
     def collisions(self):  # Causa a colisão
 
-        collision_tolerance = 10
+        def collisions_rect(rect):
+            collision_tolerance = 10
 
-        hits_platforms = pg.sprite.spritecollide(
-            self.__player, self.__level.platforms, False, False)
+            hits_platforms = pg.sprite.spritecollide(rect, self.__level.platforms, False, False)
 
-        for platform in hits_platforms:
-            if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
-                self.__player.collisions["bottom"] = platform.rect.top
-                self.__player.collisions["top"] = False
+            for platform in hits_platforms:
+                if abs(rect.rect.bottom - platform.rect.top) < collision_tolerance:
+                    rect.collisions["bottom"] = platform.rect.top
+                    rect.collisions["top"] = False
 
-            if abs(self.__player.rect.top - platform.rect.bottom) < collision_tolerance:
-                self.__player.collisions["top"] = platform.rect.bottom
-                self.__player.collisions["bottom"] = False
+                if abs(rect.rect.top - platform.rect.bottom) < collision_tolerance:
+                    rect.collisions["top"] = platform.rect.bottom
+                    rect.collisions["bottom"] = False
 
-            if abs(self.__player.rect.left - platform.rect.right) < collision_tolerance:
-                self.__player.collisions["left"] = True
-                self.__player.collisions["right"] = False
+                if abs(rect.rect.left - platform.rect.right) < collision_tolerance:
+                    rect.collisions["left"] = True
+                    rect.collisions["right"] = False
 
-            if abs(self.__player.rect.right - platform.rect.left) < collision_tolerance:
-                self.__player.collisions["right"] = True
-                self.__player.collisions["left"] = False
+                if abs(rect.rect.right - platform.rect.left) < collision_tolerance:
+                    rect.collisions["right"] = True
+                    rect.collisions["left"] = False
 
-        if not hits_platforms:
-            self.__player.collisions["bottom"] = False
-            self.__player.collisions["top"] = False
-            self.__player.collisions["right"] = False
-            self.__player.collisions["left"] = False
+            if not hits_platforms:
+                rect.collisions["bottom"] = False
+                rect.collisions["top"] = False
+                rect.collisions["right"] = False
+                rect.collisions["left"] = False
+
+
+        collisions_rect(self.__player)
+        
+        for enemy in self.__level.enemies:
+            collisions_rect(enemy)
 
         # Colisao com itens:
         hits_items = pg.sprite.spritecollide(
