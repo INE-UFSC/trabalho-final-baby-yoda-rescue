@@ -1,25 +1,26 @@
 from configs import *
 
+
 class Lazer(pg.sprite.Sprite):
-    def __init__(self, shooter, pos, mouse):
+    def __init__(self, shooter, mouse):
         super().__init__()
         self.__shooter = shooter
         self.__damage = 30
         self.__size = (10, 10)
-        self.__pos = vec(pos)  # posicao inicial do lazer
+        self.__pos = vec(shooter.rect.center)  # posicao inicial do lazer
         self.__mouse = vec(mouse)
         self.__angle = self.get_angle()
         self.__vel = 10  # velocidade
         self.__image = pg.Surface(self.__size)
         self.__image.fill(RED)
         self.__rect = self.__image.get_rect()
-        self.__rect.center = pos
+        self.__rect.center = shooter.rect.center
 
     def get_angle(self):
 
         # recebe coordenadas relativas entre mouse e player e adiciona erro de recuo
-        c_y = (self.__mouse.y - self.__pos.y) + random.randint(-3, 3)
-        c_x = (self.__mouse.x - self.__pos.x) + random.randint(-3, 3)
+        c_y = ((self.__mouse.y - self.__pos.y) + random.randint(-3, 3))
+        c_x = ((self.__mouse.x - self.__pos.x) + random.randint(-3, 3))
 
         recoil = random.randint(-3, 3)
         # calcula a hipotenusa, ou arctangente, da tragetoria do lazer

@@ -113,7 +113,6 @@ class Level:
 
                 col_count += 1
             row_count += 1
-        print(self.__platforms)
 
     @ property
     def current(self):

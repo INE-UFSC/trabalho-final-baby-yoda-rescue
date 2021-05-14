@@ -3,59 +3,6 @@ from game_view import GameView
 from configs import *
 
 
-def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
-    # dicionário pra saber com que lado se colidiu
-    collision_types = {'top': False, 'bottom': False,
-                       'right': False, 'left': False}
-    movement = rect.vel
-    # Movimento em X:
-    hit_list = tiles  # tile vai ser a classe dos blocos
-    for tile in hit_list:
-        if movement[0] > 0:  # ou seja se movendo para a direita
-            # rect.right = tile.rect.left  # deve ir para dentro de fisica
-            collision_types['right'] = True
-        elif movement[0] < 0:
-            # rect.left = tile.rect.right
-            collision_types['left'] = True
-
-    # Movimento em Y:
-    hit_list = tiles
-    tile = ''
-    for tile in hit_list:
-        if movement[1] > 0:  # ou seja se movendo para a direita
-            # rect.bottom = tile.rect.top
-            collision_types['bottom'] = True
-        elif movement[1] < 0:
-            # rect.top = tile.rect.bottom
-            collision_types['top'] = True
-
-    return collision_types
-
-# Move o personagem a partir das colisões que ele teve
-
-
-"""def collision_movement(rect, tiles):  # Causa a colisão
-    colided = collision_types(rect, tiles)
-    print(colided)
-    if colided[0]['right']:
-        print('colided --- RIGHT ---')
-        rect.vel.x = 0
-        rect.right = colided[1].rect.left
-    if colided[0]['left']:
-        print('colided --- LEFT ---')
-        rect.vel.x = 0
-        rect.left = colided[1].rect.right
-    if colided[0]['bottom']:
-        print('colided --- BOTTOM ---')
-        rect.vel.y = -5
-        rect.bottom = colided[1].rect.top
-    if colided[0]['top']:
-        print('colided --- TOP ---')
-        rect.vel.y = 0
-        rect.top = colided[1].rect.bottom
-"""
-
-
 class GameController:
     def __init__(self):
         self.__model = GameModel()
@@ -77,28 +24,28 @@ class GameController:
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
-    def music(self, music, param):
+    def music(self, music, param):  # view
         pg.mixer.init()
         music = pg.mixer.Sound(music)
         music.play(param)
 
-    def text_objects(self, text, font, color):
+    def text_objects(self, text, font, color):  # view
         self.__message = font.render(text, True, color)
         return self.__message, self.__message.get_rect()
 
-    def message(self, color, message, font, tamanho, x, y):
+    def message(self, color, message, font, tamanho, x, y):  # view
         self.__font = pg.font.Font(font, tamanho)
         self.__text, self.__text_rect = self.text_objects(
             message, self.__font, color)
         self.__text_rect.center = (x, y)
         return self.__text, self.__text_rect
 
-    def button(self, msg, x,y,w,h,inactive,active, action=None):
+    def button(self, msg, x, y, w, h, inactive, active, action=None):  # view
         mouse = pg.mouse.get_pos()
         click = pg.mouse.get_pressed()
 
         if (x+w) > mouse[0] > x and (y+h) > mouse[1] > (h):
-            pg.draw.rect(self.__view.screen,active,(x,y,w,h))
+            pg.draw.rect(self.__view.screen, active, (x, y, w, h))
             if click[0] == 1 and action != None:
                 if action == "start":
                     self.__menu = False
@@ -112,13 +59,16 @@ class GameController:
                 if action == "save":
                     self.__model.data(True)
         else:
-            pg.draw.rect(self.__view.screen,inactive,(x,y,w,h))
+            pg.draw.rect(self.__view.screen, inactive, (x, y, w, h))
 
-        self.__button, self.__button_rect = self.message(BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
+        self.__button, self.__button_rect = self.message(
+            BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
         self.__view.screen.blit(self.__button, self.__button_rect)
 
-    def menu(self):
-        self.__message, self.__message_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
+    def menu(self):  # view
+        self.__message, self.__message_rect = self.message(
+            BLUE, "Baby Yoda's Rescue", None, 100, (WIDTH/2), (HEIGHT/2))
+
         self.events()
         self.__bg = pg.image.load(data + "background-1.png")
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
@@ -131,21 +81,25 @@ class GameController:
     def pause(self):
         pass
 
-    def game_over(self):
-        self.__message, self.__message_rect = self.message(RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
+    def game_over(self):  # view
+        self.__message, self.__message_rect = self.message(
+            RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4)+60, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-60, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
-
-    def win(self):
-        self.__message, self.__message_rect = self.message(WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
+    def win(self):  # view
+        self.__message, self.__message_rect = self.message(
+            WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4)+60, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-60, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
-
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
     def run(self):
         self.__modules
@@ -176,28 +130,23 @@ class GameController:
             self.commands(event)
 
     def update(self):
-        self.physics()  # events vão para dentro de physics *
-        self.collisions()
+        self.physics()
         self.kill_the_dead()
         self.__view.update_scene()
 
     def physics(self):
-        # movimenta os lazers a partir do tempo
+        self.collisions()
         self.lazer_movement()
         self.attack_collision()
-
-        # Updates do player:
-        # Posição do player marcada como ponto do meio inferior
-        self.__player.rect.midbottom = self.__player.pos
-
         if not self.__player.collisions["bottom"]:
             self.__player.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
-
+        print(self.__player.collisions)
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
-            self.__player.pos.y -= 1
+            # definie a posição acima da plataforma
+            self.__player.pos.y = self.__player.collisions["bottom"]
 
 #        for enemy in self.__level.enemies:
 
@@ -207,20 +156,25 @@ class GameController:
 
         # decrementar a aceleração em x
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        # print(
-        #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
+        print(
+            f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
-        self.__player.acc.x += self.__player.vel.x * self.__player.fric
+        # equacoes de movimento
+        self.__player.vel.x += self.__player.vel.x * self.__player.fric
+
         self.__player.vel += self.__player.acc
 
-        self.__player.pos += self.__player.vel + 0.5 * self.__player.acc
-        print(self.__player.vel.x, self.__player.fric,
-              self.__player.vel.x * self.__player.fric)
+        self.__player.pos += self.__player.vel
 
-        if self.__player.vel.x > 2:
-            self.__player.vel.x = 2
-        if self.__player.vel.x < -2:
-            self.__player.vel.x = -2
+        # velocidade max
+        if self.__player.vel.x > 1:
+            self.__player.vel.x = 1
+        if self.__player.vel.x < -1:
+            self.__player.vel.x = -1
+
+        # Updates do player:
+        # Posição do player marcada como ponto do meio inferior
+        self.__player.rect.midbottom = self.__player.pos
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -247,15 +201,17 @@ class GameController:
 
         for platform in hits_platforms:
             if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
-                self.__player.collisions["bottom"] = True
+                self.__player.collisions["bottom"] = platform.rect.top
                 self.__player.collisions["top"] = False
 
             if abs(self.__player.rect.top - platform.rect.bottom) < collision_tolerance:
-                self.__player.collisions["top"] = True
+                self.__player.collisions["top"] = platform.rect.bottom
                 self.__player.collisions["bottom"] = False
+
             if abs(self.__player.rect.left - platform.rect.right) < collision_tolerance:
                 self.__player.collisions["left"] = True
                 self.__player.collisions["right"] = False
+
             if abs(self.__player.rect.right - platform.rect.left) < collision_tolerance:
                 self.__player.collisions["right"] = True
                 self.__player.collisions["left"] = False
@@ -310,6 +266,9 @@ class GameController:
             self.__player.animation("right")
             self.__player.acc.x = self.__player.std_acc
 
+        if not keys[pg.K_d] and not keys[pg.K_a]:
+            self.__player.acc.x = 0
+
         # espaco
         if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.collisions["bottom"]:
 
@@ -317,8 +276,7 @@ class GameController:
 
         # clique de mouse mais posicao
         if event.type == pg.MOUSEBUTTONDOWN:
-            lazer = self.__model.gen_lazer(self.__player,
-                                           self.__player.rect.center, pg.mouse.get_pos())
+            lazer = self.__model.gen_lazer(self.__player, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
         # print(

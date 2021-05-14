@@ -27,7 +27,6 @@ class Player(CharPhysics, pg.sprite.Sprite):
         self.__rect = self.__image.get_rect()
 
         self.animation("idle")
-        print("Player instanciado")
 
     def load_sprite(self):
         for image in range(len(self.__list)):
