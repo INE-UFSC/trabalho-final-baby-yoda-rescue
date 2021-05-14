@@ -1,5 +1,6 @@
 from configs import *
 
+
 class GameView:
     def __init__(self, player, level, sprites, attacks):
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -43,7 +44,7 @@ class GameView:
             self.__player, self.__level.platforms,
             self.__level.items, self.__level.exit,
             self.__level.enemies, self.__attacks)
-
+        print(self.__player.pos, (self.__player.size[0]/2))
         if (self.__player.pos.x - (self.__player.size[0]/2)) < 0:
             self.__level.back()
             self.__level.update()
@@ -52,7 +53,8 @@ class GameView:
         if (self.__player.pos.x - (self.__player.size[0]/2) > WIDTH):
             self.__level.next()
             self.__level.update()
-            self.__player.pos.x = self.__player.pos.x - WIDTH   # varia, cuidar com os pixeis de cada fase
+            # varia, cuidar com os pixeis de cada fase
+            self.__player.pos.x = self.__player.pos.x - WIDTH
 
     @property
     def screen(self):
