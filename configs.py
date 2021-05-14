@@ -208,10 +208,15 @@ begin = world[0]
 # Cores
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+LIGHT_RED = (255, 102, 102)
+RED = (204, 0, 0)
 GREEN = (0, 255, 0)
+LIGHT_GREEN = (0,200,0)
 BLUE = (0, 0, 255)
+LIGHT_BLUE = (0,0,200)
 PURPLE = (148, 0, 211)
+AZUL_BONITO = (0, 153, 204)
+AZUL_BONITO_CLARO = (179, 236, 255)
 
 # Dicionário de Sprites
 

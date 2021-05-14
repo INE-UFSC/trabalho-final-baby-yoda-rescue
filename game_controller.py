@@ -92,28 +92,61 @@ class GameController:
         self.__text_rect.center = (x, y)
         return self.__text, self.__text_rect
 
-    def menu(self):
-        self.__message1, self.__message1_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
-        self.__message2, self.__message2_rect = self.message(WHITE, "Press anywere on the screen to start", None, 50,(WIDTH/2),(HEIGHT/2)+100)
+    def button(self, msg, x,y,w,h,inactive,active, action=None):
+        mouse = pg.mouse.get_pos()
+        click = pg.mouse.get_pressed()
 
-        self.__clock.tick(self.__model.FPS)
+        if (x+w) > mouse[0] > x and (y+h) > mouse[1] > (h):
+            pg.draw.rect(self.__view.screen,active,(x,y,w,h))
+            if click[0] == 1 and action != None:
+                if action == "start":
+                    self.__menu = False
+                if action == "quit":
+                    self.quit()
+        else:
+            pg.draw.rect(self.__view.screen,inactive,(x,y,w,h))
+
+        self.__button, self.__button_rect = self.message(BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
+        self.__view.screen.blit(self.__button, self.__button_rect)
+
+    def menu(self):
+        self.__message, self.__message_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
+
         self.events()
         self.__bg = pg.image.load(data + "background-1.png")
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
-        self.__view.screen.blit(self.__message1, self.__message1_rect)
-        self.__view.screen.blit(self.__message2, self.__message2_rect)
+        self.__view.screen.blit(self.__message, self.__message_rect)
 
-        pg.display.flip()
+        self.button("START", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+
+
+    def game_over(self):
+        self.__message, self.__message_rect = self.message(RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__view.screen.blit(self.__message, self.__message_rect)
+
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+
+
+    def win(self):
+        self.__message, self.__message_rect = self.message(WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__view.screen.blit(self.__message, self.__message_rect)
+
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+
 
     def run(self):
         self.__modules
         self.load_level()
         #self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
+            self.__clock.tick(self.__model.FPS)
             while self.__menu:
                 self.menu()
+                pg.display.flip()
             # sincroniza o loop de eventos com o clock
-            self.__clock.tick(self.__model.FPS)
             self.events()  # Vou passar para dentro de update *
             self.update()
             self.__view.draw()
@@ -128,8 +161,6 @@ class GameController:
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
                 self.quit()
-            if event.type == pg.MOUSEBUTTONDOWN:
-                self.__menu = False
 
             self.commands(event)
 
