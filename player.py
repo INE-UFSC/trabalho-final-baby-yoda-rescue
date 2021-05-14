@@ -1,24 +1,24 @@
 from configs import *
+from char_physics import CharPhysics
+import pygame as pg
+from pygame import math
 
 
-class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstract
+# LOAD_SPRITE e ANIMATION CharView
+# Toda a fisica padrao vem de CharPhysics
+class Player(CharPhysics, pg.sprite.Sprite):
     def __init__(self, lista):
-        super().__init__()
+        pg.sprite.Sprite.__init__(self)  # inicaliza o sprite do pygame
+        super().__init__()  # super nao inicializa pg.sprite.Sprite por algum motivo
         self.__health = 1000
         self.__size = (32, 48)
-        self.__pos = None  # deve ser definido pelo level
-        self.__vec = pg.math.Vector2
-        self.__vel = self.__vec(0, 0)  # velocidade
-        self.__acc = self.__vec(0, 0)  # aceleracao
-        self.__std_acc = 0.01  # aceleracao padrao
-        self.__jump_acc = -4  # aceleracao pulo
-        self.__fric = -0.001  # atrito
         self.__key = False
-        self.__collisions = {"bottom": False,
-                             "top": False, "right": False, "left": False}
-
         self.__list = lista
         self.__sprites = []
+        # persistencia
+        self.__pos = None  # deve ser definido pelo level
+        self.__vel = math.Vector2(0, 0)  # velocidade
+        self.__acc = math.Vector2(0, 0)  # aceleracao
 
         self.load_sprite()
 
@@ -27,6 +27,7 @@ class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstr
         self.__rect = self.__image.get_rect()
 
         self.animation("idle")
+        print("Player instanciado")
 
     def load_sprite(self):
         for image in range(len(self.__list)):
@@ -45,22 +46,6 @@ class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstr
             self__current_sprite = 4
 
         self.__image = self.__sprites[int(self.__current_sprite)]
-
-    @ property
-    def image(self):
-        return self.__image
-
-    @ property
-    def rect(self):
-        return self.__rect
-
-    @ property
-    def size(self):
-        return self.__size
-
-    @ size.setter
-    def size(self, n):
-        self.__size = n
 
     @ property
     def pos(self):
@@ -87,12 +72,20 @@ class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstr
         self.__acc = n
 
     @ property
-    def std_acc(self):
-        return self.__std_acc
+    def image(self):
+        return self.__image
 
     @ property
-    def jump_acc(self):
-        return self.__jump_acc
+    def rect(self):
+        return self.__rect
+
+    @ property
+    def size(self):
+        return self.__size
+
+    @ size.setter
+    def size(self, n):
+        self.__size = n
 
     @ property
     def key(self):
@@ -101,23 +94,3 @@ class Player(pg.sprite.Sprite):  # LOAD_SPRITE e ANIMATION precisam vir do abstr
     @ key.setter
     def key(self, n):
         self.__key = n
-
-    @ property
-    def fric(self):
-        return self.__fric
-
-    @ fric.setter
-    def fric(self, n):
-        self.__fric = n
-
-    @ property
-    def vec(self):
-        return self.__vec
-
-    @ property
-    def collisions(self):
-        return self.__collisions
-
-    @ collisions.setter
-    def collisions(self, n):
-        self.__collisions = n

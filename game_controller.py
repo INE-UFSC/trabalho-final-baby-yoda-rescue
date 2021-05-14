@@ -88,7 +88,8 @@ class GameController:
 
     def message(self, color, message, font, tamanho, x, y):
         self.__font = pg.font.Font(font, tamanho)
-        self.__text, self.__text_rect = self.text_objects(message, self.__font, color)
+        self.__text, self.__text_rect = self.text_objects(
+            message, self.__font, color)
         self.__text_rect.center = (x, y)
         return self.__text, self.__text_rect
 
@@ -140,7 +141,7 @@ class GameController:
     def run(self):
         self.__modules
         self.load_level()
-        #self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        # self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
             while self.__menu:
@@ -180,13 +181,15 @@ class GameController:
         self.__player.rect.midbottom = self.__player.pos
 
         if not self.__player.collisions["bottom"]:
-            self.__player.acc += self.__player.vec(
+            self.__player.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
 
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
             self.__player.pos.y -= 1
+
+#        for enemy in self.__level.enemies:
 
         """        if self.__player.collisions["left"]:
             self.__player.acc.x = 0
