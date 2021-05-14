@@ -10,10 +10,6 @@ class GameModel:
         self.__player = Player(dicionario["player"])
         # implementando apenas um nivel
         self.__level = Level(world)
-        self.__enemies = []
-
-        '''for i in range(30):
-            self.__enemies.append(Enemy(dicionario["enemy"]))'''
 
     @property
     def FPS(self):

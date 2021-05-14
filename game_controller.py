@@ -139,9 +139,9 @@ class GameController:
         self.collisions()
         self.kill_the_dead()
         self.__view.update_scene()
+        
 
     def physics(self):
-        print(self.__player.pos)
         # movimenta os lazers a partir do tempo
         self.lazer_movement()
         self.attack_collision()

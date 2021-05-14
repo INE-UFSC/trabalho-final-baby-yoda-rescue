@@ -2,11 +2,11 @@ from configs import *
 from character import Character
 
 class Enemy(Character):
-    def __init__(self, lista_):
+    def __init__(self, x, y, lista_):
         pg.sprite.Sprite.__init__(self)
         super().__init__()
         self.__health = 100
-        self.__pos = vec(0,0)
+        self.__pos = vec(x,y)
         self.__std_acc = 0.5
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
@@ -34,11 +34,11 @@ class Enemy(Character):
             self.__sprites.append(pg.image.load(data + self.__lista[image]))
 
     def animation(self, command):
-        if command == "left": #and not self.colisions['left']:
+        if self.vel.x < 0: #and not self.colisions['left']:
             self.__current_sprite -= 0.3
             if self.__current_sprite <= 0:
                 self.__current_sprite = 3
-        elif command == "right": #and not self.colisions['right']:
+        elif self.vel.x > 0: #and not self.colisions['right']:
             self.__current_sprite += 0.3
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
@@ -49,7 +49,7 @@ class Enemy(Character):
 
     def vai_e_volta(self):
         self.vel.x -= 5
-        pg.time.delay(5000)
+        pg.time.wait(5000)
         self.vel.y += 5
 
     @ property
