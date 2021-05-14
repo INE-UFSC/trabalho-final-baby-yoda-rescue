@@ -4,9 +4,10 @@ from configs import *
 
 class CharPhysics(ABC):
     def __init__(self):
-        self.__std_acc = 0.1  # aceleracao padrao
+        self.__std_acc = 0.3  # aceleracao padrao
         self.__jump_acc = -4  # aceleracao pulo
-        self.__fric = -0.05  # atrito
+        self.__fric = -0.09  # atrito
+        self.__max_vel = 10
         self.__collisions = {"bottom": False,
                              "top": False, "right": False, "left": False}
 
@@ -36,10 +37,11 @@ class CharPhysics(ABC):
 
     def char_physics(self):
 
+        # gravidade e colisao inferior
         if not self.collisions["bottom"]:
             self.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
-        print(self.collisions)
+
         if self.collisions["bottom"]:
             self.acc.y = 0
             self.vel.y = 0
@@ -54,10 +56,16 @@ class CharPhysics(ABC):
         self.pos += self.vel
 
         # velocidade max
-        if self.vel.x > 1:
-            self.vel.x = 1
-        if self.vel.x < -1:
-            self.vel.x = -1
+        if self.vel.x > self.__max_vel:
+            self.vel.x = self.__max_vel
+        if self.vel.x < -self.__max_vel:
+            self.vel.x = -self.__max_vel
+
+        if self.vel.y > self.__max_vel:
+            self.vel.y = self.__max_vel
+
+        if self.vel.y < -self.__max_vel:
+            self.vel.y = -self.__max_vel
 
         # Updates do player:
         # Posição do player marcada como ponto do meio inferior

@@ -75,9 +75,12 @@ class GameController:
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
-        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100,
+                    50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30,
+                    (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
 
     def pause(self):
         pass
@@ -141,6 +144,9 @@ class GameController:
         self.attack_collision()
 
         self.__player.char_physics()
+
+        for enemy in self.__level.enemies:
+            enemy.char_physics()
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
