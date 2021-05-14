@@ -16,9 +16,9 @@ class Player(CharPhysics, pg.sprite.Sprite):
         self.__list = lista
         self.__sprites = []
         # persistencia
-        self.__pos = None  # deve ser definido pelo level
-        self.__vel = math.Vector2(0, 0)  # velocidade
-        self.__acc = math.Vector2(0, 0)  # aceleracao
+        self.__pos = vec(0, 0)  # deve ser definido pelo level
+        self.__vel = vec(0, 0)  # velocidade
+        self.__acc = vec(0, 0)  # aceleracao
 
         self.load_sprite()
 
@@ -93,6 +93,14 @@ class Player(CharPhysics, pg.sprite.Sprite):
     @ key.setter
     def key(self, n):
         self.__key = n
+
+    @ property
+    def health(self):
+        return self.__health
+
+    @ health.setter
+    def health(self, ht):
+        self.__health = ht
 
     def char_physics(self):
 

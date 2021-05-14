@@ -118,6 +118,10 @@ class Level:
     def current(self):
         return self.__current
 
+    @ current.setter
+    def current(self, c):
+        self.__current = c
+
     @ property
     def world(self):
         return self.__world
@@ -145,3 +149,11 @@ class Level:
     @ property
     def enemies(self):
         return self.__enemies
+
+    @ property
+    def index(self):
+        return self.__index
+
+    @ index.setter
+    def index(self, i):
+        self.__index = i
