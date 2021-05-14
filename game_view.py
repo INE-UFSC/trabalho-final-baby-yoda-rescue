@@ -9,7 +9,7 @@ class GameView:
         self.__caption = pg.display.set_caption(TITULO)
         self.__attacks = attacks
         self.__background = pg.image.load(
-            "prototipo/data/teste.png")  # provisorio MUDAR ENDERECO
+            data + "background-1.png")  # provisorio MUDAR ENDERECO
         self.__bg_x = 0
         self.__rel_x = None
 

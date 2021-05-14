@@ -82,33 +82,33 @@ class GameController:
         music = pg.mixer.Sound(music)
         music.play(param)
 
-    def text_objects(self, text, font):
-        self.__message = font.render(text, True, BLUE)
+    def text_objects(self, text, font, color):
+        self.__message = font.render(text, True, color)
         return self.__message, self.__message.get_rect()
 
+    def message(self, color, message, font, tamanho, x, y):
+        self.__font = pg.font.Font(font, tamanho)
+        self.__text, self.__text_rect = self.text_objects(message, self.__font, color)
+        self.__text_rect.center = (x, y)
+        return self.__text, self.__text_rect
+
     def menu(self):
-        self.__font1 = pg.font.Font(None, 100)
-        self.__font2 = pg.font.Font(None, 50)
-        self.__text, self.__text_rect = self.text_objects(
-            "Baby Yoda's Rescue", self.__font1)
-        self.__warning, self.__war_rect = self.text_objects(
-            "Press anywere on the screen to start", self.__font2)
-        self.__text_rect.center = ((WIDTH/2), (HEIGHT/2))
-        self.__war_rect.center = ((WIDTH/2), (HEIGHT/2)+100)
+        self.__message1, self.__message1_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
+        self.__message2, self.__message2_rect = self.message(WHITE, "Press anywere on the screen to start", None, 50,(WIDTH/2),(HEIGHT/2)+100)
 
         self.__clock.tick(self.__model.FPS)
         self.events()
         self.__bg = pg.image.load(data + "background-1.png")
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
-        self.__view.screen.blit(self.__text, self.__text_rect)
-        self.__view.screen.blit(self.__warning, self.__war_rect)
+        self.__view.screen.blit(self.__message1, self.__message1_rect)
+        self.__view.screen.blit(self.__message2, self.__message2_rect)
 
         pg.display.flip()
 
     def run(self):
         self.__modules
         self.load_level()
-        self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        #self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             while self.__menu:
                 self.menu()

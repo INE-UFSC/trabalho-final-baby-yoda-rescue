@@ -4,8 +4,7 @@ from configs import *
 class Key(pg.sprite.Sprite):
     def __init__(self, x: int, y: int, w: int, h: int, color: tuple):
         super().__init__()
-        self.__image = pg.Surface((w, h))
-        self.__image.fill(color)
+        self.__image = pg.image.load(data + "grogu.png")
         self.__rect = self.__image.get_rect()
         self.__rect.x = x
         self.__rect.y = y
