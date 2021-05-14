@@ -25,7 +25,8 @@ class GameController:
 
     def check_data(self):
         if self.__view.data_active:
-            self.__model(self.__view.data_signal)
+            print(self.__view.data_signal)
+            self.__model.data(self.__view.data_signal)
 
     def run(self):
         self.__modules

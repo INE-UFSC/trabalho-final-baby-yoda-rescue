@@ -15,10 +15,11 @@ class GameModel:
         self.__tupy = 0
 
         self.__SAVE_DATA = {"level": [self.__level.current, self.__level.index],
-                        "player": [self.__player.health, self.__player.key, self.__player.pos.x, self.__player.pos.y]#,
-                        #"enemy": self.__level.enemies
-                        }
-    
+                            # ,
+                            "player": [self.__player.health, self.__player.key, self.__player.pos.x, self.__player.pos.y]
+                            # "enemy": self.__level.enemies
+                            }
+
     #health, position, key, tilemap
 
     def data(self, save=False):
