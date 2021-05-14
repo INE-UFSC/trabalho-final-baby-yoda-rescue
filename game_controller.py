@@ -25,100 +25,27 @@ class GameController:
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
-    def music(self, music, param):  # view
-        pg.mixer.init()
-        music = pg.mixer.Sound(music)
-        music.play(param)
-
-    def text_objects(self, text, font, color):  # view
-        self.__message = font.render(text, True, color)
-        return self.__message, self.__message.get_rect()
-
-    def message(self, color, message, font, tamanho, x, y):  # view
-        self.__font = pg.font.Font(font, tamanho)
-        self.__text, self.__text_rect = self.text_objects(
-            message, self.__font, color)
-        self.__text_rect.center = (x, y)
-        return self.__text, self.__text_rect
-
-    def button(self, msg, x, y, w, h, inactive, active, action=None):  # view
-        mouse = pg.mouse.get_pos()
-        click = pg.mouse.get_pressed()
-
-        if (x+w) > mouse[0] > x and (y+h) > mouse[1] > (h):
-            pg.draw.rect(self.__view.screen, active, (x, y, w, h))
-            if click[0] == 1 and action != None:
-                if action == "start":
-                    self.__menu = False
-                if action == "quit":
-                    self.__model.data(True)
-                    self.quit()
-                if action == "load":
-                    self.__model.data(False)
-                    self.__menu = False
-                if action == "restart":
-                    pass
-                if action == "save":
-                    self.__model.data(True)
-        else:
-            pg.draw.rect(self.__view.screen, inactive, (x, y, w, h))
-
-        self.__button, self.__button_rect = self.message(
-            BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
-        self.__view.screen.blit(self.__button, self.__button_rect)
-
-    def menu(self):  # view
-        self.__message, self.__message_rect = self.message(
-            BLUE, "Baby Yoda's Rescue", None, 100, (WIDTH/2), (HEIGHT/2))
-
-        self.events()
-        self.__bg = pg.image.load(data + "background-1.png")
-        self.__view.screen.blit(self.__bg, self.__bg.get_rect())
-        self.__view.screen.blit(self.__message, self.__message_rect)
-
-        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50,
-                    AZUL_BONITO, AZUL_BONITO_CLARO, "start")
-        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100,
-                    50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30,
-                    (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
-
-    def pause(self):
-        pass
-
-    def game_over(self):  # view
-        self.__message, self.__message_rect = self.message(
-            RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
-        self.__view.screen.blit(self.__message, self.__message_rect)
-
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
-                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
-                    100, 50, RED, LIGHT_RED, "quit")
-
-    def win(self):  # view
-        self.__message, self.__message_rect = self.message(
-            WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
-        self.__view.screen.blit(self.__message, self.__message_rect)
-
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
-                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
-                    100, 50, RED, LIGHT_RED, "quit")
+    def check_data(self):
+        if self.__view.data_active:
+            self.__model(self.__view.data_signal)
 
     def run(self):
         self.__modules
         self.load_level()
-        # self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
-            while self.__menu:
-                self.menu()
+            self.check_data()
+            while self.__view.menu:
+                self.events()  # Vou passar para dentro de update *
+                self.__view.menu_i()
                 pg.display.flip()
             # sincroniza o loop de eventos com o clock
             self.events()
             self.update()
             self.__view.draw()
+            if self.__view.quit:
+                self.quit()
 
     # funcao de saida do pygame chamada em caso de fechamento de janela
     def quit(self):
@@ -175,12 +102,14 @@ class GameController:
         def collisions_rect(rect):
             collision_tolerance = 10
 
-            hits_platforms = pg.sprite.spritecollide(rect, self.__level.platforms, False, False)
+            hits_platforms = pg.sprite.spritecollide(
+                rect, self.__level.platforms, False, False)
 
             for platform in hits_platforms:
                 if abs(rect.rect.bottom - platform.rect.top) < collision_tolerance:
                     rect.collisions["bottom"] = platform.rect.top
-                    rect.collisions["top"] = False
+                else:
+                    rect.collisions["bottom"] = False
 
                 if abs(rect.rect.top - platform.rect.bottom) < collision_tolerance:
                     rect.collisions["top"] = platform.rect.bottom
@@ -200,9 +129,8 @@ class GameController:
                 rect.collisions["right"] = False
                 rect.collisions["left"] = False
 
-
         collisions_rect(self.__player)
-        
+
         for enemy in self.__level.enemies:
             collisions_rect(enemy)
 
@@ -256,9 +184,8 @@ class GameController:
         if not keys[pg.K_d] and not keys[pg.K_a]:
             self.__player.acc.x = 0
 
-        # espaco
-        if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.collisions["bottom"]:
-
+        # logica de salto
+        if (keys[pg.K_SPACE] or keys[pg.K_w]) and self.__player.air_timer < 8:
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
