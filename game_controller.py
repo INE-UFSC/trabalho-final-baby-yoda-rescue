@@ -54,6 +54,7 @@ class GameController:
                     self.quit()
                 if action == "load":
                     self.__model.data(False)
+                    self.__menu = False
                 if action == "restart":
                     pass
                 if action == "save":
@@ -141,7 +142,7 @@ class GameController:
         if not self.__player.collisions["bottom"]:
             self.__player.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
-        print(self.__player.collisions)
+        #print(self.__player.collisions)
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
@@ -156,9 +157,9 @@ class GameController:
 
         # decrementar a aceleração em x
         # self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        print(
+        '''print(
             f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
-
+        '''
         # equacoes de movimento
         self.__player.vel.x += self.__player.vel.x * self.__player.fric
 
