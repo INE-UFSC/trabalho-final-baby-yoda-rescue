@@ -23,6 +23,9 @@ class GameController:
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
+    def check_data(self):
+        if self.__view.data_active:
+            self.__model(self.__view.data_signal)
 
     def run(self):
         self.__modules
@@ -30,6 +33,7 @@ class GameController:
         # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
+            self.check_data()
             while self.__view.menu:
                 self.events()  # Vou passar para dentro de update *
                 self.__view.menu_i()
@@ -38,6 +42,8 @@ class GameController:
             self.events()  # Vou passar para dentro de update *
             self.update()
             self.__view.draw()
+            if self.__view.quit:
+                self.quit()
 
     # funcao de saida do pygame chamada em caso de fechamento de janela
     def quit(self):

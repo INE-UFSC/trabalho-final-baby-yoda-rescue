@@ -1,5 +1,4 @@
 from configs import *
-from game_model import data
 
 class GameView:
     def __init__(self, player, level, sprites, attacks):
@@ -14,7 +13,9 @@ class GameView:
         self.__bg_x = 0
         self.__rel_x = None
         self.__menu = True
-        self.__data = data
+        self.__data_active = True
+        self.__data_signal = False
+        self.__quit = False
 
     def draw(self):
         self.bg_movement()
@@ -22,7 +23,7 @@ class GameView:
         # print(self.__sprites.sprites()[0].rect.midbottom, self.__sprites.sprites()[0].pos)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
-        self.__screen_health = self.message(WHITE, "HEALTH = "+str(self.__player.health), None, 40, 60, 20)
+        self.__screen_health = self.message(WHITE, "HEALTH = "+str(self.__player.health), None, 30, 80, 20)
         self.__screen.blit(self.__screen_health[0], self.__screen_health[1])
         pg.display.flip()
 
@@ -84,10 +85,12 @@ class GameView:
                 if action == "start":
                     self.__menu = False
                 if action == "quit":
-                    #data(True)
-                    self.quit()
+                    self.__data_active = True
+                    self.__data_signal = True
+                    self.__quit = True
                 if action == "load":
-                    #data(False)
+                    self.__data_active = True
+                    self.__data_signal = False
                     self.__menu = False
                 if action == "menu":
                     self.__menu = True
@@ -143,3 +146,15 @@ class GameView:
     @property
     def menu(self):
         return self.__menu
+
+    @property
+    def data_active(self):
+        return self.__data_active
+    
+    @property
+    def data_active(self):
+        return self.__data_signal
+
+    @property
+    def quit(self):
+        return self.__quit
