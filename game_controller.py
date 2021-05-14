@@ -103,7 +103,14 @@ class GameController:
                 if action == "start":
                     self.__menu = False
                 if action == "quit":
+                    self.__model.data(True)
                     self.quit()
+                if action == "load":
+                    self.__model.data(False)
+                if action == "restart":
+                    pass
+                if action == "save":
+                    self.__model.data(True)
         else:
             pg.draw.rect(self.__view.screen,inactive,(x,y,w,h))
 
@@ -112,30 +119,32 @@ class GameController:
 
     def menu(self):
         self.__message, self.__message_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
-
         self.events()
         self.__bg = pg.image.load(data + "background-1.png")
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("START", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
 
+    def pause(self):
+        pass
 
     def game_over(self):
         self.__message, self.__message_rect = self.message(RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("RESTART", (HEIGHT/4)+60, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-60, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
 
 
     def win(self):
         self.__message, self.__message_rect = self.message(WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("RESTART", (HEIGHT/4)+60, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-60, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
 
 
     def run(self):
@@ -161,6 +170,7 @@ class GameController:
         for event in pg.event.get():
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
+                self.__model.data(True)
                 self.quit()
 
             self.commands(event)
