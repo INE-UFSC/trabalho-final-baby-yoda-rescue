@@ -5,9 +5,10 @@ from configs import *
 class CharPhysics(ABC):
     def __init__(self):
         self.__std_acc = 0.3  # aceleracao padrao
-        self.__jump_acc = -10  # aceleracao pulo
+        self.__jump_acc = -5  # aceleracao pulo
         self.__fric = -0.09  # atrito
         self.__max_vel = 10
+        self.__air_timer = 0
         self.__collisions = {"bottom": False,
                              "top": False, "right": False, "left": False}
 
@@ -31,6 +32,10 @@ class CharPhysics(ABC):
     def collisions(self):
         return self.__collisions
 
+    @ property
+    def air_timer(self):
+        return self.__air_timer
+
     @ collisions.setter
     def collisions(self, n):
         self.__collisions = n
@@ -41,8 +46,10 @@ class CharPhysics(ABC):
         if not self.collisions["bottom"]:
             self.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
+            self.__air_timer += 1
 
         if self.collisions["bottom"]:
+            self.__air_timer = 0
             self.acc.y = 0
             self.vel.y = 0
             # definie a posição acima da plataforma

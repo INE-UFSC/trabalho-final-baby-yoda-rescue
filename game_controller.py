@@ -95,7 +95,8 @@ class GameController:
         def collisions_rect(rect):
             collision_tolerance = 10
 
-            hits_platforms = pg.sprite.spritecollide(rect, self.__level.platforms, False, False)
+            hits_platforms = pg.sprite.spritecollide(
+                rect, self.__level.platforms, False, False)
 
             for platform in hits_platforms:
                 if abs(rect.rect.bottom - platform.rect.top) < collision_tolerance:
@@ -120,9 +121,8 @@ class GameController:
                 rect.collisions["right"] = False
                 rect.collisions["left"] = False
 
-
         collisions_rect(self.__player)
-        
+
         for enemy in self.__level.enemies:
             collisions_rect(enemy)
 
@@ -173,7 +173,7 @@ class GameController:
             self.__player.acc.x = 0
 
         # espaco
-        if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.collisions["bottom"]:
+        if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.air_timer < 6:
 
             self.__player.vel.y = self.__player.jump_acc
 
