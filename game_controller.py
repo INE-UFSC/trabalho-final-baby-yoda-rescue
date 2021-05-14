@@ -71,8 +71,8 @@ class GameController:
 
         self.__player.char_physics()
 
-    """        for enemy in self.__level.enemies:
-            enemy.char_physics()"""
+        for enemy in self.__level.enemies:
+            enemy.char_physics()
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -173,9 +173,8 @@ class GameController:
         if not keys[pg.K_d] and not keys[pg.K_a]:
             self.__player.acc.x = 0
 
-        # espaco
+        # logica de salto
         if (keys[pg.K_SPACE] or keys[pg.K_w]) and self.__player.air_timer < 8:
-
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
