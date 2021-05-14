@@ -5,7 +5,7 @@ from configs import *
 class CharPhysics(ABC):
     def __init__(self):
         self.__std_acc = 0.3  # aceleracao padrao
-        self.__jump_acc = -4  # aceleracao pulo
+        self.__jump_acc = -10  # aceleracao pulo
         self.__fric = -0.09  # atrito
         self.__max_vel = 10
         self.__collisions = {"bottom": False,

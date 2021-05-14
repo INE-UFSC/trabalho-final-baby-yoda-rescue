@@ -130,3 +130,5 @@ dmypy.json
 
 # vscode settings folder
 .vscode
+#save_data
+SAVE_DATA.txt
