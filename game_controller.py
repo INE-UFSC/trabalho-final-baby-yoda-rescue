@@ -139,34 +139,22 @@ class GameController:
         self.collisions()
         self.lazer_movement()
         self.attack_collision()
+
+        # logica de colisão do player - abstrair par todos os personagens
         if not self.__player.collisions["bottom"]:
             self.__player.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
-        #print(self.__player.collisions)
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
             # definie a posição acima da plataforma
             self.__player.pos.y = self.__player.collisions["bottom"]
-
-#        for enemy in self.__level.enemies:
-
-        """        if self.__player.collisions["left"]:
-            self.__player.acc.x = 0
-            self.__player.vel.x = 0"""
-
-        # decrementar a aceleração em x
-        # self.__player.acc.x += self.__player.vel.x * self.__player.fric
-        '''print(
-            f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
-        '''
         # equacoes de movimento
         self.__player.vel.x += self.__player.vel.x * self.__player.fric
 
         self.__player.vel += self.__player.acc
 
         self.__player.pos += self.__player.vel
-
         # velocidade max
         if self.__player.vel.x > 1:
             self.__player.vel.x = 1
@@ -228,7 +216,6 @@ class GameController:
             self.__player, self.__level.items, True)
         if hits_items:
             self.__player.key = True
-            # print('self.__player.key:', self.__player.key)
 
         # Colisao com a saida:
         hits_exit = pg.sprite.spritecollide(
@@ -280,8 +267,6 @@ class GameController:
             lazer = self.__model.gen_lazer(self.__player, pg.mouse.get_pos())
             self.__attacks.add(lazer)
             self.__view.update_attacks()
-        # print(
-        #    f'-------- EVENTS --------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
     @ property
     def running(self):

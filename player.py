@@ -101,3 +101,33 @@ class Player(CharPhysics, pg.sprite.Sprite):
     @ health.setter
     def health(self, ht):
         self.__health = ht
+
+"""    def char_physics(self):
+
+        if not self.collisions["bottom"]:
+            self.acc += pg.math.Vector2(
+                0, 0.01)  # adiciona gravidade a y
+        print(self.collisions)
+        if self.collisions["bottom"]:
+            self.acc.y = 0
+            self.vel.y = 0
+            # definie a posição acima da plataforma
+            self.pos.y = self.collisions["bottom"]
+
+        # equacoes de movimento
+        self.vel.x += self.vel.x * self.fric
+
+        self.vel += self.acc
+
+        self.pos += self.vel
+
+        # velocidade max
+        if self.vel.x > 1:
+            self.vel.x = 1
+        if self.vel.x < -1:
+            self.vel.x = -1
+
+        # Updates do player:
+        # Posição do player marcada como ponto do meio inferior
+        self.rect.midbottom = self.pos
+"""

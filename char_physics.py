@@ -33,3 +33,5 @@ class CharPhysics(ABC):
     @ collisions.setter
     def collisions(self, n):
         self.__collisions = n
+
+
