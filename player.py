@@ -94,8 +94,7 @@ class Player(CharPhysics, pg.sprite.Sprite):
     def key(self, n):
         self.__key = n
 
-
-"""    def char_physics(self):
+    def char_physics(self):
 
         if not self.collisions["bottom"]:
             self.acc += pg.math.Vector2(
@@ -123,4 +122,3 @@ class Player(CharPhysics, pg.sprite.Sprite):
         # Updates do player:
         # Posição do player marcada como ponto do meio inferior
         self.rect.midbottom = self.pos
-"""

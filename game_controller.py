@@ -129,30 +129,7 @@ class GameController:
         self.lazer_movement()
         self.attack_collision()
 
-        # logica de colisão do player - abstrair par todos os personagens
-        if not self.__player.collisions["bottom"]:
-            self.__player.acc += pg.math.Vector2(
-                0, 0.01)  # adiciona gravidade a y
-        if self.__player.collisions["bottom"]:
-            self.__player.acc.y = 0
-            self.__player.vel.y = 0
-            # definie a posição acima da plataforma
-            self.__player.pos.y = self.__player.collisions["bottom"]
-        # equacoes de movimento
-        self.__player.vel.x += self.__player.vel.x * self.__player.fric
-
-        self.__player.vel += self.__player.acc
-
-        self.__player.pos += self.__player.vel
-        # velocidade max
-        if self.__player.vel.x > 1:
-            self.__player.vel.x = 1
-        if self.__player.vel.x < -1:
-            self.__player.vel.x = -1
-
-        # Updates do player:
-        # Posição do player marcada como ponto do meio inferior
-        self.__player.rect.midbottom = self.__player.pos
+        self.__player.char_physics()
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
