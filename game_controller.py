@@ -93,50 +93,57 @@ class GameController:
         self.__text_rect.center = (x, y)
         return self.__text, self.__text_rect
 
-    def button(self, msg, x,y,w,h,inactive,active, action=None):
+    def button(self, msg, x, y, w, h, inactive, active, action=None):
         mouse = pg.mouse.get_pos()
         click = pg.mouse.get_pressed()
 
         if (x+w) > mouse[0] > x and (y+h) > mouse[1] > (h):
-            pg.draw.rect(self.__view.screen,active,(x,y,w,h))
+            pg.draw.rect(self.__view.screen, active, (x, y, w, h))
             if click[0] == 1 and action != None:
                 if action == "start":
                     self.__menu = False
                 if action == "quit":
                     self.quit()
         else:
-            pg.draw.rect(self.__view.screen,inactive,(x,y,w,h))
+            pg.draw.rect(self.__view.screen, inactive, (x, y, w, h))
 
-        self.__button, self.__button_rect = self.message(BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
+        self.__button, self.__button_rect = self.message(
+            BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
         self.__view.screen.blit(self.__button, self.__button_rect)
 
     def menu(self):
-        self.__message, self.__message_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
+        self.__message, self.__message_rect = self.message(
+            BLUE, "Baby Yoda's Rescue", None, 100, (WIDTH/2), (HEIGHT/2))
 
         self.events()
         self.__bg = pg.image.load(data + "background-1.png")
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("START", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
-
+        self.button("START", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
     def game_over(self):
-        self.__message, self.__message_rect = self.message(RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__message, self.__message_rect = self.message(
+            RED, "GAME OVER", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
-
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
     def win(self):
-        self.__message, self.__message_rect = self.message(WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__message, self.__message_rect = self.message(
+            WHITE, "YOU WIN", None, 100, (WIDTH/2), (HEIGHT/2))
         self.__view.screen.blit(self.__message, self.__message_rect)
 
-        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
-
+        self.button("RESTART", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "restart")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
     def run(self):
         self.__modules
@@ -187,7 +194,7 @@ class GameController:
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
-            self.__player.pos.y -= 1
+            self.__player.pos.y = self.__player.collisions["bottom"]
 
 #        for enemy in self.__level.enemies:
 
@@ -200,12 +207,13 @@ class GameController:
         # print(
         #    f'------ PHYSICS------\nself.__player.vel: {self.__player.vel}\nself.__player.acc: {self.__player.acc}')
 
+        # equacoes de movimento
         self.__player.acc.x += self.__player.vel.x * self.__player.fric
         self.__player.vel += self.__player.acc
 
         self.__player.pos += self.__player.vel + 0.5 * self.__player.acc
-        print(self.__player.vel.x, self.__player.fric,
-              self.__player.vel.x * self.__player.fric)
+        # print(self.__player.vel.x, self.__player.fric,
+        #     self.__player.vel.x * self.__player.fric)
 
         if self.__player.vel.x > 2:
             self.__player.vel.x = 2
@@ -234,14 +242,15 @@ class GameController:
 
         hits_platforms = pg.sprite.spritecollide(
             self.__player, self.__level.platforms, False, False)
-
+        print(self.__player.collisions)
         for platform in hits_platforms:
             if abs(self.__player.rect.bottom - platform.rect.top) < collision_tolerance:
-                self.__player.collisions["bottom"] = True
+                self.__player.collisions["bottom"] = platform.rect.top
                 self.__player.collisions["top"] = False
+                print(platform.rect.top)
 
             if abs(self.__player.rect.top - platform.rect.bottom) < collision_tolerance:
-                self.__player.collisions["top"] = True
+                self.__player.collisions["top"] = platform.rect.bottom
                 self.__player.collisions["bottom"] = False
             if abs(self.__player.rect.left - platform.rect.right) < collision_tolerance:
                 self.__player.collisions["left"] = True
