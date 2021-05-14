@@ -3,6 +3,7 @@ from game_view import GameView
 from configs import *
 
 
+
 def collision_types(rect, tiles):  # quem se move, movimento, com quem pode se colidir
     # dicionário pra saber com que lado se colidiu
     collision_types = {'top': False, 'bottom': False,
@@ -77,6 +78,11 @@ class GameController:
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
+    def music(self, music, param):
+        pg.mixer.init()
+        pg.mixer.music.load(music)
+        pg.mixer.play(param)
+
     def text_objects(self, text, font):
         self.__message = font.render(text, True, BLUE)
         return self.__message, self.__message.get_rect()
@@ -101,8 +107,10 @@ class GameController:
         pg.display.flip()
 
     def run(self):
+        self.__modules
         self.load_level()
         while self.__running:
+            #self.music("The_Mandalorian_OST_Main_Theme.wav", -1)
             while self.__menu:
                 self.menu()
             # sincroniza o loop de eventos com o clock

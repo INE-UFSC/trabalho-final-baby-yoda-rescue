@@ -1,4 +1,5 @@
 from player import Player
+from enemy import Enemy
 from level import Level
 from lazer import Lazer
 from configs import *
@@ -9,8 +10,10 @@ class GameModel:
         self.__player = Player(dicionario["player"])
         # implementando apenas um nivel
         self.__level = Level(world)
+        self.__enemies = []
 
-        #self.__enemy = Enemy(dicionario["enemy"])
+        '''for i in range(30):
+            self.__enemies.append(Enemy(dicionario["enemy"]))'''
 
     @property
     def FPS(self):
