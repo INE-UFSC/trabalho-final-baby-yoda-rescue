@@ -4,8 +4,8 @@ from configs import *
 
 class CharPhysics(ABC):
     def __init__(self):
-        self.__std_acc = 0.3  # aceleracao padrao
-        self.__jump_acc = -10  # aceleracao pulo
+        self.__std_acc = 0.2  # aceleracao padrao
+        self.__jump_acc = -5  # aceleracao pulo
         self.__fric = -0.09  # atrito
         self.__max_vel = 10
         self.__collisions = {"bottom": False,
@@ -67,6 +67,4 @@ class CharPhysics(ABC):
         if self.vel.y < -self.__max_vel:
             self.vel.y = -self.__max_vel
 
-        # Updates do player:
-        # Posição do player marcada como ponto do meio inferior
         self.rect.midbottom = self.pos
