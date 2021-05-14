@@ -149,13 +149,16 @@ class GameController:
         self.__player.rect.midbottom = self.__player.pos
 
         if not self.__player.collisions["bottom"]:
-            self.__player.acc += self.__player.vec(
+            self.__player.acc += pg.math.Vector2(
                 0, 0.01)  # adiciona gravidade a y
 
         if self.__player.collisions["bottom"]:
             self.__player.acc.y = 0
             self.__player.vel.y = 0
             self.__player.pos.y -= 1
+
+        for enemy in self.__level.enemies:
+            print(enemy.std_test)
 
         """        if self.__player.collisions["left"]:
             self.__player.acc.x = 0

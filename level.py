@@ -71,7 +71,8 @@ class Level:
                     self.__exit.add(ship)
                 # adiciona inimigo
                 elif tile == 4:
-                    storm_trooper = Enemy(col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, dicionario["enemy"])
+                    storm_trooper = Enemy(
+                        col_count * TILE_SIZE_W, row_count * TILE_SIZE_H, dicionario["enemy"])
                     self.__enemies.add(storm_trooper)
                 # adiciona spawn point
                 elif tile == "S":
