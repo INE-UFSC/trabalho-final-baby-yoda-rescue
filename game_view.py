@@ -1,5 +1,6 @@
 from configs import *
 
+
 class GameView:
     def __init__(self, player, level, sprites, attacks):
         self.__screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -20,10 +21,10 @@ class GameView:
     def draw(self):
         self.bg_movement()
         # desenha todos os sprites OTIMIZAR para sprites individuais
-        # print(self.__sprites.sprites()[0].rect.midbottom, self.__sprites.sprites()[0].pos)
         self.__sprites.draw(self.__screen)
         # realiza o flip apos desenhar tudo
-        self.__screen_health = self.message(WHITE, "HEALTH = "+str(self.__player.health), None, 30, 80, 20)
+        self.__screen_health = self.message(
+            WHITE, "HEALTH = "+str(self.__player.health), None, 30, 80, 20)
         self.__screen.blit(self.__screen_health[0], self.__screen_health[1])
         pg.display.flip()
 
@@ -47,7 +48,6 @@ class GameView:
             self.__player, self.__level.platforms,
             self.__level.items, self.__level.exit,
             self.__level.enemies, self.__attacks)
-        print(self.__player.pos, (self.__player.size[0]/2))
         if (self.__player.pos.x - (self.__player.size[0]/2)) < 0:
             self.__level.back()
             self.__level.update()
@@ -59,7 +59,7 @@ class GameView:
             # varia, cuidar com os pixeis de cada fase
             self.__player.pos.x = self.__player.pos.x - WIDTH
 
-    def text_objects(self, text, font, color): 
+    def text_objects(self, text, font, color):
         self.__message = font.render(text, True, color)
         return self.__message, self.__message.get_rect()
 
@@ -108,9 +108,12 @@ class GameView:
         self.__screen.blit(self.__bg, self.__bg.get_rect())
         self.__screen.blit(self.__message, self.__message_rect)
 
-        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "start")
-        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100, 50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30, (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100,
+                    50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30,
+                    (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
 
     def pause(self):
         pass
@@ -150,7 +153,7 @@ class GameView:
     @property
     def data_active(self):
         return self.__data_active
-    
+
     @property
     def data_active(self):
         return self.__data_signal

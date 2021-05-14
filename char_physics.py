@@ -41,14 +41,14 @@ class CharPhysics(ABC):
         self.__collisions = n
 
     def char_physics(self):
-
         # gravidade e colisao inferior
         if not self.collisions["bottom"]:
             self.acc += pg.math.Vector2(
-                0, 0.01)  # adiciona gravidade a y
+                0, 0.02)  # adiciona gravidade a y
             self.__air_timer += 1
 
         if self.collisions["bottom"]:
+            print(self.__air_timer)
             self.__air_timer = 0
             self.acc.y = 0
             self.vel.y = 0

@@ -71,8 +71,8 @@ class GameController:
 
         self.__player.char_physics()
 
-        for enemy in self.__level.enemies:
-            enemy.char_physics()
+    """        for enemy in self.__level.enemies:
+            enemy.char_physics()"""
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -101,7 +101,8 @@ class GameController:
             for platform in hits_platforms:
                 if abs(rect.rect.bottom - platform.rect.top) < collision_tolerance:
                     rect.collisions["bottom"] = platform.rect.top
-                    rect.collisions["top"] = False
+                else:
+                    rect.collisions["bottom"] = False
 
                 if abs(rect.rect.top - platform.rect.bottom) < collision_tolerance:
                     rect.collisions["top"] = platform.rect.bottom
@@ -173,7 +174,7 @@ class GameController:
             self.__player.acc.x = 0
 
         # espaco
-        if keys[pg.K_SPACE] or keys[pg.K_w] and self.__player.air_timer < 6:
+        if (keys[pg.K_SPACE] or keys[pg.K_w]) and self.__player.air_timer < 8:
 
             self.__player.vel.y = self.__player.jump_acc
 
