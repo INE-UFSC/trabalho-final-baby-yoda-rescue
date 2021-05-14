@@ -80,8 +80,8 @@ class GameController:
 
     def music(self, music, param):
         pg.mixer.init()
-        pg.mixer.music.load(music)
-        pg.mixer.play(param)
+        music = pg.mixer.Sound(music)
+        music.play(param)
 
     def text_objects(self, text, font):
         self.__message = font.render(text, True, BLUE)
@@ -109,8 +109,8 @@ class GameController:
     def run(self):
         self.__modules
         self.load_level()
+        self.music("The_Mandalorian_OST_Main_Theme.wav", -1)
         while self.__running:
-            #self.music("The_Mandalorian_OST_Main_Theme.wav", -1)
             while self.__menu:
                 self.menu()
             # sincroniza o loop de eventos com o clock
