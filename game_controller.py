@@ -88,13 +88,16 @@ class GameController:
 
     def message(self, color, message, font, tamanho, x, y):
         self.__font = pg.font.Font(font, tamanho)
-        self.__text, self.__text_rect = self.text_objects(message, self.__font, color)
+        self.__text, self.__text_rect = self.text_objects(
+            message, self.__font, color)
         self.__text_rect.center = (x, y)
         return self.__text, self.__text_rect
 
     def menu(self):
-        self.__message1, self.__message1_rect = self.message(BLUE, "Baby Yoda's Rescue", None, 100,(WIDTH/2),(HEIGHT/2))
-        self.__message2, self.__message2_rect = self.message(WHITE, "Press anywere on the screen to start", None, 50,(WIDTH/2),(HEIGHT/2)+100)
+        self.__message1, self.__message1_rect = self.message(
+            BLUE, "Baby Yoda's Rescue", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__message2, self.__message2_rect = self.message(
+            WHITE, "Press anywere on the screen to start", None, 50, (WIDTH/2), (HEIGHT/2)+100)
 
         self.__clock.tick(self.__model.FPS)
         self.events()
@@ -108,7 +111,7 @@ class GameController:
     def run(self):
         self.__modules
         self.load_level()
-        #self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        # self.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             while self.__menu:
                 self.menu()
@@ -157,8 +160,7 @@ class GameController:
             self.__player.vel.y = 0
             self.__player.pos.y -= 1
 
-        for enemy in self.__level.enemies:
-            print(enemy.std_test)
+#        for enemy in self.__level.enemies:
 
         """        if self.__player.collisions["left"]:
             self.__player.acc.x = 0
