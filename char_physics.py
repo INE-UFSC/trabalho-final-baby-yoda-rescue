@@ -89,6 +89,4 @@ class CharPhysics(ABC):
         if self.vel.y < -self.__max_vel:
             self.vel.y = -self.__max_vel
 
-        # Updates do player:
-        # Posição do player marcada como ponto do meio inferior
         self.rect.midbottom = self.pos

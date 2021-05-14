@@ -13,12 +13,12 @@ class Enemy(CharPhysics, pg.sprite.Sprite):
         self.__pos = vec(x, y)
         self.__vel = vec(0, 0)
         self.__acc = vec(0, 0)
-
+        self.__std_acc = (0.1)
         self.__lista = lista_
+
         self.__sprites = []
 
         self.load_sprite()
-
         self.__current_sprite = 4
 
         self.__image = self.__sprites[self.__current_sprite]
@@ -101,3 +101,13 @@ class Enemy(CharPhysics, pg.sprite.Sprite):
     @ property
     def current_sprite(self):
         return self.__current_sprite
+
+
+    #follow_rect(self.player)
+    def follow_rect(self, rect):
+        print('self.pos: ', self.pos)
+        print('rect.pos: ', rect.pos)
+        if self.pos[0] > rect.pos[0] :
+            self.acc.x = - self.std_acc 
+        elif self.pos[0] < rect.pos[0]:
+            self.acc.x = self.std_acc
