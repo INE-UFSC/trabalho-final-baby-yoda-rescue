@@ -18,6 +18,7 @@ class GameController:
         self.__modules = pg.init()
         self.__running = True
         self.__menu = True
+        self.__start_playing = False
 
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
@@ -85,7 +86,7 @@ class GameController:
                 self.menu()
                 pg.display.flip()
             # sincroniza o loop de eventos com o clock
-            self.events()  # Vou passar para dentro de update *
+            self.events()
             self.update()
             self.__view.draw()
 
@@ -102,6 +103,10 @@ class GameController:
                 self.quit()
 
             self.commands(event)
+            
+            if self.__start_playing == True:
+                for enemy in self.__level.enemies:
+                    enemy.follow_rect(self.__player)
 
     def update(self):
         self.physics()
@@ -115,8 +120,9 @@ class GameController:
 
         self.__player.char_physics()
 
-    """        for enemy in self.__level.enemies:
-            enemy.char_physics()"""
+        for enemy in self.__level.enemies:
+            enemy.char_physics()
+
 
     def lazer_movement(self):
         for lazer in self.__attacks.sprites():
@@ -204,6 +210,10 @@ class GameController:
         # logica de comandos
         keys = pg.key.get_pressed()
 
+        # Se player se movimentar ou atirar: está jogando
+        if self.__player.acc.x != 0  or self.__player.vel.y == self.__player.jump_acc:
+            self.start_playing = True
+
         # seta esquerda
         if keys[pg.K_a] and not self.__player.collisions["left"]:
             self.__player.animation("left")
@@ -217,9 +227,8 @@ class GameController:
         if not keys[pg.K_d] and not keys[pg.K_a]:
             self.__player.acc.x = 0
 
-        # espaco
+        # logica de salto
         if (keys[pg.K_SPACE] or keys[pg.K_w]) and self.__player.air_timer < 8:
-
             self.__player.vel.y = self.__player.jump_acc
 
         # clique de mouse mais posicao
@@ -239,3 +248,11 @@ class GameController:
     @ property
     def sprites(self):
         return self.__sprites
+    
+    @ property
+    def start_playing(self):
+        return self.__start_playing
+
+    @ start_playing.setter
+    def start_playing(self, new_value):
+        self.__start_playing = new_value
