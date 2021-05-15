@@ -2,7 +2,6 @@ from game_model import GameModel
 from game_view import GameView
 from configs import *
 
-
 class GameController:
     def __init__(self):
         self.__model = GameModel()
@@ -18,14 +17,62 @@ class GameController:
         # inicializa os modulos do pygame e retorna uma tupla com resultados
         self.__modules = pg.init()
         self.__running = True
+        self.__menu = True
 
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
         self.__player.pos = self.__level.spawn_point
 
-    def check_data(self):
-        if self.__view.data_active:
-            self.__model(self.__view.data_signal)
+    def button(self, msg, x, y, w, h, inactive, active, action=None):
+        mouse = pg.mouse.get_pos()
+        click = pg.mouse.get_pressed()
+
+        if (x+w) > mouse[0] > x and (y+h) > mouse[1] > (h):
+            pg.draw.rect(self.__view.screen, active, (x, y, w, h))
+            if click[0] == 1 and action != None:
+                if action == "start":
+                    self.__menu = False
+                if action == "quit":
+                    self.__model.data(True)
+                    self.__quit()
+                if action == "load":
+                    self.__model.data(False)
+                    self.__menu = False
+                if action == "menu":
+                    self.__menu = True
+        else:
+            pg.draw.rect(self.__view.screen, inactive, (x, y, w, h))
+
+        self.__button, self.__button_rect = self.__view.message(
+            BLACK, msg, None, 20, (x+(w/2)), (y+(h/2)))
+        self.__view.screen.blit(self.__button, self.__button_rect)
+
+    def menu(self):
+        self.__message, self.__message_rect = self.__view.message(
+            BLUE, "Baby Yoda's Rescue", None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__bg = pg.image.load(data + "background-1.png")
+        self.__view.screen.blit(self.__bg, self.__bg.get_rect())
+        self.__view.screen.blit(self.__message, self.__message_rect)
+
+        self.button("START", (HEIGHT/4)+30, (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "start")
+        self.button("LOAD", (HEIGHT/4)+200, (WIDTH/2), 100,
+                    50, AZUL_BONITO, AZUL_BONITO_CLARO, "load")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2)-30,
+                    (WIDTH/2), 100, 50, RED, LIGHT_RED, "quit")
+
+    def pause(self):
+        pass
+
+    def warning(self, warning):  # "GAME OVER" ou "YOU WIN"
+        self.__message, self.__message_rect = self.__view.message(
+            RED, warning, None, 100, (WIDTH/2), (HEIGHT/2))
+        self.__view.screen.blit(self.__message, self.__message_rect)
+
+        self.button("MENU", (HEIGHT/4), (WIDTH/2), 100, 50,
+                    AZUL_BONITO, AZUL_BONITO_CLARO, "menu")
+        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
+                    100, 50, RED, LIGHT_RED, "quit")
 
     def run(self):
         self.__modules
@@ -33,17 +80,14 @@ class GameController:
         # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
-            self.check_data()
-            while self.__view.menu:
+            while self.__menu:
                 self.events()  # Vou passar para dentro de update *
-                self.__view.menu_i()
+                self.menu()
                 pg.display.flip()
             # sincroniza o loop de eventos com o clock
             self.events()  # Vou passar para dentro de update *
             self.update()
             self.__view.draw()
-            if self.__view.quit:
-                self.quit()
 
     # funcao de saida do pygame chamada em caso de fechamento de janela
     def quit(self):

@@ -126,6 +126,10 @@ class Level:
     def world(self):
         return self.__world
 
+    @ world.setter
+    def world(self, w):
+        self.__world = w
+
     @ property
     def platforms(self):
         return self.__platforms
