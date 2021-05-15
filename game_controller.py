@@ -19,7 +19,52 @@ class GameController:
         self.__modules = pg.init()
         self.__running = True
         self.__menu = True
+        self.__game_over = False
         self.__start_playing = False
+
+    def run(self):
+        self.__modules
+        self.load_level()
+        # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        while self.__running:
+            self.__clock.tick(self.__model.FPS)
+            while self.__game_over:
+                self.events()
+                self.warning("GAME OVER")
+                pg.display.flip()
+            while self.__menu:
+                self.events()  # Vou passar para dentro de update *
+                self.menu()
+                pg.display.flip()
+            # sincroniza o loop de eventos com o clock
+            self.events()
+            self.update()
+            self.__view.draw()
+
+    # funcao de saida do pygame chamada em caso de fechamento de janela
+    def quit(self):
+        self.__running = False
+        pg.quit()
+
+    def events(self):
+        for event in pg.event.get():
+            # se fecha a janela termina o programa
+            if event.type == pg.QUIT:
+                self.__model.data(True)
+                self.quit()
+
+            self.commands(event)
+
+            # logica de comportamento dos inimigos
+            if self.__start_playing == True:
+                for enemy in self.__level.enemies:
+                    enemy.follow_rect(self.__player)
+                    self.enemy_attack(enemy)
+
+    def update(self):
+        self.physics()
+        self.kill_the_dead()
+        self.__view.update_scene()
 
     def load_level(self):
         # posicao do jogador, deve ser carregada de level
@@ -69,52 +114,14 @@ class GameController:
     def warning(self, warning):  # "GAME OVER" ou "YOU WIN"
         self.__message, self.__message_rect = self.__view.message(
             RED, warning, None, 100, (WIDTH/2), (HEIGHT/2))
-        self.__view.screen.blit(self.__message, self.__message_rect)
 
         self.button("MENU", (HEIGHT/4), (WIDTH/2), 100, 50,
                     AZUL_BONITO, AZUL_BONITO_CLARO, "menu")
         self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
                     100, 50, RED, LIGHT_RED, "quit")
 
-    def run(self):
-        self.__modules
-        self.load_level()
-        # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
-        while self.__running:
-            self.__clock.tick(self.__model.FPS)
-            while self.__menu:
-                self.events()  # Vou passar para dentro de update *
-                self.menu()
-                pg.display.flip()
-            # sincroniza o loop de eventos com o clock
-            self.events()
-            self.update()
-            self.__view.draw()
-
-    # funcao de saida do pygame chamada em caso de fechamento de janela
-    def quit(self):
-        self.__running = False
-        pg.quit()
-
-    def events(self):
-        for event in pg.event.get():
-            # se fecha a janela termina o programa
-            if event.type == pg.QUIT:
-                self.__model.data(True)
-                self.quit()
-
-            self.commands(event)
-
-            # logica de comportamento dos inimigos
-            if self.__start_playing == True:
-                for enemy in self.__level.enemies:
-                    enemy.follow_rect(self.__player)
-                    self.enemy_attack(enemy)
-
-    def update(self):
-        self.physics()
-        self.kill_the_dead()
-        self.__view.update_scene()
+        self.__view.screen.blit(self.__bg, self.__bg.get_rect())
+        self.__view.screen.blit(self.__message, self.__message_rect)
 
     def physics(self):
         self.collisions()
@@ -146,10 +153,8 @@ class GameController:
         print("self.__player.health", self.__player.health,
               self.__player.health <= 0.0)
         if self.__player.health <= 0.0:
-            print("ASDASD")
+            self.__game_over = True
             self.__player.kill()
-
-            self.warning("GAME OVER")
 
     def collisions(self):  # Causa a colisão
 

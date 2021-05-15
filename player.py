@@ -10,7 +10,7 @@ class Player(CharPhysics, pg.sprite.Sprite):
     def __init__(self, lista):
         pg.sprite.Sprite.__init__(self)  # inicaliza o sprite do pygame
         super().__init__()  # super nao inicializa pg.sprite.Sprite por algum motivo
-        self.__health = 300
+        self.__health = 1000
         self.__size = (32, 48)
         self.__key = False
         self.__list = lista

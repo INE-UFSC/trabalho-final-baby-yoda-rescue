@@ -9,6 +9,7 @@ class CharPhysics(ABC):
         self.__fric = -0.09  # atrito
         self.__max_vel = 10
         self.__air_timer = 0
+        self.__col_timer = 0
         self.__collisions = {"bottom": False,
                              "top": False, "right": False, "left": False}
 
@@ -64,11 +65,15 @@ class CharPhysics(ABC):
         if self.collisions["left"]:
             self.acc.x = 0
             self.vel.x = 1
+            self.__col_timer = 0
 
         # colisao a direita
         if self.collisions["right"]:
             self.acc.x = 0
             self.vel.x = -1
+
+        if not self.collisions["right"] or not self.collisions["left"]:
+            self.__col_timer += 1
 
         # equacoes de movimento
         self.vel.x += self.vel.x * self.fric

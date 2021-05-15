@@ -2,7 +2,6 @@ from configs import *
 from char_physics import CharPhysics
 import pygame as pg
 from pygame import math
-from abstest import abstest
 
 
 class Enemy(CharPhysics, pg.sprite.Sprite):
