@@ -1,6 +1,7 @@
 from game_model import GameModel
 from game_view import GameView
 from configs import *
+from time import sleep
 
 
 class GameController:
@@ -21,6 +22,7 @@ class GameController:
         self.__menu = True
         self.__game_over = False
         self.__start_playing = False
+        self.__win = False
 
     def run(self):
         self.__modules
@@ -28,10 +30,21 @@ class GameController:
         # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
+            # logica de game over
             while self.__game_over:
                 self.events()
                 self.warning("GAME OVER")
                 pg.display.flip()
+                sleep(3)
+                self.__game_over = False
+                self.__menu = True
+            while self.__win:
+                self.events()
+                self.warning("YOU WIN")
+                pg.display.flip()
+                sleep(3)
+                self.__win = False
+                self.__menu = True
             while self.__menu:
                 self.events()  # Vou passar para dentro de update *
                 self.menu()
@@ -115,11 +128,6 @@ class GameController:
         self.__message, self.__message_rect = self.__view.message(
             RED, warning, None, 100, (WIDTH/2), (HEIGHT/2))
 
-        self.button("MENU", (HEIGHT/4), (WIDTH/2), 100, 50,
-                    AZUL_BONITO, AZUL_BONITO_CLARO, "menu")
-        self.button("QUIT", (HEIGHT/4)+(WIDTH/2), (WIDTH/2),
-                    100, 50, RED, LIGHT_RED, "quit")
-
         self.__view.screen.blit(self.__bg, self.__bg.get_rect())
         self.__view.screen.blit(self.__message, self.__message_rect)
 
@@ -150,8 +158,6 @@ class GameController:
             if sprite.health <= 0:
                 sprite.kill()
 
-        print("self.__player.health", self.__player.health,
-              self.__player.health <= 0.0)
         if self.__player.health <= 0.0:
             self.__game_over = True
             self.__player.kill()
@@ -204,7 +210,7 @@ class GameController:
         hits_exit = pg.sprite.spritecollide(
             self.__player, self.__level.exit, False)
         if hits_exit and self.__player.key == True:
-            self.quit()  # sai do jogo apos conseguir a chave
+            self.__win = True
 
     # define a colisao de ataques
     def attack_collision(self):
