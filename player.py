@@ -42,7 +42,7 @@ class Player(CharPhysics, pg.sprite.Sprite):
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
         else:
-            self__current_sprite = 4
+            self.__current_sprite = 4
 
         self.__image = self.__sprites[int(self.__current_sprite)]
 
