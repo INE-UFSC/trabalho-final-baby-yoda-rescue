@@ -17,10 +17,10 @@ class Lazer(pg.sprite.Sprite):
         self.__rect.center = shooter.rect.center
 
     def get_angle(self):
-
+        recoil = random.randint(-3, 3)
         # recebe coordenadas relativas entre mouse e player e adiciona erro de recuo
-        c_y = ((self.__mouse.y - self.__pos.y) + random.randint(-3, 3))
-        c_x = ((self.__mouse.x - self.__pos.x) + random.randint(-3, 3))
+        c_y = ((self.__mouse.y - self.__pos.y) + recoil)
+        c_x = ((self.__mouse.x - self.__pos.x) + recoil)
 
         recoil = random.randint(-3, 3)
         # calcula a hipotenusa, ou arctangente, da tragetoria do lazer

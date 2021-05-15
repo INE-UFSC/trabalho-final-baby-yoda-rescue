@@ -41,7 +41,7 @@ class Enemy(CharPhysics, pg.sprite.Sprite):
             if self.__current_sprite >= len(self.__sprites):
                 self.__current_sprite = 5
         else:
-            self__current_sprite = 4
+            self.__current_sprite = 4
 
         self.__image = self.__sprites[int(self.__current_sprite)]
 
@@ -102,12 +102,10 @@ class Enemy(CharPhysics, pg.sprite.Sprite):
     def current_sprite(self):
         return self.__current_sprite
 
+    # follow_rect(self.player)
 
-    #follow_rect(self.player)
     def follow_rect(self, rect):
-        print('self.pos: ', self.pos)
-        print('rect.pos: ', rect.pos)
-        if self.pos[0] > rect.pos[0] :
-            self.acc.x = - self.std_acc 
+        if self.pos[0] > rect.pos[0]:
+            self.acc.x = - self.std_acc
         elif self.pos[0] < rect.pos[0]:
             self.acc.x = self.std_acc

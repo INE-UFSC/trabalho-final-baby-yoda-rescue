@@ -41,13 +41,13 @@ class CharPhysics(ABC):
         self.__collisions = n
 
     def char_physics(self):
-        # gravidade e colisao inferior
+        # gravidade
         if not self.collisions["bottom"]:
             self.acc += pg.math.Vector2(
                 0, 0.02)  # adiciona gravidade a y
             self.__air_timer += 1
 
-        # colisao abaixo
+        # colisao abaixo e evita bug que entra na tile
         if self.collisions["bottom"]:
             self.__air_timer = 0
             self.acc.y = 0
