@@ -27,7 +27,7 @@ class GameController:
     def run(self):
         self.__modules
         self.load_level()
-        # self.__view.music("The_Mandalorian_OST_Main_Theme.mp3", -1)  # view
+        self.__view.music("The_Mandalorian_OST_Main_Theme.wav", -1)  # view
         while self.__running:
             self.__clock.tick(self.__model.FPS)
             # logica de game over
