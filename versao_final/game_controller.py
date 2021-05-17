@@ -37,6 +37,7 @@ class GameController:
                 pg.display.flip()
                 sleep(3)
                 self.__game_over = False
+                self.__model.data(True, False)
                 self.__menu = True
             while self.__win:
                 self.events()
@@ -63,7 +64,7 @@ class GameController:
         for event in pg.event.get():
             # se fecha a janela termina o programa
             if event.type == pg.QUIT:
-                self.__model.data(True)
+                self.__model.data(True, True)
                 self.quit()
 
             self.commands(event)
@@ -93,10 +94,10 @@ class GameController:
                 if action == "start":
                     self.__menu = False
                 if action == "quit":
-                    self.__model.data(True)
+                    self.__model.data(True, True)
                     self.__quit()
                 if action == "load":
-                    self.__model.data(False)
+                    self.__model.data(False, False)
                     self.__menu = False
                 if action == "menu":
                     self.__menu = True

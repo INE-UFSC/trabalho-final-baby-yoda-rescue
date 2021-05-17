@@ -21,9 +21,13 @@ class GameModel:
 
     #health, position, key, tilemap
 
-    def data(self, save=False):
+    def data(self, save=False, health=False):
         if save:
-            self.__SAVE_DATA["player"][0] = self.__player.health
+            if health:
+                self.__SAVE_DATA["player"][0] = self.__player.health
+            else:
+                self.__SAVE_DATA["player"][0] = 1000
+
             self.__SAVE_DATA["player"][1] = self.__player.key
             self.__SAVE_DATA["player"][2] = self.__player.pos[0]
             self.__SAVE_DATA["player"][3] = self.__player.pos[1]
@@ -43,6 +47,8 @@ class GameModel:
             self.__level.current = self.__SAVE_DATA["level"][0]
             self.__level.index = self.__SAVE_DATA["level"][1]
             self.__level.world = self.__level.current
+
+
 
     @property
     def FPS(self):
